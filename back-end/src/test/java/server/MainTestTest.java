@@ -1,8 +1,8 @@
 package server;
 
-public class MainTest {
+public class MainTestTest {
 
-	public MainTest() {
+	public MainTestTest() {
 		// TODO Auto-generated constructor stub
 	}
 
