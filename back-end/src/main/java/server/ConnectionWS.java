@@ -18,6 +18,12 @@ public class ConnectionWS {
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 	
+    /** 
+     * Connects to an external API, fetches the result and writes a json file out of the response.
+     * 
+     * @param type	the type of information we are fetching (series, series details, etc.)
+     * @param url	the API url
+     */
 	public void connect(String type, String url) throws ClientProtocolException, IOException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpGet httpget = new HttpGet(url);
@@ -45,6 +51,12 @@ public class ConnectionWS {
 		}
 	}
 	
+	/** 
+     * Writes the given string in a JSON file.
+     * 
+     * @param type	the type of information we are fetching (series, series details, etc.)
+     * @param lines	the content to be written in the file
+     */
 	private void write(String type, List<String> lines) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String time = sdf.format(timestamp);
