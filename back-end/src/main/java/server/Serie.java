@@ -22,7 +22,23 @@ public class Serie {
 		this.allowed = true;
 		this.rating = 0;
 	}
+	public Serie(String title, LocalDate creationDate, String summary) {
+		super();
+		this.title = title;
+		this.summary = summary;
+		this.creationDate = creationDate;
+		this.allowed = true;
+		this.rating = 0;
+	}
 	
+	public Serie(String name) {
+		
+		this.title = name;
+		}
+	
+	public String info() {
+		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + "\n";
+	}
 	/*public void addSeason(Season season) {
 		seasons.add(season);
 		
@@ -94,9 +110,6 @@ public class Serie {
 		this.allowed = allowed;
 	}
 
-	public Serie(String name) {
-		
-	this.title = name;
-	}
+	
 
 }

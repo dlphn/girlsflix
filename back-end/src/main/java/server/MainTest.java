@@ -9,7 +9,7 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
-		/*Keys apiKey = new Keys();
+		Keys apiKey = new Keys();
 		
 		ConnectionWS connection = new ConnectionWS();
 		try {
@@ -21,11 +21,21 @@ public class MainTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	*/
-	
+		System.out.println("\n"+"**********************************"+"\n");
 		SerieFactory factoryTest = new SerieFactory();
+		
+		System.out.println("\n"+"**********************************"+"\n");
 		List<Serie> series = factoryTest.getSeries();
-		System.out.println("result of json series : " + series);
+		System.out.println("\n"+"**********************************"+"\n");
+		System.out.println("result of json series : " + series.toString() +"\n");
+		System.out.println("**********************************"+"\n");
+		Visualization visu = new Visualization();
+		visu.showSeries(); // before update
+		
+		visu.update(factoryTest);
+		visu.showSeries(); // after udpate
+		visu.getListSeries();
+		
 
 	}
 }
