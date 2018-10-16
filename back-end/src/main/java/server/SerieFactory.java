@@ -1,52 +1,49 @@
 package server;
 
 import java.util.*;
-import org.json.*;
-import java.io.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SerieFactory {
-	
-	ObjectMapper mapper = new ObjectMapper();
 	ArrayList<Serie> seriesList =  new ArrayList<Serie>(); // A changer plus tard en HashMap par exemple
-	JSONObject currentJson;
 	
 	public SerieFactory() {
-		// TODO Auto-generated constructor stub
 	}
-	
-	
 	
 	public List<Serie> getSeries(){
-		
-		//String name = currentJson.get("name").toString();
-        //name = name.replace(" ", "_");
-        //seriesList.add(new Serie(name));
-        
+		String localPath = new File(".").getAbsolutePath();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter pathFmt = DateTimeFormatter.ofPattern("_yyyy_MM_dd");
+        JSONParser parser = new JSONParser();
         try {
-
-			// Convert JSON string from file to Object
-			Serie s = mapper.readValue(new File("/server/src/main/resources/serie_test.json"), Serie.class);
-			System.out.println(s);
-			seriesList.add(s);
-
-			// Convert JSON string to Object
-			/*String jsonInString = "{\"age\":33,\"messages\":[\"msg 1\",\"msg 2\"],\"name\":\"mkyong\"}";
-			User user1 = mapper.readValue(jsonInString, User.class);
-			System.out.println(user1);*/
-
-		} catch (JsonGenerationException e) {
+        	JSONArray results = (JSONArray) parser.parse(new FileReader(localPath + "/src/main/resources/series"+ pathFmt.format(LocalDateTime.now())+".json"));
+        	for (int i = 0; i < results.size(); i++){
+                if (results.get(i) instanceof JSONObject){
+                	JSONObject jsnObj = (JSONObject)results.get(i);
+                	Serie s = new Serie(jsnObj.get("title").toString(), LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ) , jsnObj.get("summary").toString());
+                	seriesList.add(s);
+                	//System.out.println(s.info());
+                }
+            }
+        	//System.out.println(seriesList);
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (JsonMappingException e) {
+		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-       	
+			e.printStackTrace();}
+        
 		return seriesList;
 	}
-
+	
+	public List<Serie> getList(){
+		return seriesList;
+	}
 }
