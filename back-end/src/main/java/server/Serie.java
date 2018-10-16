@@ -1,6 +1,7 @@
 package server;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Serie {
 	private int id;
@@ -11,7 +12,7 @@ public class Serie {
 	private int rating;
 	private boolean allowed;
 	private String picture;
-	//private List<Season> seasons;
+	private ArrayList<Season> seasons;
 	
 	public Serie(int id, String title, TypeSerie typeSerie, String summary, LocalDate creationDate, String picture) {
 		super();
@@ -32,18 +33,18 @@ public class Serie {
 		this.allowed = true;
 		this.rating = 0;
 	}
+	
 	public Serie(String name) {
-		
 		this.title = name;
-		}
+	}
 	
 	public String info() {
 		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + "\n";
 	}
-	/*public void addSeason(Season season) {
+	
+	public void addSeason(Season season) {
 		seasons.add(season);
-		
-	}*/
+	}
 	
 	public void show() {
 		//fonction à appeler quand l'utilisateur sélectionnera une série et qu'on souhaitera afficher les détails de la série
@@ -118,6 +119,14 @@ public class Serie {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public ArrayList<Season> getSeasons() {
+		return seasons;
+	}
+
+	public void setSeasons(ArrayList<Season> seasons) {
+		this.seasons = seasons;
 	}
 
 }
