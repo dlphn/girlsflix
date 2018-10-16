@@ -3,7 +3,6 @@ package server;
 import java.time.LocalDate;
 
 public class Serie {
-	
 	private int id;
 	private String title;
 	private TypeSerie typeSerie;
@@ -94,6 +93,10 @@ public class Serie {
 	public void setAllowed(boolean allowed) {
 		this.allowed = allowed;
 	}
-	
+
+	public Serie(String name) {
+		
+	this.title = name;
+	}
 
 }

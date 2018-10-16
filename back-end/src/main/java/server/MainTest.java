@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 
@@ -8,7 +9,7 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
-		Keys apiKey = new Keys();
+		/*Keys apiKey = new Keys();
 		
 		ConnectionWS connection = new ConnectionWS();
 		try {
@@ -20,6 +21,11 @@ public class MainTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	*/
+	
+		SerieFactory factoryTest = new SerieFactory();
+		List<Serie> series = factoryTest.getSeries();
+		System.out.println("result of json series : " + series);
 
+	}
 }
