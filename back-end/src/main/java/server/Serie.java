@@ -10,15 +10,17 @@ public class Serie {
 	private LocalDate creationDate;
 	private int rating;
 	private boolean allowed;
+	private String picture;
 	//private List<Season> seasons;
 	
-	public Serie(int id, String title, TypeSerie typeSerie, String summary, LocalDate creationDate) {
+	public Serie(int id, String title, TypeSerie typeSerie, String summary, LocalDate creationDate, String picture) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.typeSerie = typeSerie;
 		this.summary = summary;
 		this.creationDate = creationDate;
+		this.picture = picture;
 		this.allowed = true;
 		this.rating = 0;
 	}
@@ -30,7 +32,6 @@ public class Serie {
 		this.allowed = true;
 		this.rating = 0;
 	}
-	
 	public Serie(String name) {
 		
 		this.title = name;
@@ -110,6 +111,13 @@ public class Serie {
 		this.allowed = allowed;
 	}
 
-	
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 
 }
