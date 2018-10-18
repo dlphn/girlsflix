@@ -11,23 +11,23 @@ public class Enjoyer extends User{
 		super(login, pseudo,password,firstName,lastName,gender);
 	}
 	
-	public void addToFavorites(Serie s) {
-		favorites.add(s);
+	public void addToFavorites(Integer id) {
+		favorites.add(id);
 	}
 	
-	public void removeFromFavorties(Serie s) {
-		favorites.remove(s);
+	public void removeFromFavorties(Integer id) {
+		favorites.remove(id);
 	}
 	
 	public void save() {
 		
 	}
 
-	public List<Serie> getFavorites() {
+	public List<Integer> getFavorites() {
 		return favorites;
 	}
 
-	public void setFavorites(List<Serie> favorites) {
+	public void setFavorites(List<Integer> favorites) {
 		this.favorites = favorites;
 	}
 	
