@@ -23,14 +23,22 @@ public class SerieService {
 			String response = connection.connect(url);
 			// List<String> lines = buildSeriesListJson(response);
 			// write("series", lines);
-			List<Document> documents = buildSeriesList(response);
+			SeriesResult result = buildSeriesList(response);
+			List<Document> documents = result.getDocuments();
+			List<Integer> seriesIds = result.getIds();
 			add("series", documents);
+			List<Document> seasons = getSeriesDetails(seriesIds);
+			//List<Document> seasonsDocs = seasons.getDocuments();
+			//List<String> seasonsIds = seasons.getIds();
+			add("seasons", seasons);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			System.out.println("Database all set!");
 		}
 	}
 	
@@ -42,24 +50,25 @@ public class SerieService {
 		}
 	}
 	
-	private List<Document> buildSeriesList(String series) {
+	private SeriesResult buildSeriesList(String series) {
 		JSONParser parser = new JSONParser();
         JSONObject o;
 		List<Document> documents = new ArrayList<Document>();
+		List<Integer> seriesIds = new ArrayList<Integer>();
 		try {
 			o = (JSONObject) parser.parse(series);
             JSONArray results = (JSONArray) o.get("results");
             for (int i = 0; i < results.size(); i++){
                 if (results.get(i) instanceof JSONObject){
                     JSONObject jsnObj = (JSONObject)results.get(i);
+                    seriesIds.add((Integer)jsnObj.get("id"));
                     Document doc = new Document("id", jsnObj.get("id"))
                     		.append("title", jsnObj.get("name"))
                     		.append("summary", jsnObj.get("overview"))
                     		.append("serieType", jsnObj.get("genre_ids"))
                     		.append("rating", jsnObj.get("vote_average"))
                     		.append("date", jsnObj.get("first_air_date"))
-                    		.append("imageLink", jsnObj.get("poster_path"))
-                    		.append("seasons", getSeriesDetails((Long)jsnObj.get("id")));
+                    		.append("imageLink", jsnObj.get("poster_path"));
                     documents.add(doc);
                 }
             }
@@ -67,32 +76,62 @@ public class SerieService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return(documents);
+		SeriesResult result = new SeriesResult(documents, seriesIds);
+		return result;
 	}
 	
-	public JSONArray getSeriesDetails(Long id) {
+	private List<Document> getSeriesDetails(List<Integer> seriesList) {
 		Keys apiKey = new Keys();
 		Config config = new Config();
 		ConnectionWS connection = new ConnectionWS();
-		JSONParser parser = new JSONParser();
-		JSONObject details = new JSONObject();
-		try {
-			String response = connection.connect(config.getApiUrlFull() + id + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
+		List<Document> seasons = new ArrayList<Document>();
+		SeriesResult result = new SeriesResult();
+		for (int id : seriesList) {
 			try {
-				details = (JSONObject) parser.parse(response);
-				return (JSONArray) details.get("seasons");
-			} catch (ParseException e) {
+				String response = connection.connect(config.getApiUrlFull() + id + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
+				result = buildSeasonsList(response, id);
+				seasons.addAll(result.getDocuments());
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		return seasons;
+	}
+	
+	private SeriesResult buildSeasonsList(String seasons, int serieId) {
+		JSONParser parser = new JSONParser();
+        JSONObject details;
+		List<Document> documents = new ArrayList<Document>();
+		List<Integer> seasonsIds = new ArrayList<Integer>();
+		try {
+			details = (JSONObject) parser.parse(seasons);
+            JSONArray results = (JSONArray) details.get("seasons");
+            for (int i = 0; i < results.size(); i++){
+                if (results.get(i) instanceof JSONObject){
+                    JSONObject jsnObj = (JSONObject)results.get(i);
+                    seasonsIds.add((Integer)jsnObj.get("id"));
+                    // seasonsIds.add(String.valueOf(jsnObj.get("episode_count")));
+                    Document doc = new Document("id", jsnObj.get("id"))
+                    		.append("name", jsnObj.get("name"))
+                    		.append("summary", jsnObj.get("overview"))
+                    		.append("nb", jsnObj.get("season_number"))
+                    		.append("episodeCount", jsnObj.get("episode_count"))
+                    		//.append("rating", jsnObj.get("vote_average"))
+                    		.append("date", jsnObj.get("air_date"))
+                    		.append("serieId", serieId);
+                    documents.add(doc);
+                }
+            }
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new JSONArray();
+		SeriesResult result = new SeriesResult(documents, seasonsIds);
+		return result;
 	}
 	
 	
