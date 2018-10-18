@@ -13,6 +13,9 @@ import org.json.simple.parser.ParseException;
 
 
 public class SerieService {
+	/**
+	 * Initiates/updates the database collections series, seasons and episodes.
+	 */
 	public void init() {
 		Keys apiKey = new Keys();
 		Config config = new Config();
@@ -21,18 +24,19 @@ public class SerieService {
 		try {
 			String url = config.getApiUrlFull() + "popular?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang() + "&page=1";
 			String response = connection.connect(url);
-			// List<String> lines = buildSeriesListJson(response);
-			// write("series", lines);
+			
 			SeriesResult result = buildSeriesList(response);
 			List<Document> documents = result.getDocuments();
 			List<Integer> seriesIds = result.getIds();
 			add("series", documents);
 			System.out.println("Series saved");
+			
 			SeasonResult seasons = getSeriesDetails(seriesIds);
 			List<Document> seasonsDocs = seasons.getDocuments();
 			List<SeasonPair> seasonsIds = seasons.getSeason();
 			add("seasons", seasonsDocs);
 			System.out.println("Seasons saved");
+			
 			List<Document> episodes = getSeasonsDetails(seasonsIds);
 			add("episodes", episodes);
 			System.out.println("Episodes saved");
@@ -47,6 +51,12 @@ public class SerieService {
 		}
 	}
 	
+	/**
+	 * Adds the documents to the MongoDB collection.
+	 * 
+	 * @param collection	MongoDB collection where the documents are to be added
+	 * @param documents
+	 */
 	private void add(String collection, List<Document> documents) {
 		SerieDB db = new SerieDB();
 	    db.connect();
@@ -55,13 +65,18 @@ public class SerieService {
 		}
 	}
 	
+	/**
+	 * Builds the list of Series Documents from the response received from the API.
+	 * 
+	 * @param series
+	 * @return the documents to be added and the ids of the series retrieved
+	 */
 	private SeriesResult buildSeriesList(String series) {
 		JSONParser parser = new JSONParser();
-        JSONObject o;
 		List<Document> documents = new ArrayList<Document>();
 		List<Integer> seriesIds = new ArrayList<Integer>();
 		try {
-			o = (JSONObject) parser.parse(series);
+			JSONObject o = (JSONObject) parser.parse(series);
             JSONArray results = (JSONArray) o.get("results");
             for (int i = 0; i < results.size(); i++){
                 if (results.get(i) instanceof JSONObject){
@@ -85,6 +100,12 @@ public class SerieService {
 		return result;
 	}
 	
+	/**
+	 * Fetches the series' details to get each added series' seasons.
+	 * 
+	 * @param seriesList	Series ids
+	 * @return the Documents to be added and the seasons/series ids
+	 */
 	private SeasonResult getSeriesDetails(List<Integer> seriesList) {
 		Keys apiKey = new Keys();
 		Config config = new Config();
@@ -109,6 +130,13 @@ public class SerieService {
 		return result;
 	}
 	
+	/**
+	 * Builds the list of Seasons Documents from the response received from the API.
+	 * 
+	 * @param seasons
+	 * @param serieId
+	 * @return the Seasons from the specified series to be added and the seasons/series ids
+	 */
 	private SeasonResult buildSeasonsList(String seasons, int serieId) {
 		JSONParser parser = new JSONParser();
         JSONObject details;
@@ -142,6 +170,12 @@ public class SerieService {
 		return result;
 	}
 	
+	/**
+	 * Fetches the seasons' details to get each added seasons' episodes.
+	 * 
+	 * @param seasonsList	Seasons ids
+	 * @return the Documents to be added
+	 */
 	private List<Document> getSeasonsDetails(List<SeasonPair> seasonsList) {
 		Keys apiKey = new Keys();
 		Config config = new Config();
@@ -163,6 +197,13 @@ public class SerieService {
 		return seasons;
 	}
 	
+	/**
+	 * Builds the list of Episodes Documents from the response received from the API.
+	 * 
+	 * @param episodes
+	 * @param season
+	 * @return the Episodes from the specified seasons to be added
+	 */
 	private List<Document> buildEpisodesList(String episodes, SeasonPair season) {
 		JSONParser parser = new JSONParser();
         JSONObject details;

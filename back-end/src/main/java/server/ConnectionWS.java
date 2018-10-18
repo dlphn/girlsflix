@@ -12,9 +12,10 @@ import org.apache.http.impl.client.HttpClients;
 public class ConnectionWS {
 
     /** 
-     * Connects to an external API, fetches the result and processes the response.
+     * Connects to an external API and returns the result.
      * 
      * @param url	the API url
+     * @return the API response as a String
      */
 	public String connect(String url) throws ClientProtocolException, IOException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
