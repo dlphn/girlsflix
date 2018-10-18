@@ -27,10 +27,15 @@ public class SerieService {
 			List<Document> documents = result.getDocuments();
 			List<Integer> seriesIds = result.getIds();
 			add("series", documents);
-			List<Document> seasons = getSeriesDetails(seriesIds);
-			//List<Document> seasonsDocs = seasons.getDocuments();
-			//List<String> seasonsIds = seasons.getIds();
-			add("seasons", seasons);
+			System.out.println("Series saved");
+			SeasonResult seasons = getSeriesDetails(seriesIds);
+			List<Document> seasonsDocs = seasons.getDocuments();
+			List<SeasonPair> seasonsIds = seasons.getSeason();
+			add("seasons", seasonsDocs);
+			System.out.println("Seasons saved");
+			List<Document> episodes = getSeasonsDetails(seasonsIds);
+			add("episodes", episodes);
+			System.out.println("Episodes saved");
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,7 +66,7 @@ public class SerieService {
             for (int i = 0; i < results.size(); i++){
                 if (results.get(i) instanceof JSONObject){
                     JSONObject jsnObj = (JSONObject)results.get(i);
-                    seriesIds.add((Integer)jsnObj.get("id"));
+                    seriesIds.add((int) (long) (Long) jsnObj.get("id"));
                     Document doc = new Document("id", jsnObj.get("id"))
                     		.append("title", jsnObj.get("name"))
                     		.append("summary", jsnObj.get("overview"))
@@ -80,17 +85,18 @@ public class SerieService {
 		return result;
 	}
 	
-	private List<Document> getSeriesDetails(List<Integer> seriesList) {
+	private SeasonResult getSeriesDetails(List<Integer> seriesList) {
 		Keys apiKey = new Keys();
 		Config config = new Config();
 		ConnectionWS connection = new ConnectionWS();
 		List<Document> seasons = new ArrayList<Document>();
-		SeriesResult result = new SeriesResult();
+		List<SeasonPair> seasonSerie = new ArrayList<SeasonPair>();
 		for (int id : seriesList) {
 			try {
 				String response = connection.connect(config.getApiUrlFull() + id + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
-				result = buildSeasonsList(response, id);
-				seasons.addAll(result.getDocuments());
+				SeasonResult res = buildSeasonsList(response, id);
+				seasons.addAll(res.getDocuments());
+				seasonSerie.addAll(res.getSeason());
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -99,21 +105,23 @@ public class SerieService {
 				e.printStackTrace();
 			}
 		}
-		return seasons;
+		SeasonResult result = new SeasonResult(seasons, seasonSerie);
+		return result;
 	}
 	
-	private SeriesResult buildSeasonsList(String seasons, int serieId) {
+	private SeasonResult buildSeasonsList(String seasons, int serieId) {
 		JSONParser parser = new JSONParser();
         JSONObject details;
 		List<Document> documents = new ArrayList<Document>();
-		List<Integer> seasonsIds = new ArrayList<Integer>();
+		List<SeasonPair> seasonsIds = new ArrayList<SeasonPair>();
 		try {
 			details = (JSONObject) parser.parse(seasons);
             JSONArray results = (JSONArray) details.get("seasons");
             for (int i = 0; i < results.size(); i++){
                 if (results.get(i) instanceof JSONObject){
                     JSONObject jsnObj = (JSONObject)results.get(i);
-                    seasonsIds.add((Integer)jsnObj.get("id"));
+                    SeasonPair seasonSerie = new SeasonPair(serieId, (int) (long) (Long) jsnObj.get("season_number"));
+                    seasonsIds.add(seasonSerie);
                     // seasonsIds.add(String.valueOf(jsnObj.get("episode_count")));
                     Document doc = new Document("id", jsnObj.get("id"))
                     		.append("name", jsnObj.get("name"))
@@ -130,8 +138,57 @@ public class SerieService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		SeriesResult result = new SeriesResult(documents, seasonsIds);
+		SeasonResult result = new SeasonResult(documents, seasonsIds);
 		return result;
+	}
+	
+	private List<Document> getSeasonsDetails(List<SeasonPair> seasonsList) {
+		Keys apiKey = new Keys();
+		Config config = new Config();
+		ConnectionWS connection = new ConnectionWS();
+		List<Document> seasons = new ArrayList<Document>();
+		for (SeasonPair season : seasonsList) {
+			try {
+				String response = connection.connect(config.getApiUrlFull() + season.getTvId() + "/season/" + season.getSeasonNumber() + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
+				List<Document> res = buildEpisodesList(response, season);
+				seasons.addAll(res);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return seasons;
+	}
+	
+	private List<Document> buildEpisodesList(String episodes, SeasonPair season) {
+		JSONParser parser = new JSONParser();
+        JSONObject details;
+		List<Document> documents = new ArrayList<Document>();
+		try {
+			details = (JSONObject) parser.parse(episodes);
+            JSONArray results = (JSONArray) details.get("episodes");
+            for (int i = 0; i < results.size(); i++){
+                if (results.get(i) instanceof JSONObject){
+                    JSONObject jsnObj = (JSONObject)results.get(i);
+                    Document doc = new Document("id", jsnObj.get("id"))
+                    		.append("name", jsnObj.get("name"))
+                    		.append("summary", jsnObj.get("overview"))
+                    		.append("nb", jsnObj.get("episode_number"))
+                    		.append("seasonNb", jsnObj.get("season_number"))
+                    		.append("rating", jsnObj.get("vote_average"))
+                    		.append("date", jsnObj.get("air_date"))
+                    		.append("serieId", season.getTvId());
+                    documents.add(doc);
+                }
+            }
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return documents;
 	}
 	
 	

@@ -1,14 +1,15 @@
 package server;
 
 
-
 public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
 	    
-		SerieService service = new SerieService();
-		service.init();
+		//SerieService service = new SerieService();
+		//service.init();
+		
+		
 		
 		/*System.out.println("\n"+"**********************************"+"\n");
 		SerieFactory factoryTest = new SerieFactory();
