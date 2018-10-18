@@ -1,19 +1,21 @@
 package server;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Serie {
 	private int id;
 	private String title;
-	private TypeSerie typeSerie;
+	private int typeSerie;
 	private String summary;
 	private LocalDate creationDate;
 	private int rating;
 	private boolean allowed;
 	private String picture;
-	//private List<Season> seasons;
+	private List<Season> seasons = new ArrayList<Season>();
 	
-	public Serie(int id, String title, TypeSerie typeSerie, String summary, LocalDate creationDate, String picture) {
+	public Serie(int id, String title, int typeSerie, String summary, LocalDate creationDate, String picture) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -24,6 +26,28 @@ public class Serie {
 		this.allowed = true;
 		this.rating = 0;
 	}
+	
+	public Serie(int id, String title, String summary, LocalDate creationDate, String picture) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.summary = summary;
+		this.creationDate = creationDate;
+		this.picture = picture;
+		this.allowed = true;
+		this.rating = 0;
+	}
+	
+	public Serie(int id, String title, LocalDate creationDate, String summary) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.creationDate = creationDate;
+		this.summary = summary;
+		this.allowed = true;
+		this.rating = 0;
+	}
+	
 	public Serie(String title, LocalDate creationDate, String summary) {
 		super();
 		this.title = title;
@@ -32,18 +56,18 @@ public class Serie {
 		this.allowed = true;
 		this.rating = 0;
 	}
+	
 	public Serie(String name) {
-		
 		this.title = name;
-		}
+	}
 	
 	public String info() {
-		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + "\n";
+		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + ".\n its ID is: " + this.id + "\n";
 	}
-	/*public void addSeason(Season season) {
+	
+	public void addSeason(Season season) {
 		seasons.add(season);
-		
-	}*/
+	}
 	
 	public void show() {
 		//fonction à appeler quand l'utilisateur sélectionnera une série et qu'on souhaitera afficher les détails de la série
@@ -71,11 +95,11 @@ public class Serie {
 		this.title = title;
 	}
 	
-	public TypeSerie getTypeSerie() {
+	public int getTypeSerie() {
 		return typeSerie;
 	}
 	
-	public void setTypeSerie(TypeSerie typeSerie) {
+	public void setTypeSerie(int typeSerie) {
 		this.typeSerie = typeSerie;
 	}
 
@@ -118,6 +142,14 @@ public class Serie {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public List<Season> getSeasons() {
+		return seasons;
+	}
+
+	public void setSeasons(ArrayList<Season> seasons) {
+		this.seasons = seasons;
 	}
 
 }

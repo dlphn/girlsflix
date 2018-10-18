@@ -27,7 +27,8 @@ public class SerieFactory {
         	for (int i = 0; i < results.size(); i++){
                 if (results.get(i) instanceof JSONObject){
                 	JSONObject jsnObj = (JSONObject)results.get(i);
-                	Serie s = new Serie(jsnObj.get("title").toString(), LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ) , jsnObj.get("summary").toString());
+                	Serie s = new Serie(Integer.parseInt(jsnObj.get("id").toString()), jsnObj.get("title").toString(), LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ), jsnObj.get("summary").toString());
+                	//Serie s = new Serie(jsnObj.get("title").toString(), LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ) , jsnObj.get("summary").toString());
                 	seriesList.add(s);
                 	//System.out.println(s.info());
                 }
