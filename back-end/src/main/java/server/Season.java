@@ -2,10 +2,11 @@ package server;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Season {
 	
-	private ArrayList<Episode> episodes = new ArrayList<Episode>();
+	private List<Episode> episodes = new ArrayList<Episode>();
 	private int numberSeason;
 	private String summary;
 	private LocalDate releaseDate;
@@ -59,6 +60,16 @@ public class Season {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
+	public List<Episode> getEpisodes() {
+		return episodes;
+	}
+
+	public void setEpisodes(List<Episode> episodes) {
+		this.episodes = episodes;
+	}
+	
+	
 	
 	
 

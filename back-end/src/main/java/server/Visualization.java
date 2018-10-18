@@ -12,15 +12,12 @@ public class Visualization {
 	
 	public void showSeries() {
 		try {
-			int size = listSeries.size();
 			System.out.println("The series available are : ");
-			for (int i = 0; i < size; i++)
-				{System.out.println(i);
-				Serie s = listSeries.get(i);
+			for (Serie s:listSeries){
 				System.out.println(s);
 				System.out.println(s.info());
 				//System.out.println("\n\n");
-				} 
+			} 
 		} catch (NullPointerException e) {
 			System.out.println("size is :   No Series for the moment.");}
 	}
