@@ -1,14 +1,10 @@
 package server;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.bson.Document;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.simple.*;
@@ -25,8 +21,10 @@ public class SerieService {
 		try {
 			String url = config.getApiUrlFull() + "popular?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang() + "&page=1";
 			String response = connection.connect(url);
-			List<String> lines = buildSeriesListJson(response);
-			write("series", lines);
+			// List<String> lines = buildSeriesListJson(response);
+			// write("series", lines);
+			List<Document> documents = buildSeriesList(response);
+			add("series", documents);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,13 +34,76 @@ public class SerieService {
 		}
 	}
 	
+	private void add(String collection, List<Document> documents) {
+		SerieDB db = new SerieDB();
+	    db.connect();
+		for (Document doc : documents) {
+			db.upsert(collection, doc);
+		}
+	}
+	
+	private List<Document> buildSeriesList(String series) {
+		JSONParser parser = new JSONParser();
+        JSONObject o;
+		List<Document> documents = new ArrayList<Document>();
+		try {
+			o = (JSONObject) parser.parse(series);
+            JSONArray results = (JSONArray) o.get("results");
+            for (int i = 0; i < results.size(); i++){
+                if (results.get(i) instanceof JSONObject){
+                    JSONObject jsnObj = (JSONObject)results.get(i);
+                    Document doc = new Document("id", jsnObj.get("id"))
+                    		.append("title", jsnObj.get("name"))
+                    		.append("summary", jsnObj.get("overview"))
+                    		.append("serieType", jsnObj.get("genre_ids"))
+                    		.append("rating", jsnObj.get("vote_average"))
+                    		.append("date", jsnObj.get("first_air_date"))
+                    		.append("imageLink", jsnObj.get("poster_path"))
+                    		.append("seasons", getSeriesDetails((Long)jsnObj.get("id")));
+                    documents.add(doc);
+                }
+            }
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return(documents);
+	}
+	
+	public JSONArray getSeriesDetails(Long id) {
+		Keys apiKey = new Keys();
+		Config config = new Config();
+		ConnectionWS connection = new ConnectionWS();
+		JSONParser parser = new JSONParser();
+		JSONObject details = new JSONObject();
+		try {
+			String response = connection.connect(config.getApiUrlFull() + id + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
+			try {
+				details = (JSONObject) parser.parse(response);
+				return (JSONArray) details.get("seasons");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new JSONArray();
+	}
+	
+	
+
 	/** 
      * Writes the given string in a JSON file.
      * 
      * @param type	the type of information we are fetching (series, series details, etc.)
      * @param lines	the content to be written in the file
      */
-	private void write(String type, List<String> lines) {
+	/*private void write(String type, List<String> lines) {
 
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd");
 		
@@ -88,29 +149,6 @@ public class SerieService {
 		}
 		return(lines);
 	}
+	*/
 	
-	public JSONArray getSeriesDetails(Long id) {
-		Keys apiKey = new Keys();
-		Config config = new Config();
-		ConnectionWS connection = new ConnectionWS();
-		JSONParser parser = new JSONParser();
-		JSONObject details = new JSONObject();
-		try {
-			String response = connection.connect(config.getApiUrlFull() + id + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
-			try {
-				details = (JSONObject) parser.parse(response);
-				return (JSONArray) details.get("seasons");
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return new JSONArray();
-	}
 }

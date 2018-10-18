@@ -1,17 +1,16 @@
 package server;
 
-import java.io.IOException;
-import java.util.List;
+
 
 public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
-		
+	    
 		SerieService service = new SerieService();
 		service.init();
 		
-		System.out.println("\n"+"**********************************"+"\n");
+		/*System.out.println("\n"+"**********************************"+"\n");
 		SerieFactory factoryTest = new SerieFactory();
 		
 		System.out.println("\n"+"**********************************"+"\n");
@@ -24,7 +23,7 @@ public class MainTest {
 		
 		visu.update(factoryTest);
 		visu.showSeries(); // after udpate
-		visu.getListSeries();
+		visu.getListSeries();*/
 
 	}
 }
