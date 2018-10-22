@@ -1,5 +1,6 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -14,6 +15,7 @@ import com.mongodb.client.model.Filters;
 public class SerieDB {
 	private static MongoDatabase database;
 	private static MongoClient mongoClient;
+	
 	
 	public static void connect() {
 		Keys keys = new Keys();
@@ -31,6 +33,13 @@ public class SerieDB {
 		}
 		MongoDatabase db = mongoClient.getDatabase(dbName);
 		database = db;
+	}
+	
+	public static List<Document> find(String col) {
+		MongoCollection<Document> collection = database.getCollection(col);
+		List<Document> result = new ArrayList<Document>();
+		collection.find().into(result);
+		return result;
 	}
 	
 	public static void insertOne(String col, Document doc) {

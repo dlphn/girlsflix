@@ -1,10 +1,19 @@
 package server;
 
+import java.util.List;
+
+import org.bson.Document;
 
 public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
+		
+		SerieDB.connect();
+		List<Document> documents = SerieDB.find("series");
+		for (Document doc : documents) {
+			System.out.println(doc.toJson());
+		}
 	    
 		//SerieService service = new SerieService();
 		//service.init();
