@@ -58,10 +58,9 @@ public class SerieService {
 	 * @param documents
 	 */
 	private void add(String collection, List<Document> documents) {
-		SerieDB db = new SerieDB();
-	    db.connect();
+	    SerieDB.connect();
 		for (Document doc : documents) {
-			db.upsert(collection, doc);
+			SerieDB.upsert(collection, doc);
 		}
 	}
 	

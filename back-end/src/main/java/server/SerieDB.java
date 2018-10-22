@@ -12,27 +12,39 @@ import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Filters;
 
 public class SerieDB {
-	private MongoDatabase database;
+	private static MongoDatabase database;
+	private static MongoClient mongoClient;
 	
-	public void connect() {
+	public static void connect() {
 		Keys keys = new Keys();
-	    MongoClient mongoClient = MongoClients.create("mongodb+srv://" + keys.getMongoUser() + ":" + keys.getMongoPwd() + "@" + keys.getMongoHost() + "/");
-	    MongoDatabase database = mongoClient.getDatabase(keys.getMongoDb());
-	    this.database = database;
+		if (mongoClient == null) {
+		    mongoClient = MongoClients.create("mongodb+srv://" + keys.getMongoUser() + ":" + keys.getMongoPwd() + "@" + keys.getMongoHost() + "/");
+		}
+		MongoDatabase db = mongoClient.getDatabase(keys.getMongoDb());
+		database = db;
 	}
 	
-	public void insertOne(String col, Document doc) {
-	    MongoCollection<Document> collection = this.database.getCollection(col);
+	public static void connect(String dbName) {
+		Keys keys = new Keys();
+		if (mongoClient == null) {
+		    mongoClient = MongoClients.create("mongodb+srv://" + keys.getMongoUser() + ":" + keys.getMongoPwd() + "@" + keys.getMongoHost() + "/");
+		}
+		MongoDatabase db = mongoClient.getDatabase(dbName);
+		database = db;
+	}
+	
+	public static void insertOne(String col, Document doc) {
+	    MongoCollection<Document> collection = database.getCollection(col);
 	    collection.insertOne(doc);	
 	}
 	
-	public void insertMany(String col, List<Document> documents) {
-		MongoCollection<Document> collection = this.database.getCollection(col);
+	public static void insertMany(String col, List<Document> documents) {
+		MongoCollection<Document> collection = database.getCollection(col);
 	    collection.insertMany(documents);	
 	}
 	
-	public void upsert(String col, Document doc) {
-		MongoCollection<Document> collection = this.database.getCollection(col);
+	public static void upsert(String col, Document doc) {
+		MongoCollection<Document> collection = database.getCollection(col);
 		UpdateOptions options = new UpdateOptions().upsert(true);
 		collection.replaceOne(Filters.eq("id", doc.get("id")), doc, options);
 		/*collection.updateOne(
