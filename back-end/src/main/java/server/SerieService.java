@@ -13,6 +13,22 @@ import org.json.simple.parser.ParseException;
 
 
 public class SerieService {
+	private static List<JSONObject> genres;
+	
+	public SerieService() {
+		if (genres == null) {
+			initGenres();
+		}
+	}
+
+	public static List<JSONObject> getGenres() {
+		return genres;
+	}
+
+	public static void setGenres(List<JSONObject> genres) {
+		SerieService.genres = genres;
+	}
+	
 	/**
 	 * Initiates/updates the series genres.
 	 */
@@ -25,7 +41,7 @@ public class SerieService {
 			String url = config.getApiUrl() + "genre/tv/list?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang();
 			String response = connection.connect(url);
 			List<JSONObject> genres = buildGenresList(response);
-			System.out.println(genres);
+			setGenres(genres);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

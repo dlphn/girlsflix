@@ -15,8 +15,8 @@ public class MainTest {
 //			System.out.println(doc.toJson());
 //		}
 	    
-		SerieService service = new SerieService();
-		service.initGenres();
+		new SerieService();
+		System.out.println(SerieService.getGenres());
 		//service.init();
 		
 		
