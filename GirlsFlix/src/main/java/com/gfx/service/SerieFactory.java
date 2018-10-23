@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 
 import com.gfx.domain.series.Serie;
 
+import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -21,29 +22,21 @@ public class SerieFactory {
 	}
 	
 	public List<Serie> getSeries(){
-		String localPath = new File(".").getAbsolutePath();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		DateTimeFormatter pathFmt = DateTimeFormatter.ofPattern("_yyyy_MM_dd");
         JSONParser parser = new JSONParser();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        SerieDB.connect();
+        List<Document> documents = SerieDB.find("series");
         try {
-        	JSONArray results = (JSONArray) parser.parse(new FileReader(localPath + "/src/main/resources/series"+ pathFmt.format(LocalDateTime.now())+".json"));
-        	for (int i = 0; i < results.size(); i++){
-                if (results.get(i) instanceof JSONObject){
-                	JSONObject jsnObj = (JSONObject)results.get(i);
-                	Serie s = new Serie(Integer.parseInt(jsnObj.get("id").toString()), jsnObj.get("title").toString(), LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ), jsnObj.get("summary").toString());
-                	//Serie s = new Serie(jsnObj.get("title").toString(), LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ) , jsnObj.get("summary").toString());
-                	seriesList.add(s);
+        	for(Document doc: documents) {
+        			JSONObject jsnObj = (JSONObject) parser.parse(doc.toJson());
+        			Serie s = new Serie(Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()), jsnObj.get("title").toString(), LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ), jsnObj.get("summary").toString());
+        			seriesList.add(s);
                 	//System.out.println(s.info());
                 }
-            }
         	//System.out.println(seriesList);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();}
-        
+		} 
 		return seriesList;
 	}
 	
