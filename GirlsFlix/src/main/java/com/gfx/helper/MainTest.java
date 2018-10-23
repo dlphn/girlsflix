@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.bson.Document;
 
-import com.gfx.service.SerieService;
+import com.gfx.domain.series.Serie;
+import com.gfx.domain.series.Visualization;
+import com.gfx.service.*;
+
 
 public class MainTest {
 
@@ -23,7 +26,7 @@ public class MainTest {
 		
 		
 		
-		/*System.out.println("\n"+"**********************************"+"\n");
+		System.out.println("\n"+"**********************************"+"\n");
 		SerieFactory factoryTest = new SerieFactory();
 		
 		System.out.println("\n"+"**********************************"+"\n");
@@ -36,7 +39,7 @@ public class MainTest {
 		
 		visu.update(factoryTest);
 		visu.showSeries(); // after udpate
-		visu.getListSeries();*/
+		visu.getListSeries();
 
 	}
 }
