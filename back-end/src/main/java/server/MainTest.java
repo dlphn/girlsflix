@@ -9,13 +9,14 @@ public class MainTest {
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
 		
-		SerieDB.connect();
-		List<Document> documents = SerieDB.find("series");
-		for (Document doc : documents) {
-			System.out.println(doc.toJson());
-		}
+//		SerieDB.connect();
+//		List<Document> documents = SerieDB.find("series");
+//		for (Document doc : documents) {
+//			System.out.println(doc.toJson());
+//		}
 	    
-		//SerieService service = new SerieService();
+		SerieService service = new SerieService();
+		service.initGenres();
 		//service.init();
 		
 		
