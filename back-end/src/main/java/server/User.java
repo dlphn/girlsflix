@@ -12,6 +12,10 @@ public abstract class User {
 	private Gender gender;
 	private List<TypeSerie> affinities = new ArrayList<TypeSerie>();
 	
+	public User() {
+		this.login = "test";
+	}
+	
 	public User(String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
 		super();
 		this.login = login;
