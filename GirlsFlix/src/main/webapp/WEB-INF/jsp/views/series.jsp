@@ -21,7 +21,7 @@
 			<ul>
 				<c:forEach var="item" items="${series}">
 	               	<li>
-	                   <a href="/serie/${item.getId()}">
+	                   <a href="serie/${item.getId()}">
 						<h3>${fn:escapeXml(item.getTitle())}</h3>
 						<p>${fn:escapeXml(item.getPicture())}</p>
 	                   </a>
