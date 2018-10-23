@@ -1,17 +1,29 @@
 package com.gfx.controller;
 
+import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.gfx.domain.series.Serie;
+import com.gfx.service.SerieFactory;
  
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+class ResourceNotFoundException extends RuntimeException {
+
+}
+
 @Controller
 public class IndexController {
+	@Inject
+    private SerieFactory serieFactory;
 	String message = "Welcome!";
 	
 	@RequestMapping({"/index", "/"})
@@ -45,19 +57,20 @@ public class IndexController {
 	
 	@RequestMapping("/series")
     public String series(ModelMap model) {
-		List<JSONObject> series = new ArrayList<JSONObject>();
-		JSONObject obj = new JSONObject();
-		obj.put("id", 1);
-		obj.put("title", "Série test");
-		obj.put("intro", "Série test intro");
-		JSONObject obj2 = new JSONObject();
-		obj2.put("id", 2);
-		obj2.put("title", "Série test 2");
-		obj2.put("intro", "Série test intro 2");
-		series.add(obj2);
-
-        model.put("series", series);
+        model.put("series", serieFactory.getSeries());
 
         return "views/series";
+    }
+	
+	@RequestMapping("/serie/{id}")
+    public String serie(@PathVariable("id") String id, ModelMap model) {
+        Serie serie = new Serie("My Awesome Serie");
+        if (serie == null) {
+            throw new ResourceNotFoundException();
+        }
+        else {
+            model.put("serie", serie);
+            return "views/serie";
+        }
     }
 }

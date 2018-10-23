@@ -5,7 +5,7 @@ import java.util.List;
 import org.bson.Document;
 
 import com.gfx.domain.series.Serie;
-import com.gfx.domain.series.Visualization;
+import com.gfx.service.Visualization;
 import com.gfx.service.*;
 
 

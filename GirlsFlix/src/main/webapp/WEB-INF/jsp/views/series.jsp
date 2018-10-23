@@ -6,19 +6,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>GirlsFlix Series Page</title>
 	</head>
 	<body>
 		<fragments:header />
 		<center>
-			<h2>Welcome to GirlsFlix</h2>
+			<h2>Toutes les séries</h2>
 			<ul>
 				<c:forEach var="item" items="${series}">
 	               	<li>
-	                   <a href="/serie/${item.id}">
-						<h3>${fn:escapeXml(item.title)}</h3>
-						<p>${fn:escapeXml(item.intro)}</p>
+	                   <a href="GirlsFlix/serie/${item.getId()}">
+						<h3>${fn:escapeXml(item.getTitle())}</h3>
+						<p>${fn:escapeXml(item.getPicture())}</p>
 	                   </a>
 	               </li>
            		</c:forEach>

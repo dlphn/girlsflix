@@ -1,8 +1,8 @@
-package com.gfx.domain.series;
+package com.gfx.service;
 
 import java.util.List;
 
-import com.gfx.service.SerieFactory;
+import com.gfx.domain.series.Serie;
 
 public class Visualization {
 	protected List<Serie> listSeries;

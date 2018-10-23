@@ -10,6 +10,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
 
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
@@ -17,7 +18,7 @@ import com.gfx.domain.series.SeriesResult;
 import com.gfx.helper.Config;
 import com.gfx.helper.Keys;
 
-
+@Service
 public class SerieService {
 	private static List<JSONObject> genres;
 	
