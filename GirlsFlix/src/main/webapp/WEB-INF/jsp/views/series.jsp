@@ -13,21 +13,24 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="css/style.css" />
 	</head>
-	<body>
+	<body class="bg-light">
+	
 		<fragments:header />
 		
-		<div class="container">
-			<h2>Toutes les séries</h2>
-			<ul>
-				<c:forEach var="item" items="${series}">
-	               	<li>
-	                   <a href="serie/${item.getId()}">
-						<h3>${fn:escapeXml(item.getTitle())}</h3>
-						<p>${fn:escapeXml(item.getPicture())}</p>
-	                   </a>
-	               </li>
-           		</c:forEach>
-			</ul>
+		<div class="main">
+			<div class="container">
+				<h2>Toutes les séries</h2>
+				<ul>
+					<c:forEach var="item" items="${series}">
+		               	<li>
+		                   <a href="serie/${item.getId()}">
+							<h3>${fn:escapeXml(item.getTitle())}</h3>
+							<p>${fn:escapeXml(item.getPicture())}</p>
+		                   </a>
+		               </li>
+	           		</c:forEach>
+				</ul>
+			</div>
 		</div>
 		
 		<fragments:footer />

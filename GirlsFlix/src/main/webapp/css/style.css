@@ -1,3 +1,9 @@
-body {
-	
+.main {
+	margin-top: 120px;
+	margin-bottom: 200px;
+}
+
+footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }

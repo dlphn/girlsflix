@@ -1,25 +1,21 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" %>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/GirlsFlix">GirlsFlix</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="/GirlsFlix/series">Toutes les séries</a></li>
-                <li><a href="#">Série du moment</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Connexion</a></li>
-            </ul>
-        </div>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm">
+	<a class="navbar-brand" href="/GirlsFlix">GirlsFlix</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarText">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="/GirlsFlix/series">Toutes les séries</a>
+			</li>
+			<li class="nav-item">
+			  	<a class="nav-link" href="#">Série du moment</a>
+			</li>
+		</ul>
+		<span class="navbar-text">
+			<a class="nav-link" href="/GirlsFlix/login">Connexion</a>
+		</span>
+	</div>
 </nav>

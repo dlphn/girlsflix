@@ -6,7 +6,7 @@
 
 <%@ attribute name="serie" required="true" rtexprvalue="true" type="com.gfx.domain.series.Serie"%>
 
-<div>
+<div class="container">
 	<p>image</p>
 	<h1>${fn:escapeXml(serie.getTitle())}</h1>
 	<p>${fn:escapeXml(serie.getSummary())}</p>
