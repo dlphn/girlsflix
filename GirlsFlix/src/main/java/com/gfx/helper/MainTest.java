@@ -23,10 +23,12 @@ public class MainTest {
 //		}
 		
 		UserDB.connect();
-        //User newUser = new Enjoyer("test@test.com", "test23R", "pwd", "Charlie", "Chaplin", Gender.MALE);
+        //User newUser = new Enjoyer("test@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
         //UserDB.insertOne(newUser);
+        //UserDB.update(newUser);
         //UserDB.readDatabase();
-        System.out.println(UserDB.checkPwd("admin", "password"));
+        //System.out.println(UserDB.checkPwd("admin", "password"));
+		UserDB.updatePwd("test@test.com", "pwd0");
 	    
 		/*new SerieService();
 		System.out.println(SerieService.getGenres());

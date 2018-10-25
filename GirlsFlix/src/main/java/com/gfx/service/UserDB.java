@@ -97,6 +97,39 @@ public class UserDB {
 		}
 	}
 	
+	public static void update(User updatedUser) {
+		try {
+			preparedStatement = connect
+			        .prepareStatement("UPDATE users SET pseudo=?, firstname=?, lastname=?, gender=? WHERE login=?");
+			preparedStatement.setString(1, updatedUser.getPseudo());
+            preparedStatement.setString(2, updatedUser.getFirstName());
+            preparedStatement.setString(3, updatedUser.getLastName());
+            preparedStatement.setString(4, updatedUser.getGender().toString());
+            preparedStatement.setString(5, updatedUser.getLogin());
+            preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public static void updatePwd(String login, String newPwd) {
+		try {
+			preparedStatement = connect
+			        .prepareStatement("UPDATE users SET password=? WHERE login=?");
+            preparedStatement.setString(1, newPwd);
+            preparedStatement.setString(2, login);
+            preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
 	public static Boolean checkPwd(String login, String pwd) {
 		String query = "SELECT password FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
 		try {
