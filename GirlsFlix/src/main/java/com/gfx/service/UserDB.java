@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDB {
 	private static Connection connect = null;
@@ -29,22 +32,23 @@ public class UserDB {
 	}
 	
 	private static void writeResultSet(ResultSet resultSet) throws SQLException {
-        // ResultSet is initially before the first data set
         while (resultSet.next()) {
-            // It is possible to get the columns via name
-            // also possible to get the columns via the column number
-            // which starts at 1
-            // e.g. resultSet.getSTring(2);
+        	String[] favorites = new String[0];
             String login = resultSet.getString("login");
             String pseudo = resultSet.getString("pseudo");
             String firstname = resultSet.getString("firstname");
             String lastname = resultSet.getString("lastname");
             String gender = resultSet.getString("gender");
+            String favoritesStr = resultSet.getString("favorites");
+            if (favoritesStr != null) {
+            	favorites = resultSet.getString("favorites").split(",");
+            }
             System.out.println("login: " + login);
             System.out.println("pseudo: " + pseudo);
             System.out.println("firstname: " + firstname);
             System.out.println("lastname: " + lastname);
             System.out.println("gender: " + gender);
+            System.out.println("favorites: " + Arrays.toString(favorites));
         }
     }
 	
@@ -114,6 +118,24 @@ public class UserDB {
 			close();
 		}
 	}
+
+	public static void updateFav(String login, List<Integer> favorites) {
+		String favStr = favorites.stream()
+      		  .map(String::valueOf)
+      		  .collect(Collectors.joining(", "));
+		try {
+			preparedStatement = connect
+			        .prepareStatement("UPDATE users SET favorites=? WHERE login=?");
+            preparedStatement.setString(1, favStr);
+            preparedStatement.setString(2, login);
+            preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
 	
 	public static void updatePwd(String login, String newPwd) {
 		try {
@@ -144,4 +166,5 @@ public class UserDB {
 		}
 		return false;
 	}
+	
 }

@@ -1,5 +1,6 @@
 package com.gfx.helper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -26,9 +27,12 @@ public class MainTest {
         //User newUser = new Enjoyer("test@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
         //UserDB.insertOne(newUser);
         //UserDB.update(newUser);
-        //UserDB.readDatabase();
+		List<Integer> fav = new ArrayList<Integer>();
+		fav.add(5);
+		UserDB.updateFav("test@test.com", fav);
+        UserDB.readDatabase();
         //System.out.println(UserDB.checkPwd("admin", "password"));
-		UserDB.updatePwd("test@test.com", "pwd0");
+		//UserDB.updatePwd("test@test.com", "pwd0");
 	    
 		/*new SerieService();
 		System.out.println(SerieService.getGenres());
