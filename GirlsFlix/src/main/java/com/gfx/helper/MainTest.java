@@ -5,7 +5,9 @@ import java.util.List;
 import org.bson.Document;
 
 import com.gfx.domain.series.Serie;
-import com.gfx.service.Visualization;
+import com.gfx.domain.users.Enjoyer;
+import com.gfx.domain.users.Gender;
+import com.gfx.domain.users.User;
 import com.gfx.service.*;
 
 
@@ -19,8 +21,13 @@ public class MainTest {
 //		for (Document doc : documents) {
 //			System.out.println(doc.toJson());
 //		}
+		
+		UserDB.connect();
+        User newUser = new Enjoyer("test@test.com", "test23R", "pwd", "Charlie", "Chaplin", Gender.MALE);
+        UserDB.insertOne(newUser);
+        UserDB.readDatabase();
 	    
-		new SerieService();
+		/*new SerieService();
 		System.out.println(SerieService.getGenres());
 		//service.init();
 		
@@ -39,7 +46,7 @@ public class MainTest {
 		
 		visu.update(factoryTest);
 		visu.showSeries(); // after udpate
-		visu.getListSeries();
+		visu.getListSeries();*/
 
 	}
 }
