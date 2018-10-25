@@ -12,6 +12,9 @@ import java.sql.Statement;
 
 public class UserDB {
 	private static Connection connect = null;
+	private static Statement statement = null;
+	private static PreparedStatement preparedStatement = null;
+	private static ResultSet resultSet = null;
     
 	public static void connect() {
 		Keys keys = new Keys();
@@ -45,7 +48,7 @@ public class UserDB {
         }
     }
 	
-	private void close() {
+	private static void close() {
         try {
             if (connect != null) {
                 connect.close();
@@ -58,18 +61,26 @@ public class UserDB {
 	public static void readDatabase() {
 		String query = "SELECT * FROM users";
 		try {
-			Statement statement = connect.createStatement();
-	        ResultSet resultSet = statement.executeQuery(query);
+			statement = connect.createStatement();
+	        resultSet = statement.executeQuery(query);
 	        writeResultSet(resultSet);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+				resultSet.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public static void insertOne(User newUser) {
 		try {
-			PreparedStatement preparedStatement = connect
+			preparedStatement = connect
 			        .prepareStatement("INSERT INTO users values (?, ?, ?, ? , ?, ?)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
@@ -81,6 +92,13 @@ public class UserDB {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
