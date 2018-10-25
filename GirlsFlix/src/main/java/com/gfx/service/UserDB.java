@@ -1,5 +1,7 @@
 package com.gfx.service;
 
+import com.gfx.domain.users.Enjoyer;
+import com.gfx.domain.users.Gender;
 import com.gfx.domain.users.User;
 import com.gfx.helper.Keys;
 
@@ -9,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -152,19 +155,33 @@ public class UserDB {
 		}
 	}
 	
-	public static Boolean checkPwd(String login, String pwd) {
-		String query = "SELECT password FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
+	public static User checkPwd(String login, String pwd) {
+		String query = "SELECT pseudo, firstname, lastname, gender, favorites FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
 		try {
 			statement = connect.createStatement();
 	        resultSet = statement.executeQuery(query);
-	        return resultSet.next();
+	        if (resultSet.next()) {
+	        	String[] strList = new String[0];
+	        	List<Integer> favorites = new ArrayList<Integer>();
+	            String pseudo = resultSet.getString("pseudo");
+	            String firstname = resultSet.getString("firstname");
+	            String lastname = resultSet.getString("lastname");
+	            Gender gender = Gender.OTHER; //comment utiliser les enums ????
+	            String favoritesStr = resultSet.getString("favorites");
+	            if (favoritesStr != null) {
+	            	strList = resultSet.getString("favorites").split(",");
+	            	for(String s : strList) favorites.add(Integer.valueOf(s));
+	            }
+	            User user = new Enjoyer(login, pseudo, pwd, firstname, lastname, gender, favorites);
+	            return user;
+	        }
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close();
 		}
-		return false;
+		return null;
 	}
 	
 }

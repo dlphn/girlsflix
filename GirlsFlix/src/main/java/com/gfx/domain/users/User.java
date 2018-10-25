@@ -84,8 +84,5 @@ public abstract class User {
 		return login;
 	}
 	
-	
-	
-	
 
 }

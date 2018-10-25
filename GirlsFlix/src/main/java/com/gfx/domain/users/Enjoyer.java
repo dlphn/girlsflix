@@ -11,6 +11,11 @@ public class Enjoyer extends User{
 		super(login, pseudo,password,firstName,lastName,gender);
 	}
 	
+	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender, List<Integer> favorites) {
+		super(login, pseudo,password,firstName,lastName,gender);
+		this.favorites = favorites;
+	}
+	
 	public void addToFavorites(Integer id) {
 		favorites.add(id);
 	}
