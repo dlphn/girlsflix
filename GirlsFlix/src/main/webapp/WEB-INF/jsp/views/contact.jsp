@@ -8,7 +8,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
-		<title>GirlsFlix Login</title>
+		<title>GirlsFlix Contact</title>
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="css/style.css" />
@@ -19,9 +19,12 @@
 		
 		<div class="main">
 			<div class="container">
-				<h2>Se connecter</h2>
-				<p>FORMULAIRE</p>
-				<a href="/GirlsFlix/register">Pas encore de compte</a>
+				<h1>Nous contacter</h1>
+				<ul>
+					<li>Jihane Bennis</li>
+					<li>Sophie Dambricourt</li>
+					<li>Delphine Shi</li>
+				</ul>
 			</div>
 		</div>
 		

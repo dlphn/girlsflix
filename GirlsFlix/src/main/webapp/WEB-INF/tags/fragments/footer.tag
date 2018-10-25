@@ -6,8 +6,8 @@
         	<a href="#">Back to top</a>
         </p>
         <ul>
-            <li><a href="#">Nous contacter</a></li>
-            <li><a href="#">Mentions légales</a></li>
+        	<li>© 2018 Girlsflix POOA</li>
+            <li><a href="/GirlsFlix/contact">Nous contacter</a></li>
         </ul>
 	</div>
 </footer>
