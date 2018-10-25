@@ -184,4 +184,25 @@ public class UserDB {
 		return null;
 	}
 	
+	/**
+	 * Checks if the login does not already exist in the database.
+	 * 
+	 * @param login
+	 * @return true if the login can be used for an account creation, else false
+	 */
+	public static Boolean checkLoginNotUsed(String login) {
+		String query = "SELECT pseudo FROM users WHERE login='" + login + "'";
+		try {
+			statement = connect.createStatement();
+	        resultSet = statement.executeQuery(query);
+	        return !resultSet.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return false;
+	}
+	
 }

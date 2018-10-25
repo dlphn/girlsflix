@@ -17,13 +17,8 @@ public class MainTest {
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
 		
-//		SerieDB.connect();
-//		List<Document> documents = SerieDB.find("series");
-//		for (Document doc : documents) {
-//			System.out.println(doc.toJson());
-//		}
-		
-		UserDB.connect();
+		/* MySQL USers */
+		//UserDB.connect();
         //User newUser = new Enjoyer("test@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
         //UserDB.insertOne(newUser);
         //UserDB.update(newUser);
@@ -31,8 +26,9 @@ public class MainTest {
 		//fav.add(5);
 		//UserDB.updateFav("test@test.com", fav);
         //UserDB.readDatabase();
-        System.out.println(UserDB.checkPwd("test@test.com", "pwd0"));
+        //System.out.println(UserDB.checkPwd("test@test.com", "pwd0"));
 		//UserDB.updatePwd("test@test.com", "pwd0");
+		//System.out.println(UserDB.checkLoginNotUsed("test@test.com"));
 	    
 		/*new SerieService();
 		System.out.println(SerieService.getGenres());
