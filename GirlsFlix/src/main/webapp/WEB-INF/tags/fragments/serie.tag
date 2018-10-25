@@ -10,4 +10,5 @@
 	<p>image</p>
 	<h1>${fn:escapeXml(serie.getTitle())}</h1>
 	<p>${fn:escapeXml(serie.getSummary())}</p>
+	<c:if test="${empty loggedIn}">Ajouter aux favoris</c:if>
 </div>

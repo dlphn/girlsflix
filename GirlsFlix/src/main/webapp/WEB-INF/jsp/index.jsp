@@ -20,17 +20,13 @@
 					<h2>Welcome to GirlsFlix</h2>
 				</center>
 				<ul>
-					<li>Série 1</li>
-					<li>Série 2</li>
-					<li>Série 3</li>
-				</ul>
-				<ul>
 					<c:forEach var="item" items="${columns}">
 		               	<li>
-		                   <a href="/serie/${item.id}">
-							<h3>${fn:escapeXml(item.title)}</h3>
-							<p>${fn:escapeXml(item.intro)}</p>
-		                   </a>
+							<a href="/serie/${item.id}">
+								<h3>${fn:escapeXml(item.title)}</h3>
+								<p>${fn:escapeXml(item.intro)}</p>
+							</a>
+							<c:if test="${empty loggedIn}">Ajouter aux favoris</c:if>
 		               </li>
 	           		</c:forEach>
 				</ul>
