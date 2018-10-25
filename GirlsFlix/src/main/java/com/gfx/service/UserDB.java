@@ -50,8 +50,14 @@ public class UserDB {
 	
 	private static void close() {
         try {
-            if (connect != null) {
-                connect.close();
+            if (statement != null) {
+                statement.close();
+            }
+            if (preparedStatement != null) {
+            	preparedStatement.close();
+            }
+            if (resultSet != null) {
+            	resultSet.close();
             }
         } catch (Exception e) {
 
@@ -68,13 +74,7 @@ public class UserDB {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			try {
-				statement.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
 	}
 	
@@ -93,12 +93,22 @@ public class UserDB {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			try {
-				preparedStatement.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
+	}
+	
+	public static Boolean checkPwd(String login, String pwd) {
+		String query = "SELECT password FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
+		try {
+			statement = connect.createStatement();
+	        resultSet = statement.executeQuery(query);
+	        return resultSet.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return false;
 	}
 }
