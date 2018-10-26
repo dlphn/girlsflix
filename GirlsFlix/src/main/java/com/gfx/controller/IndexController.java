@@ -23,7 +23,7 @@ class ResourceNotFoundException extends RuntimeException {
 @Controller
 public class IndexController {
 	@Inject
-    private SerieFactory serieFactory;
+    private SerieFactory serieFactory = new SerieFactory();
 	String message = "Welcome!";
 	
 	@RequestMapping({"/index", "/"})
@@ -64,7 +64,7 @@ public class IndexController {
 	
 	@RequestMapping("/serie/{id}")
     public String serie(@PathVariable("id") String id, ModelMap model) {
-        Serie serie = new Serie("My Awesome Serie");
+        Serie serie = serieFactory.getById(Integer.parseInt(id));
         if (serie == null) {
             throw new ResourceNotFoundException();
         }

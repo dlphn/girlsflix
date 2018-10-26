@@ -45,4 +45,15 @@ public class SerieFactory {
 	public List<Serie> getList(){
 		return seriesList;
 	}
+	
+	public Serie getById(int id) {
+		Serie searched = null;
+		for( Serie s : seriesList) {
+			if(s.getId() == id) {
+				 searched = s;
+			}
+		}
+		return searched;
+		
+	}
 }
