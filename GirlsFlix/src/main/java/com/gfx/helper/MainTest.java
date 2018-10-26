@@ -30,13 +30,13 @@ public class MainTest {
 		//UserDB.updatePwd("test@test.com", "pwd0");
 		//System.out.println(UserDB.checkLoginNotUsed("test@test.com"));
 	    
-		/*new SerieService();
-		System.out.println(SerieService.getGenres());
-		//service.init();
+		SerieService service = new SerieService();
+		//System.out.println(SerieService.getGenres());
+		service.init();
 		
 		
 		
-		System.out.println("\n"+"**********************************"+"\n");
+		/*System.out.println("\n"+"**********************************"+"\n");
 		SerieFactory factoryTest = new SerieFactory();
 		
 		System.out.println("\n"+"**********************************"+"\n");
