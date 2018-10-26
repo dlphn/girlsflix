@@ -14,24 +14,25 @@
 	</head>
 	<body>
 		<fragments:header />
-		<center>
-			<h2>Welcome to GirlsFlix</h2>
-			<ul>
-				<li>Série 1</li>
-				<li>Série 2</li>
-				<li>Série 3</li>
-			</ul>
-			<ul>
-				<c:forEach var="item" items="${columns}">
-	               	<li>
-	                   <a href="/serie/${item.id}">
-						<h3>${fn:escapeXml(item.title)}</h3>
-						<p>${fn:escapeXml(item.intro)}</p>
-	                   </a>
-	               </li>
-           		</c:forEach>
-			</ul>
-		</center>
+		<div class="main">
+			<div class="container">
+				<center>
+					<h2>Welcome to GirlsFlix</h2>
+				</center>
+				<ul>
+					<c:forEach var="item" items="${columns}">
+		               	<li>
+							<a href="/serie/${item.id}">
+								<h3>${fn:escapeXml(item.title)}</h3>
+								<p>${fn:escapeXml(item.intro)}</p>
+							</a>
+							<c:if test="${empty loggedIn}">Ajouter aux favoris</c:if>
+		               </li>
+	           		</c:forEach>
+				</ul>
+			</div>
+		</div>
+		
 		<fragments:footer />
 		
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

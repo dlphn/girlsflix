@@ -7,8 +7,17 @@ public class Enjoyer extends User{
 	
 	private List<Integer> favorites = new ArrayList<Integer>();
 	
+	public Enjoyer() {
+		super();
+	}
+	
 	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
 		super(login, pseudo,password,firstName,lastName,gender);
+	}
+	
+	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender, List<Integer> favorites) {
+		super(login, pseudo,password,firstName,lastName,gender);
+		this.favorites = favorites;
 	}
 	
 	public void addToFavorites(Integer id) {

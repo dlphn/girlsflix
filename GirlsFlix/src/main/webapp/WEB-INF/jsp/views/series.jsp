@@ -14,20 +14,23 @@
 		<link rel="stylesheet" href="css/style.css" />
 	</head>
 	<body>
+	
 		<fragments:header />
 		
-		<div class="container">
-			<h2>Toutes les séries</h2>
-			<ul>
-				<c:forEach var="item" items="${series}">
-	               	<li>
-	                   <a href="serie/${item.getId()}">
-						<h3>${fn:escapeXml(item.getTitle())}</h3>
-						<p>${fn:escapeXml(item.getPicture())}</p>
-	                   </a>
-	               </li>
-           		</c:forEach>
-			</ul>
+		<div class="main">
+			<div class="container">
+				<h2>Toutes les séries</h2>
+				<ul>
+					<c:forEach var="item" items="${series}">
+		               	<li>
+		                   <a href="serie/${item.getId()}">
+							<h3>${fn:escapeXml(item.getTitle())}</h3>
+							<p>${fn:escapeXml(item.getPicture())}</p>
+		                   </a>
+		               </li>
+	           		</c:forEach>
+				</ul>
+			</div>
 		</div>
 		
 		<fragments:footer />

@@ -73,4 +73,10 @@ public class IndexController {
             return "views/serie";
         }
     }
+	
+	@RequestMapping("/contact")
+	public ModelAndView showContact() {
+		ModelAndView mv = new ModelAndView("views/contact");
+		return mv;
+	}
 }
