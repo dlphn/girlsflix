@@ -6,7 +6,6 @@ import java.util.List;
 import org.bson.Document;
 
 import com.gfx.helper.Keys;
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;

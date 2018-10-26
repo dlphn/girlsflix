@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
-import com.gfx.domain.series.SeriesResult;
 import com.gfx.helper.Config;
 import com.gfx.helper.Keys;
 
@@ -30,6 +29,7 @@ public class SerieService {
 		
 		ConnectionWS connection = new ConnectionWS();
 		try {
+			// GET popular series
 			String url = config.getApiUrlFull() + "popular?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang() + "&page=1";
 			String response = connection.connect(url);
 			
@@ -73,10 +73,10 @@ public class SerieService {
 	}
 	
 	/**
-	 * Builds the list of Series Documents from the response received from the API.
+	 * Builds the list of Series Ids from the response received from the API.
 	 * 
-	 * @param series
-	 * @return the documents to be added and the ids of the series retrieved
+	 * @param series	the String result from the API
+	 * @return the ids of the series retrieved
 	 */
 	private List<Integer> buildSeriesIdsList(String series) {
 		JSONParser parser = new JSONParser();
@@ -98,10 +98,10 @@ public class SerieService {
 	}
 	
 	/**
-	 * Fetches the series' details to get each added series' seasons.
+	 * Fetches the series' details to get infos and seasons of the series retrieved.
 	 * 
 	 * @param seriesList	Series ids
-	 * @return the Documents to be added and the seasons/series ids
+	 * @return the Serie and Season Documents to be added and the seasons/series ids
 	 */
 	private SeasonResult getSeriesSeasonsDetails(List<Integer> seriesList) {
 		Keys apiKey = new Keys();
