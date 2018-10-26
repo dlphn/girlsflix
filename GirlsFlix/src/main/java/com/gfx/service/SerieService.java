@@ -12,7 +12,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
-import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
 import com.gfx.domain.series.SeriesResult;
@@ -172,13 +171,13 @@ public class SerieService {
                     JSONObject jsnObj = (JSONObject)results.get(i);
                     SeasonPair seasonSerie = new SeasonPair(serieId, (int) (long) (Long) jsnObj.get("season_number"));
                     seasonsIds.add(seasonSerie);
-                    // seasonsIds.add(String.valueOf(jsnObj.get("episode_count")));
                     Document seasonDoc = new Document("id", jsnObj.get("id"))
                     		.append("name", jsnObj.get("name"))
                     		.append("summary", jsnObj.get("overview"))
                     		.append("nb", jsnObj.get("season_number"))
                     		.append("episodeCount", jsnObj.get("episode_count"))
-                    		//.append("rating", jsnObj.get("vote_average"))
+                    		.append("imageLink", jsnObj.get("poster_path"))
+                    		//.append("rating", jsnObj.get("vote_average")) //info pas dans l'api courrante
                     		.append("date", jsnObj.get("air_date"))
                     		.append("serieId", serieId);
                     seasonsDocs.add(seasonDoc);
@@ -243,6 +242,7 @@ public class SerieService {
                     		.append("seasonNb", jsnObj.get("season_number"))
                     		.append("rating", jsnObj.get("vote_average"))
                     		.append("date", jsnObj.get("air_date"))
+                    		.append("imageLink", jsnObj.get("still_path"))
                     		.append("serieId", season.getTvId());
                     documents.add(doc);
                 }
