@@ -53,7 +53,7 @@ public class IndexController {
 	
 	@RequestMapping("/serie/{id}")
     public String serie(@PathVariable("id") String id, ModelMap model) {
-        Serie serie = serieFactory.getById(Integer.parseInt(id));
+        Serie serie = visu.getById(Integer.parseInt(id));
         if (serie == null) {
             throw new ResourceNotFoundException();
         }

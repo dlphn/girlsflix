@@ -66,4 +66,14 @@ public class Visualization {
 			     .collect(Collectors.toList());
 		return result;
 	}
+	
+	public Serie getById(int id) {
+		Serie searched = null;
+		for (Serie s : this.listSeries) {
+			if(s.getId() == id) {
+				 searched = s;
+			}
+		}
+		return searched;
+	}
 }
