@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.Document;
 
+import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
 import com.gfx.domain.users.Gender;
@@ -30,9 +31,9 @@ public class MainTest {
 		//UserDB.updatePwd("test@test.com", "pwd0");
 		//System.out.println(UserDB.checkLoginNotUsed("test@test.com"));
 	    
-		/*new SerieService();
-		System.out.println(SerieService.getGenres());
-		//service.init();*/
+		SerieService serieService = new SerieService();
+		System.out.println(Genre.getGenres());
+		//service.init();
 		
 		
 		
@@ -47,12 +48,12 @@ public class MainTest {
 		visu.showSeries(); // after udpate
 		visu.getListSeries();*/
 		
-		SerieFactory serieFactory = new SerieFactory();
+		/*SerieFactory serieFactory = new SerieFactory();
 		Visualization visu = new Visualization(serieFactory.getSeries());
 		List<Serie> result = visu.search("the walk");
 		for (int i = 0; i < result.size(); i++) {
 			System.out.println(result.get(i).info());
-		}
+		}*/
 
 	}
 }
