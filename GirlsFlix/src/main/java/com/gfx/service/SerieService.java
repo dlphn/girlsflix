@@ -12,6 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
+import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
 import com.gfx.helper.Config;
@@ -19,6 +20,54 @@ import com.gfx.helper.Keys;
 
 @Service
 public class SerieService {
+	public SerieService() {
+		if (Genre.getGenres() == null) {
+			initGenres();
+		}
+	}
+	
+	/**
+	 * Initiates/updates the series genres.
+	 */
+	public void initGenres() {
+		Keys apiKey = new Keys();
+		Config config = new Config();
+		
+		ConnectionWS connection = new ConnectionWS();
+		try {
+			String url = config.getApiUrl() + "genre/tv/list?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang();
+			String response = connection.connect(url);
+			List<JSONObject> genres = buildGenresList(response);
+			Genre.setGenres(genres);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			System.out.println("Genres all set!");
+		}
+	}
+	
+	private List<JSONObject> buildGenresList(String genres) {
+		JSONParser parser = new JSONParser();
+		List<JSONObject> documents = new ArrayList<JSONObject>();
+		try {
+			JSONObject o = (JSONObject) parser.parse(genres);
+            JSONArray results = (JSONArray) o.get("genres");
+            for (int i = 0; i < results.size(); i++){
+                if (results.get(i) instanceof JSONObject){
+                    JSONObject jsnObj = (JSONObject)results.get(i);
+                    documents.add(jsnObj);
+                }
+            }
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return documents;
+	}
 
 	/**
 	 * Initiates/updates the database collections series, seasons and episodes.

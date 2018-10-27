@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.Document;
 
+import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
 import com.gfx.domain.users.Gender;
@@ -31,8 +32,8 @@ public class MainTest {
 		//System.out.println(UserDB.checkLoginNotUsed("test@test.com"));
 	    
 		SerieService service = new SerieService();
-		//System.out.println(SerieService.getGenres());
-		service.init();
+		System.out.println(Genre.getGenres());
+		//service.init();
 		
 		
 		
