@@ -46,6 +46,13 @@ public class MainTest {
 		visu.update(factoryTest);
 		visu.showSeries(); // after udpate
 		visu.getListSeries();*/
+		
+		SerieFactory serieFactory = new SerieFactory();
+		Visualization visu = new Visualization(serieFactory.getSeries());
+		List<Serie> result = visu.search("the walk");
+		for (int i = 0; i < result.size(); i++) {
+			System.out.println(result.get(i).info());
+		}
 
 	}
 }

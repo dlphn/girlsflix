@@ -3,6 +3,8 @@ package com.gfx.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -49,5 +51,11 @@ public class Visualization {
 	    return copy.subList(0, n);
 	}
 	
-	
+	public List<Serie> search(String query) {
+		List<Serie> result = this.listSeries.stream()
+			     .filter(item -> 
+			     	Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(item.getTitle()).find())
+			     .collect(Collectors.toList());
+		return result;
+	}
 }
