@@ -7,7 +7,7 @@ import java.util.List;
 public class Serie {
 	private int id;
 	private String title;
-	private List<Integer> serieGenres;
+	private List<String> serieGenres;
 	private String summary;
 	private LocalDate creationDate;
 	private int rating;
@@ -15,7 +15,7 @@ public class Serie {
 	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
 	
-	public Serie(int id, String title, List<Integer> serieGenres, String summary, LocalDate creationDate, String image) {
+	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -95,11 +95,11 @@ public class Serie {
 		this.title = title;
 	}
 	
-	public List<Integer> getSerieGenre() {
+	public List<String> getSerieGenre() {
 		return serieGenres;
 	}
 	
-	public void setSerieGenres(List<Integer> serieGenres) {
+	public void setSerieGenres(List<String> serieGenres) {
 		this.serieGenres = serieGenres;
 	}
 

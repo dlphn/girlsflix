@@ -17,19 +17,23 @@
 		<div class="main">
 			<div class="container">
 				<center>
-					<h2>Welcome to GirlsFlix</h2>
+					<h1>Welcome to GirlsFlix</h1>
 				</center>
-				<ul>
+				<div class="card-columns">
 					<c:forEach var="item" items="${columns}">
-		               	<li>
+		               	<div class="card">
 							<a href="serie/${item.getId()}">
-								<p>${fn:escapeXml(item.getImage())}</p>
-								<h3>${fn:escapeXml(item.getTitle())}</h3>
+								<img class="card-img-top" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(item.getImage())}" alt="${fn:escapeXml(item.getTitle())}"/>
+								<div class="card-body">
+									<h5>${fn:escapeXml(item.getTitle())}</h5>
+									<c:if test="${not empty loggedIn}">
+										<p>Ajouter aux favoris</p>
+									</c:if>
+								</div>
 							</a>
-							<c:if test="${not empty loggedIn}">Ajouter aux favoris</c:if>
-		               </li>
+		               </div>
 	           		</c:forEach>
-				</ul>
+	           	</div>
 			</div>
 		</div>
 		
