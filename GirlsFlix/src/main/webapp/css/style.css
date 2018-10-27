@@ -26,11 +26,6 @@ footer {
     width: 100%;
 }
 
-div {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
 li {
 	list-style-type: none;
 }
@@ -39,7 +34,3 @@ h1, h2 {
 	margin-bottom: 30px;
 }
 
-#menu {
-	padding-top: 0;
-	padding-bottom: 0;
-}
