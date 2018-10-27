@@ -63,6 +63,13 @@ public class IndexController {
         }
     }
 	
+	@RequestMapping("/serie-du-moment")
+	public String serieDuMoment(ModelMap model) {
+		model.put("series", visu.pickNRandom(1));
+
+        return "views/serie-du-moment";
+    }
+	
 	@RequestMapping("/contact")
 	public ModelAndView showContact() {
 		ModelAndView mv = new ModelAndView("views/contact");

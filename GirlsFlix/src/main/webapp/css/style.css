@@ -38,3 +38,8 @@ li {
 h1, h2 {
 	margin-bottom: 30px;
 }
+
+#menu {
+	padding-top: 0;
+	padding-bottom: 0;
+}
