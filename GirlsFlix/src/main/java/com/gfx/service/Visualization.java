@@ -52,6 +52,12 @@ public class Visualization {
 	    return copy.subList(0, n);
 	}
 	
+	/**
+	 * Runs through the whole list of series to return the series which title contains the search query (case insensitive)
+	 * 
+	 * @param query		the user search request
+	 * @return 			the list of series that match the search query
+	 */
 	public List<Serie> search(String query) {
 		List<Serie> result = this.listSeries.stream()
 			     .filter(item -> 
@@ -60,6 +66,11 @@ public class Visualization {
 		return result;
 	}
 	
+	/**
+	 * Runs through the list of series to return those of the same genre as the query
+	 * @param query		the genre to filter on
+	 * @return 			the list of series of the genre specified
+	 */
 	public List<Serie> searchGenre(String query) {
 		List<Serie> result = this.listSeries.stream()
 			     .filter(item -> item.getSerieGenre().contains(query))
