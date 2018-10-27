@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 
 @Service
@@ -55,6 +56,13 @@ public class Visualization {
 		List<Serie> result = this.listSeries.stream()
 			     .filter(item -> 
 			     	Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(item.getTitle()).find())
+			     .collect(Collectors.toList());
+		return result;
+	}
+	
+	public List<Serie> searchGenre(String query) {
+		List<Serie> result = this.listSeries.stream()
+			     .filter(item -> item.getSerieGenre().contains(query))
 			     .collect(Collectors.toList());
 		return result;
 	}

@@ -34,11 +34,11 @@
 					    </div>
 					    <div class="col-md-3">
 					    	<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-					      	<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-						        <option selected>Genres</option>
-						        <option value="1">Drame</option>
-						        <option value="2">Two</option>
-						        <option value="3">Three</option>
+					      	<select class="custom-select mr-sm-2" id="selectGenre">
+						        <option selected value="">Genres</option>
+					      		<c:forEach var="item" items="${genres}">
+					      			<option value="${item.name}">${fn:escapeXml(item.name)}</option>
+					      		</c:forEach>
 					      	</select>
 					    </div>
 					</div>

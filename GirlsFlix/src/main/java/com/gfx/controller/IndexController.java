@@ -2,16 +2,13 @@ package com.gfx.controller;
 
 import javax.inject.Inject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.service.SerieFactory;
 import com.gfx.service.Visualization;
@@ -49,6 +46,7 @@ public class IndexController {
 	@RequestMapping("/series")
     public String series(ModelMap model) {
 		model.put("series", visu.getListSeries());
+		model.put("genres", Genre.getGenres());
 
         return "views/series";
     }
