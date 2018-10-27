@@ -64,11 +64,11 @@ public class IndexController {
         }
     }
 	
-	@RequestMapping("/serie-du-moment")
-	public String serieDuMoment(ModelMap model) {
+	@RequestMapping("/serie-surprise")
+	public String serieSurprise(ModelMap model) {
 		model.put("series", visu.pickNRandom(1));
 
-        return "views/serie-du-moment";
+        return "views/serie-surprise";
     }
 	
 	@RequestMapping("/contact")
