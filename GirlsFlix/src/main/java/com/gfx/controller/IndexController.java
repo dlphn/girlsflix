@@ -30,8 +30,7 @@ public class IndexController {
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
-        // model.put("columns", randomColumns());
-		model.put("columns", visu.getListSeries());
+		model.put("columns", visu.pickNRandom(9));
 
         return "index";
     }

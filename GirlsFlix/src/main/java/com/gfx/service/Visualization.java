@@ -1,5 +1,7 @@
 package com.gfx.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -39,6 +41,12 @@ public class Visualization {
 	
 	public void update(SerieFactory f) {
 		this.listSeries = f.getList();
+	}
+	
+	public List<Serie> pickNRandom(int n) {
+	    List<Serie> copy = new ArrayList<Serie>(this.listSeries);
+	    Collections.shuffle(copy);
+	    return copy.subList(0, n);
 	}
 	
 	
