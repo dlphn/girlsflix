@@ -22,11 +22,11 @@
 				<ul>
 					<c:forEach var="item" items="${columns}">
 		               	<li>
-							<a href="/serie/${item.id}">
-								<h3>${fn:escapeXml(item.title)}</h3>
-								<p>${fn:escapeXml(item.intro)}</p>
+							<a href="serie/${item.getId()}">
+								<p>${fn:escapeXml(item.getImage())}</p>
+								<h3>${fn:escapeXml(item.getTitle())}</h3>
 							</a>
-							<c:if test="${empty loggedIn}">Ajouter aux favoris</c:if>
+							<c:if test="${not empty loggedIn}">Ajouter aux favoris</c:if>
 		               </li>
 	           		</c:forEach>
 				</ul>

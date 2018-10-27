@@ -12,28 +12,28 @@ public class Serie {
 	private LocalDate creationDate;
 	private int rating;
 	private boolean allowed;
-	private String picture;
+	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
 	
-	public Serie(int id, String title, List<Integer> serieGenres, String summary, LocalDate creationDate, String picture) {
+	public Serie(int id, String title, List<Integer> serieGenres, String summary, LocalDate creationDate, String image) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.serieGenres = serieGenres;
 		this.summary = summary;
 		this.creationDate = creationDate;
-		this.picture = picture;
+		this.image = image;
 		this.allowed = true;
 		this.rating = 0;
 	}
 	
-	public Serie(int id, String title, String summary, LocalDate creationDate, String picture) {
+	public Serie(int id, String title, String summary, LocalDate creationDate, String image) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.summary = summary;
 		this.creationDate = creationDate;
-		this.picture = picture;
+		this.image = image;
 		this.allowed = true;
 		this.rating = 0;
 	}
@@ -136,12 +136,12 @@ public class Serie {
 	}
 
 
-	public String getPicture() {
-		return picture;
+	public String getImage() {
+		return image;
 	}
 
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public List<Season> getSeasons() {

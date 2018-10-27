@@ -25,7 +25,7 @@
 		               	<li>
 		                   <a href="serie/${item.getId()}">
 							<h3>${fn:escapeXml(item.getTitle())}</h3>
-							<p>${fn:escapeXml(item.getPicture())}</p>
+							<p>${fn:escapeXml(item.getImage())}</p>
 		                   </a>
 		               </li>
 	           		</c:forEach>

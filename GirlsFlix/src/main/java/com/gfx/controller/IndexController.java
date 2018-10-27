@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gfx.domain.series.Serie;
 import com.gfx.service.SerieFactory;
+import com.gfx.service.Visualization;
  
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
@@ -24,22 +25,13 @@ class ResourceNotFoundException extends RuntimeException {
 public class IndexController {
 	@Inject
     private SerieFactory serieFactory = new SerieFactory();
+	private Visualization visu = new Visualization(serieFactory.getSeries());
 	String message = "Welcome!";
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
-		List<JSONObject> series = new ArrayList<JSONObject>();
-		JSONObject obj = new JSONObject();
-		obj.put("id", 1);
-		obj.put("title", "Série test");
-		obj.put("intro", "Série test intro");
-		JSONObject obj2 = new JSONObject();
-		obj2.put("id", 2);
-		obj2.put("title", "Série test 2");
-		obj2.put("intro", "Série test intro 2");
-		series.add(obj2);
         // model.put("columns", randomColumns());
-		model.put("columns", series);
+		model.put("columns", visu.getListSeries());
 
         return "index";
     }
@@ -57,7 +49,7 @@ public class IndexController {
 	
 	@RequestMapping("/series")
     public String series(ModelMap model) {
-        model.put("series", serieFactory.getSeries());
+		model.put("series", visu.getListSeries());
 
         return "views/series";
     }

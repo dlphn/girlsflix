@@ -2,15 +2,19 @@ package com.gfx.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.gfx.domain.series.Serie;
 
+@Service
 public class Visualization {
 	protected List<Serie> listSeries;
+	
+	public Visualization() {}
 	
 	public Visualization(List<Serie> list) {
 		this.listSeries = list;
 	}
-	public Visualization() {}
 	
 	public void showSeries() {
 		try {
