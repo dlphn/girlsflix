@@ -12,6 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
+import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
 import com.gfx.domain.series.SeriesResult;
@@ -20,20 +21,10 @@ import com.gfx.helper.Keys;
 
 @Service
 public class SerieService {
-	private static List<JSONObject> genres;
-	
 	public SerieService() {
-		if (genres == null) {
+		if (Genre.getGenres() == null) {
 			initGenres();
 		}
-	}
-
-	public static List<JSONObject> getGenres() {
-		return genres;
-	}
-
-	public static void setGenres(List<JSONObject> genres) {
-		SerieService.genres = genres;
 	}
 	
 	/**
@@ -48,7 +39,7 @@ public class SerieService {
 			String url = config.getApiUrl() + "genre/tv/list?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang();
 			String response = connection.connect(url);
 			List<JSONObject> genres = buildGenresList(response);
-			setGenres(genres);
+			Genre.setGenres(genres);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -2,18 +2,16 @@ package com.gfx.controller;
 
 import javax.inject.Inject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.service.SerieFactory;
+import com.gfx.service.Visualization;
  
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
@@ -23,23 +21,14 @@ class ResourceNotFoundException extends RuntimeException {
 @Controller
 public class IndexController {
 	@Inject
+	// à modifier pour ne pas appeler SerieFactory() à chaque fois
     private SerieFactory serieFactory = new SerieFactory();
+	private Visualization visu = new Visualization(serieFactory.getSeries());
 	String message = "Welcome!";
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
-		List<JSONObject> series = new ArrayList<JSONObject>();
-		JSONObject obj = new JSONObject();
-		obj.put("id", 1);
-		obj.put("title", "Série test");
-		obj.put("intro", "Série test intro");
-		JSONObject obj2 = new JSONObject();
-		obj2.put("id", 2);
-		obj2.put("title", "Série test 2");
-		obj2.put("intro", "Série test intro 2");
-		series.add(obj2);
-        // model.put("columns", randomColumns());
-		model.put("columns", series);
+		model.put("columns", visu.pickNRandom(9));
 
         return "index";
     }
@@ -57,14 +46,15 @@ public class IndexController {
 	
 	@RequestMapping("/series")
     public String series(ModelMap model) {
-        model.put("series", serieFactory.getSeries());
+		model.put("series", visu.getListSeries());
+		model.put("genres", Genre.getGenres());
 
         return "views/series";
     }
 	
 	@RequestMapping("/serie/{id}")
     public String serie(@PathVariable("id") String id, ModelMap model) {
-        Serie serie = serieFactory.getById(Integer.parseInt(id));
+        Serie serie = visu.getById(Integer.parseInt(id));
         if (serie == null) {
             throw new ResourceNotFoundException();
         }
@@ -72,6 +62,13 @@ public class IndexController {
             model.put("serie", serie);
             return "views/serie";
         }
+    }
+	
+	@RequestMapping("/serie-surprise")
+	public String serieSurprise(ModelMap model) {
+		model.put("series", visu.pickNRandom(1));
+
+        return "views/serie-surprise";
     }
 	
 	@RequestMapping("/contact")
