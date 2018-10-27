@@ -43,6 +43,16 @@ public class IndexController {
 		return mv;
 	}
 	
+	 @RequestMapping("/404")
+	 public String quatre_cent_quatre() {
+		 return "404";
+	 }
+
+	 @RequestMapping("/500")
+	 public String cinq_cent() {
+		 return "500";
+	 }
+	
 	@RequestMapping("/series")
     public String series(ModelMap model) {
 		model.put("series", visu.getListSeries());
