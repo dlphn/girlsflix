@@ -39,18 +39,21 @@ public class MainTest {
 		
 		/*System.out.println("\n"+"**********************************"+"\n");
 		SerieFactory factoryTest = new SerieFactory();
-		
-		System.out.println("\n"+"**********************************"+"\n");
 		List<Serie> series = factoryTest.getSeries();
 		System.out.println("\n"+"**********************************"+"\n");
 		System.out.println("result of json series : " + series.toString() +"\n");
 		System.out.println("**********************************"+"\n");
 		Visualization visu = new Visualization();
-		visu.showSeries(); // before update
-		
 		visu.update(factoryTest);
 		visu.showSeries(); // after udpate
 		visu.getListSeries();*/
+		
+		/*SerieFactory serieFactory = new SerieFactory();
+		Visualization visu = new Visualization(serieFactory.getSeries());
+		List<Serie> result = visu.search("the walk");
+		for (int i = 0; i < result.size(); i++) {
+			System.out.println(result.get(i).info());
+		}*/
 
 	}
 }
