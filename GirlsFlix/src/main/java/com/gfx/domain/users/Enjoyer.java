@@ -3,6 +3,9 @@ package com.gfx.domain.users;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Enjoyer extends User{
 	
 	private List<Integer> favorites = new ArrayList<Integer>();

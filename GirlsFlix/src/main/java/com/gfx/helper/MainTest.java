@@ -6,6 +6,7 @@ import java.util.List;
 import org.bson.Document;
 
 import com.gfx.domain.series.Serie;
+import com.gfx.domain.series.TypeSerie;
 import com.gfx.domain.users.Enjoyer;
 import com.gfx.domain.users.Gender;
 import com.gfx.domain.users.User;
@@ -16,19 +17,22 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
-		
+		System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
-		//UserDB.connect();
-        //User newUser = new Enjoyer("test@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
-        //UserDB.insertOne(newUser);
-        //UserDB.update(newUser);
-		//List<Integer> fav = new ArrayList<Integer>();
-		//fav.add(5);
-		//UserDB.updateFav("test@test.com", fav);
-        //UserDB.readDatabase();
-        //System.out.println(UserDB.checkPwd("test@test.com", "pwd0"));
-		//UserDB.updatePwd("test@test.com", "pwd0");
-		//System.out.println(UserDB.checkLoginNotUsed("test@test.com"));
+		UserDB.connect();
+		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("test3@test.com"));
+        User newUser = new Enjoyer("test3@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
+        if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
+        UserDB.insertOne(newUser);
+        UserDB.update(newUser);
+		List<TypeSerie> fav = new ArrayList<TypeSerie>();
+		fav.add(TypeSerie.ACTION);
+		UserDB.updateFav(newUser.getLogin(), fav);
+        UserDB.readDatabase();
+        System.out.println("check pwd == pwd0" + UserDB.checkPwd(newUser.getPassword(), "pwd0"));
+		UserDB.updatePwd(newUser.getLogin(), "pwd0");
+        }
+        else {System.out.println("Please choose another login value");}
 	    
 		/*new SerieService();
 		System.out.println(SerieService.getGenres());

@@ -1,6 +1,8 @@
 package com.gfx.service;
 
+import com.gfx.domain.series.TypeSerie;
 import com.gfx.domain.users.Enjoyer;
+
 import com.gfx.domain.users.Gender;
 import com.gfx.domain.users.User;
 import com.gfx.helper.Keys;
@@ -16,15 +18,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class UserDB {
 	private static Connection connect = null;
 	private static Statement statement = null;
 	private static PreparedStatement preparedStatement = null;
+	
 	private static ResultSet resultSet = null;
     
 	public static void connect() {
 		Keys keys = new Keys();
-		String url = "jdbc:mysql://" + keys.getMysqlHost() + "/" + keys.getMysqlDb() + "?useSSL=false";
+		
+		String url = "jdbc:mysql://" + keys.getMysqlHost() + "/" + keys.getMysqlDb() + "?allowPublicKeyRetrieval=true&useSSL=false";
 		if (connect == null) {
 			try {
 				connect = DriverManager.getConnection(url, keys.getMysqlUser(), keys.getMysqlPwd());
@@ -88,16 +95,16 @@ public class UserDB {
 	public static void insertOne(User newUser) {
 		try {
 			preparedStatement = connect
-			        .prepareStatement("INSERT INTO users values (?, ?, ?, ? , ?, ?)");
+			        .prepareStatement("INSERT INTO users values (?, ?, ?, ? , ?, ?, null)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
             preparedStatement.setString(3, newUser.getPassword());
             preparedStatement.setString(4, newUser.getFirstName());
             preparedStatement.setString(5, newUser.getLastName());
             preparedStatement.setString(6, newUser.getGender().toString());
+            //preparedStatement.setString(7, newUser.getAffinities().toString());
             preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close();
@@ -122,7 +129,7 @@ public class UserDB {
 		}
 	}
 
-	public static void updateFav(String login, List<Integer> favorites) {
+	public static void updateFav(String login, List<TypeSerie> favorites) {
 		String favStr = favorites.stream()
       		  .map(String::valueOf)
       		  .collect(Collectors.joining(", "));
@@ -166,7 +173,7 @@ public class UserDB {
 	            String pseudo = resultSet.getString("pseudo");
 	            String firstname = resultSet.getString("firstname");
 	            String lastname = resultSet.getString("lastname");
-	            Gender gender = Gender.OTHER; //comment utiliser les enums ????
+	            Gender gender = Gender.valueOf(resultSet.getString("gender")); 
 	            String favoritesStr = resultSet.getString("favorites");
 	            if (favoritesStr != null) {
 	            	strList = resultSet.getString("favorites").split(",");

@@ -3,13 +3,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>HelloWorld</title>
+<title>Welcome abroad</title>
 </head>
 <body>
 	<center>
-		<h2>Hello World</h2>
+		<h2>Hello ${pseudo}</h2>
 		<h2>
-			${message} ${name}
+			This is your final login : ${login}
 		</h2>
 	</center>
 </body>
