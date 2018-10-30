@@ -34,7 +34,7 @@ public class SerieFactory {
         			JSONArray genres = (JSONArray) jsnObj.get("serieType");
         			List<String> serieType = new ArrayList<String>();
         			for (int i = 0; i < genres.size(); i++){
-                        serieType.add((String) genres.get(i));
+                        serieType.add(genres.get(i).toString());
                     }
         			
         			Serie s = new Serie(
