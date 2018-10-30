@@ -17,6 +17,21 @@ public abstract class User {
 	public User() {
 	}
 	
+	public User(String login, String pseudo, String password) {
+		super();
+		this.login = login;
+		this.pseudo = pseudo;
+		this.password = password;
+	}
+	
+	public User(String login, String pseudo, String password, String firstName) {
+		super();
+		this.login = login;
+		this.pseudo = pseudo;
+		this.password = password;
+		this.firstName = firstName;
+	}
+	
 	public User(String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
 		super();
 		this.login = login;

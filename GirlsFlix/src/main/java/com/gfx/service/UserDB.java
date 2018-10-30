@@ -102,13 +102,13 @@ public class UserDB {
 	public static boolean insertOne(User newUser){
 		try {
 			preparedStatement = connect
-			        .prepareStatement("INSERT INTO users values (?, ?, ?, ? , ?, ?, null)");
+			        .prepareStatement("INSERT INTO users values (?, ?, ?, ?, ?, ?, null, null)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
-            preparedStatement.setString(3, newUser.getPassword());
-            preparedStatement.setString(4, newUser.getFirstName());
-            preparedStatement.setString(5, newUser.getLastName());
-           // preparedStatement.setString(6, newUser.getGender().toString());
+            preparedStatement.setString(3, newUser.getPassword() != null ? newUser.getPassword() : null);
+            preparedStatement.setString(4, newUser.getFirstName() != null ? newUser.getFirstName() : null);
+            preparedStatement.setString(5, newUser.getLastName() != null ? newUser.getLastName() : null);
+            preparedStatement.setString(6, newUser.getGender() != null ? newUser.getGender().toString() : null);
             //preparedStatement.setString(7, newUser.getAffinities().toString());
             preparedStatement.executeUpdate();
             return true;
@@ -122,13 +122,15 @@ public class UserDB {
 	
 	public static void update(User updatedUser) {
 		try {
+			String query = "UPDATE users SET";
+			query += " pseudo='" + updatedUser.getPseudo() + "'";
+			if (updatedUser.getFirstName() != null) query += ", firstname='" + updatedUser.getFirstName() + "'";
+			if (updatedUser.getLastName() != null) query += ", lastname='" + updatedUser.getLastName() + "'";
+			if (updatedUser.getGender() != null) query += ", gender='" + updatedUser.getGender().toString() + "'";
+			query += " WHERE login='" + updatedUser.getLogin() + "'";
+			System.out.println(query);
 			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET pseudo=?, firstname=?, lastname=?, gender=? WHERE login=?");
-			preparedStatement.setString(1, updatedUser.getPseudo());
-            preparedStatement.setString(2, updatedUser.getFirstName());
-            preparedStatement.setString(3, updatedUser.getLastName());
-            preparedStatement.setString(4, updatedUser.getGender().toString());
-            preparedStatement.setString(5, updatedUser.getLogin());
+			        .prepareStatement(query);
             preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -146,6 +148,22 @@ public class UserDB {
 			preparedStatement = connect
 			        .prepareStatement("UPDATE users SET favorites=? WHERE login=?");
             preparedStatement.setString(1, favStr);
+            preparedStatement.setString(2, login);
+            preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public static void updateNotifications(String login, List<String> notifications) {
+		String notifStr = String.join("/", notifications);
+		try {
+			preparedStatement = connect
+			        .prepareStatement("UPDATE users SET notifications=? WHERE login=?");
+            preparedStatement.setString(1, notifStr);
             preparedStatement.setString(2, login);
             preparedStatement.executeUpdate();
 		} catch (SQLException e) {

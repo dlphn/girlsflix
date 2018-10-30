@@ -20,6 +20,7 @@ public class MainTest {
 		System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
 		UserDB.connect();
+/*
 		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
         User newUser = new Enjoyer("Sandra@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
         if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
@@ -28,11 +29,25 @@ public class MainTest {
 		List<TypeSerie> fav = new ArrayList<TypeSerie>();
 		fav.add(TypeSerie.ACTION);
 		UserDB.updateFav(newUser.getLogin(), fav);
-        UserDB.readDatabase();
-        System.out.println("check pwd == pwd0" + UserDB.checkPwd(newUser.getPassword(), "pwd0"));
-		UserDB.updatePwd(newUser.getLogin(), "pwd0");
-        }
-        else {System.out.println("Please choose another login value");}
+
+		// System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
+        User newUser = new Enjoyer("thello", "hi", "pwd", "Paulo");
+        //if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
+        //UserDB.insertOne(newUser);
+        //UserDB.update(newUser);
+		//List<TypeSerie> fav = new ArrayList<TypeSerie>();
+		//fav.add(TypeSerie.ACTION);
+		//UserDB.updateFav(newUser.getLogin(), fav);
+        List<String> notif = new ArrayList<String>();
+      	notif.add("Prochain épisode de la saison 7 de Grey's Anatomy le 12-10-2018");
+      	notif.add("Prochain épisode de la saison 2 de Flash le 22-12-2018");
+      	UserDB.updateNotifications(newUser.getLogin(), notif);
+
+        UserDB.readDatabase();*/
+        //System.out.println("check pwd == pwd0" + UserDB.checkPwd(newUser.getPassword(), "pwd0"));
+		//UserDB.updatePwd(newUser.getLogin(), "pwd0");
+        //}
+        //else {System.out.println("Please choose another login value");}
 	    
 		/*new SerieService();
 		System.out.println(SerieService.getGenres());
