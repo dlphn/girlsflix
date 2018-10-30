@@ -30,21 +30,23 @@ public class SerieFactory {
         List<Document> documents = SerieDB.find("series");
         try {
         	for(Document doc: documents) {
-        		JSONObject jsnObj = (JSONObject) parser.parse(doc.toJson());
-    			String jsnStringSerieGenres = jsnObj.get("serieType").toString().replace("[","").replaceAll("]", "");
-    			String [] stringSerieGenres = jsnStringSerieGenres.split(",");
-    			List<Integer> serieGenres = new ArrayList<Integer>();
-    			for(String genre:stringSerieGenres) {
-    				int idGenre = Integer.parseInt(genre.replace("{", "").replace("}","").replace("\"$numberLong\":\"","").replace("\"",""));
-    				serieGenres.add(idGenre);
-    			}
-    			Serie s = new Serie(Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()), //id
-    					jsnObj.get("title").toString(), //title
-    					jsnObj.get("summary").toString(), //summary
-    					LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ), //date
-    					jsnObj.get("imageLink").toString());//image)
-    			seriesList.add(s);
-              	}
+        			JSONObject jsnObj = (JSONObject) parser.parse(doc.toJson());
+        			JSONArray genres = (JSONArray) jsnObj.get("serieType");
+        			List<String> serieType = new ArrayList<String>();
+        			for (int i = 0; i < genres.size(); i++){
+                        serieType.add(genres.get(i).toString());
+                    }
+        			Serie s = new Serie(
+        					Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()), //id
+        					jsnObj.get("title").toString(), //title
+        					serieType,//serieGenres
+        					jsnObj.get("summary").toString(), //summary
+        					LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ), //date
+        					jsnObj.get("imageLink").toString());//image
+        			seriesList.add(s);
+                	//System.out.println(s.info());
+                }
+        	//System.out.println(seriesList);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
