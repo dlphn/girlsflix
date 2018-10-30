@@ -6,7 +6,7 @@
 
 <%@ attribute name="season" required="true" rtexprvalue="true" type="com.gfx.domain.series.Season"%>
 
-<div class="row">
+<div class="row container">
 	<div class="col-md-2">
 		<c:if test="${not empty season.getImage()}">
 			<img class="card-img-top" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(season.getImage())}" alt="${fn:escapeXml(season.getSeasonName())}"/>
@@ -14,7 +14,7 @@
 	</div>
 	<div class="col-md-10">
 		<h5>${season.getSeasonName()}</h5>
-		<p>${season.getEpisodeCount()} épisodes <span class="badge badge-success">EN COURS</span>/<span class="badge badge-danger">TERMINEE</span></p>
+		<p>${season.getEpisodeCount()} épisodes</p>
 		<p>${season.getSummary()}</p>
 	</div>
 </div>

@@ -27,8 +27,8 @@
 						<div class="col-md-9">
 					      	<div class="input-group mb-2">
 					        	<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Rechercher">
-					        	<div class="input-group-append">
-					          		<div class="input-group-text"><i class="fas fa-search"></i></div>
+					        	<div class="input-group-append input-btn">
+					          		<div class="input-group-text input-btn-txt"><i class="fas fa-search"></i></div>
 					        	</div>
 					      	</div>
 					    </div>

@@ -30,7 +30,7 @@
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<c:forEach var="season" items="${serie.getSeasons()}">
 					<li class="nav-item">
-			    		<a class="nav-link ${(season.getSeasonNb() == 0 ? "active" : "")}" 
+			    		<a class="nav-link ${(season.getSeasonNb() == 1 ? "active" : "")}" 
 			    		id="season${season.getSeasonNb()}-tab" 
 			    		data-toggle="tab" href="#season${season.getSeasonNb()}" 
 			    		role="tab" 
@@ -41,7 +41,7 @@
 			</ul>
 			<div class="tab-content" id="myTabContent">
 				<c:forEach var="season" items="${serie.getSeasons()}">
-					<div class="tab-pane fade ${(season.getSeasonNb() == 0 ? "show active" : "")}" id="season${season.getSeasonNb()}" role="tabpanel" aria-labelledby="season${season.getSeasonNb()}-tab">
+					<div class="tab-pane fade ${(season.getSeasonNb() == 1 ? "show active" : "")}" id="season${season.getSeasonNb()}" role="tabpanel" aria-labelledby="season${season.getSeasonNb()}-tab">
 						<fragments:season season="${season}"/>
 					</div>
 				</c:forEach>
