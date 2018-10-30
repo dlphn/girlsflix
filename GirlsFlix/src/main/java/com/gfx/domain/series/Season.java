@@ -7,55 +7,86 @@ import java.util.List;
 public class Season {
 	
 	private List<Episode> episodes = new ArrayList<Episode>();
-	private int numberSeason;
-	private String nameSeason;
+	private int seasonNb;
+	private String seasonName;
 	private String summary;
 	private LocalDate releaseDate;
 	private double rating;
 	private int seasonId;
-	private int countEpiosde;
+	private int episodeCount;
 	private int serieId;
-	private String picture;
-	
+	private String image;
 
-	
-	public Season(List<Episode> episodes, int numberSeason, String nameSeason, String summary, LocalDate releaseDate,
-			double rating, int seasonId, int countEpiosde, int serieId, String picture) {
+
+	public Season(int seasonNb, String summary, LocalDate releaseDate) {
 		super();
-		this.episodes = episodes;
-		this.numberSeason = numberSeason;
-		this.nameSeason = nameSeason;
+		this.seasonNb = seasonNb;
 		this.summary = summary;
 		this.releaseDate = releaseDate;
-		this.rating = rating;
+	}
+	
+	public Season(int seasonId, int seasonNb, String seasonName, String summary, LocalDate releaseDate,
+			int serieId, int episodeCount, String image) {
+		super();
 		this.seasonId = seasonId;
-		this.countEpiosde = countEpiosde;
+		this.seasonNb = seasonNb;
+		this.seasonName = seasonName;
+		this.summary = summary;
+		this.releaseDate = releaseDate;
 		this.serieId = serieId;
-		this.picture = picture;
+		this.episodeCount = episodeCount;
+		this.image = image;
 	}
 
-	public Season(int numberSeason, String summary, LocalDate releaseDate, int rating) {
+	public Season(int seasonId, int seasonNb, String seasonName, String summary, LocalDate releaseDate,
+			int serieId, int episodeCount, String image, List<Episode> episodes) {
 		super();
-		this.numberSeason = numberSeason;
+		this.seasonId = seasonId;
+		this.seasonNb = seasonNb;
+		this.seasonName = seasonName;
 		this.summary = summary;
 		this.releaseDate = releaseDate;
-		this.rating = rating;
+		this.serieId = serieId;
+		this.episodeCount = episodeCount;
+		this.image = image;
+		this.episodes = episodes;
 	}
 	
 	public void addEpisode(Episode episode) {
-		episodes.add(episode);
+		this.episodes.add(episode);
 	}
 	
+	public String toString() {
+		return "Season "+ this.seasonNb + " " + this.seasonName + " from Serie " + this.serieId + "\n";
+	}
+	
+
 	/*******************/
 	/*Getters & Setters*/
 	/*******************/
-	
-	public int getNumberSeason() {
-		return numberSeason;
+
+	public List<Episode> getEpisodes() {
+		return episodes;
 	}
 
-	public void setNumberSeason(int numberSeason) {
-		this.numberSeason = numberSeason;
+	public void setEpisodes(List<Episode> episodes) {
+		this.episodes = episodes;
+	}
+
+	public int getSeasonNb() {
+		return seasonNb;
+	}
+
+	public void setSeasonNb(int seasonNb) {
+		this.seasonNb = seasonNb;
+	}
+
+	public String getSeasonName() {
+		return seasonName;
+	}
+
+	public void setSeasonName(String seasonName) {
+		this.seasonName = seasonName;
 	}
 
 	public String getSummary() {
@@ -82,22 +113,6 @@ public class Season {
 		this.rating = rating;
 	}
 
-	public List<Episode> getEpisodes() {
-		return episodes;
-	}
-
-	public void setEpisodes(List<Episode> episodes) {
-		this.episodes = episodes;
-	}
-
-	public String getNameSeason() {
-		return nameSeason;
-	}
-
-	public void setNameSeason(String nameSeason) {
-		this.nameSeason = nameSeason;
-	}
-
 	public int getSeasonId() {
 		return seasonId;
 	}
@@ -106,12 +121,12 @@ public class Season {
 		this.seasonId = seasonId;
 	}
 
-	public int getCountEpiosde() {
-		return countEpiosde;
+	public int getEpisodeCount() {
+		return episodeCount;
 	}
 
-	public void setCountEpiosde(int countEpiosde) {
-		this.countEpiosde = countEpiosde;
+	public void setEpisodeCount(int episodeCount) {
+		this.episodeCount = episodeCount;
 	}
 
 	public int getSerieId() {
@@ -122,18 +137,12 @@ public class Season {
 		this.serieId = serieId;
 	}
 
-	public String getPicture() {
-		return picture;
+	public String getImage() {
+		return image;
 	}
 
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setImage(String image) {
+		this.image = image;
 	}
-	
-	
-	
-	
-	
-	
 
 }

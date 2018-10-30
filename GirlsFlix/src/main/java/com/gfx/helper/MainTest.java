@@ -31,8 +31,8 @@ public class MainTest {
 		//UserDB.updatePwd("test@test.com", "pwd0");
 		//System.out.println(UserDB.checkLoginNotUsed("test@test.com"));
 	    
-		SerieService service = new SerieService();
-		System.out.println(Genre.getGenres());
+		//SerieService service = new SerieService();
+		//System.out.println(Genre.getGenres());
 		//service.init();
 		
 		
@@ -54,6 +54,11 @@ public class MainTest {
 		for (int i = 0; i < result.size(); i++) {
 			System.out.println(result.get(i).info());
 		}*/
+		
+		SerieFactory serieFactory = new SerieFactory();
+		//serieFactory.getSeasons(60735);
+		//serieFactory.getEpisodes(60735, 1);
+		List<Serie> series = serieFactory.getSeries();
 
 	}
 }
