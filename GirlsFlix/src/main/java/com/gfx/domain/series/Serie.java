@@ -130,7 +130,7 @@ public class Serie {
 		this.title = title;
 	}
 	
-	public List<String> getSerieGenre() {
+	public List<String> getSerieGenres() {
 		return serieGenres;
 	}
 	
@@ -183,7 +183,7 @@ public class Serie {
 		return seasons;
 	}
 
-	public void setSeasons(ArrayList<Season> seasons) {
+	public void setSeasons(List<Season> seasons) {
 		this.seasons = seasons;
 	}
 
@@ -194,15 +194,7 @@ public class Serie {
 	public void setEnjoyersToNotify(List<Enjoyer> enjoyersToNotify) {
 		this.enjoyersToNotify = enjoyersToNotify;
 	}
-
-	public List<String> getSerieGenres() {
-		return serieGenres;
-	}
-
-	public void setSeasons(List<Season> seasons) {
-		this.seasons = seasons;
-	}
-
+  
 	public int getNextEpisodeOnAir() {
 		return nextEpisodeOnAir;
 	}
@@ -234,8 +226,4 @@ public class Serie {
 	public void setNextEpisodeHasBeenNotified(boolean nextEpisodeHasBeenNotified) {
 		this.nextEpisodeHasBeenNotified = nextEpisodeHasBeenNotified;
 	}
-	
-	
-
-	
 }

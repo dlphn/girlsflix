@@ -8,8 +8,25 @@ public class Episode {
 	private String summary;
 	private String name;
 	private LocalDate releaseDate;
-	private int rating;
+	private double rating;
+	private int seasonId;
+	private int serieId;
+	private String picture;
+
 	
+	public Episode(int numberEpisode, String summary, String name, LocalDate releaseDate, double rating, int seasonId,
+			int serieId, String picture) {
+		super();
+		this.numberEpisode = numberEpisode;
+		this.summary = summary;
+		this.name = name;
+		this.releaseDate = releaseDate;
+		this.rating = rating;
+		this.seasonId = seasonId;
+		this.serieId = serieId;
+		this.picture = picture;
+	}
+
 	public Episode(int numberEpisode, String summary, String name, LocalDate releaseDate, int rating) {
 		super();
 		this.numberEpisode = numberEpisode;
@@ -55,13 +72,38 @@ public class Episode {
 		this.releaseDate = releaseDate;
 	}
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
+
+	public int getSeasonId() {
+		return seasonId;
+	}
+
+	public void setSeasonId(int seasonId) {
+		this.seasonId = seasonId;
+	}
+
+	public int getSerieId() {
+		return serieId;
+	}
+
+	public void setSerieId(int serieId) {
+		this.serieId = serieId;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	
 	
 
 
