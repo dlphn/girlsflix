@@ -30,12 +30,19 @@ public class UserDB {
     
 	public static void connect() {
 		Keys keys = new Keys();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			System.out.println("Connexion non reconnue");
+			e1.printStackTrace();
+		}
 		
 		String url = "jdbc:mysql://" + keys.getMysqlHost() + "/" + keys.getMysqlDb() + "?allowPublicKeyRetrieval=true&useSSL=false";
 		if (connect == null) {
 			try {
 				connect = DriverManager.getConnection(url, keys.getMysqlUser(), keys.getMysqlPwd());
 			} catch(SQLException e) {
+				System.out.println("Impossible de se connecter à la BDD");
 				e.printStackTrace();
 			}
 		}
@@ -92,7 +99,7 @@ public class UserDB {
 		}
 	}
 	
-	public static void insertOne(User newUser) {
+	public static boolean insertOne(User newUser){
 		try {
 			preparedStatement = connect
 			        .prepareStatement("INSERT INTO users values (?, ?, ?, ? , ?, ?, null)");
@@ -101,11 +108,13 @@ public class UserDB {
             preparedStatement.setString(3, newUser.getPassword());
             preparedStatement.setString(4, newUser.getFirstName());
             preparedStatement.setString(5, newUser.getLastName());
-            preparedStatement.setString(6, newUser.getGender().toString());
+           // preparedStatement.setString(6, newUser.getGender().toString());
             //preparedStatement.setString(7, newUser.getAffinities().toString());
             preparedStatement.executeUpdate();
+            return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			close();
 		}

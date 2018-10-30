@@ -21,6 +21,7 @@
 		<div class="main">
 			<div class="container">
 				<h2>Créez-vous un compte GirlsFlix</h2>
+				<p> ${message} </p>
 				<form:form method="POST" modelAttribute="user">
 				<table>
 				<tr>
@@ -44,18 +45,15 @@
                     <td><form:password path="password"/></td>
                 </tr>
                 <tr>
-                    <td><form:label path="gender">Je suis : </form:label></td>
+                    <td><form:label path="gender"> Je suis : </form:label></td>
                     <td>
-                    <%-- <c:forEach items="genderTypes" var="genderVal">
-                    <form:radiobutton path="gender" value="${genderVal}"/> </c:forEach> --%>
                     <form:radiobutton path="gender" value="Gender.MALE"/> Un homme    
-                   <form:radiobutton path="gender" value="Gender.FEMALE"/> Une femme    
+                    <form:radiobutton path="gender" value="Gender.FEMALE"/> Une femme    
                     <form:radiobutton path="gender" value="Gender.OTHER"/> Autre  
                     </td>
                 </tr>
                  <tr>
-                    <td><form:label path="affinities"> Séléctionner vos préférences :</form:label></td>
-                   <!--  TODO : Finda way to display the checkboxes one per row -->
+                    <td><form:label path="affinities"> Séléctionner vos préférences : </form:label></td>
                     <td><form:checkboxes items="${serieTypesList}" path="affinities" /></td>
                  </tr>   
                 <tr>
