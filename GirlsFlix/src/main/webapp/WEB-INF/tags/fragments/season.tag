@@ -4,58 +4,39 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%-- <%@ attribute name="season" required="true" rtexprvalue="true" type="com.gfx.domain.series.Season"%> --%>
-<%@ attribute name="nb" required="true" rtexprvalue="true" type="String"%>
+<%@ attribute name="season" required="true" rtexprvalue="true" type="com.gfx.domain.series.Season"%>
 
 <div class="row">
 	<div class="col-md-2">
-		<p>Image</p>
+		<c:if test="${not empty season.getImage()}">
+			<img class="card-img-top" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(season.getImage())}" alt="${fn:escapeXml(season.getSeasonName())}"/>
+		</c:if>
 	</div>
 	<div class="col-md-10">
-		<h5>Saison ${nb}</h5>
-		<p>X épisodes <span class="badge badge-success">EN COURS</span>/<span class="badge badge-danger">TERMINEE</span></p>
-		<p>Synopsis</p>
+		<h5>${season.getSeasonName()}</h5>
+		<p>${season.getEpisodeCount()} épisodes <span class="badge badge-success">EN COURS</span>/<span class="badge badge-danger">TERMINEE</span></p>
+		<p>${season.getSummary()}</p>
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-12">
 		<ul class="list-group">
-	  		<li class="list-group-item">
-	  			<div class="row">
-	  				<div class="col-sm-2">
-	  					image
-	  				</div>
-	  				<div class="col-sm-10">
-	  					<h6>S0${nb}E01 - Titre <span class="small-info diffusion-date">2018-01-01</span></h6>
-	  					<p>Synopsis</p>
-	  					<p>Note</p>
-	  				</div>
-	  			</div>
-	  		</li>
-	  		<li class="list-group-item">
-	  			<div class="row">
-	  				<div class="col-sm-2">
-	  					image
-	  				</div>
-	  				<div class="col-sm-10">
-	  					<h6>S0${nb}E02 - Titre <span class="small-info diffusion-date">2018-01-01</span></h6>
-	  					<p>Synopsis</p>
-	  					<p>Note</p>
-	  				</div>
-	  			</div>
-	  		</li>
-	  		<li class="list-group-item">
-	  			<div class="row">
-	  				<div class="col-sm-2">
-	  					image
-	  				</div>
-	  				<div class="col-sm-10">
-	  					<h6>S0${nb}E03 - Titre <span class="small-info diffusion-date">2018-01-01</span></h6>
-	  					<p>Synopsis</p>
-	  					<p>Note</p>
-	  				</div>
-	  			</div>
-	  		</li>
+			<c:forEach var="episode" items="${season.getEpisodes()}">
+				<li class="list-group-item">
+		  			<div class="row">
+		  				<div class="col-sm-2">
+							<c:if test="${not empty episode.getImage()}">
+		  						<img class="card-img-top" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(episode.getImage())}" alt="${fn:escapeXml(episode.getName())}"/>
+							</c:if>
+		  				</div>
+		  				<div class="col-sm-10">
+		  					<h6>S${episode.getSeasonNb()}E${episode.getEpisodeNb()} - ${episode.getName()} <span class="small-info diffusion-date">${episode.getReleaseDate()}</span></h6>
+		  					<p>${episode.getSummary()}</p>
+		  					<p>Note : ${episode.getRating()}</p>
+		  				</div>
+		  			</div>
+		  		</li>
+			</c:forEach>
 		</ul>
 	</div>
 </div>
