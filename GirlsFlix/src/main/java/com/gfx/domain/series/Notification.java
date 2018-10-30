@@ -34,6 +34,10 @@ public class Notification {
 		this.isRead = true;
 	}
 	
+	public String toString() {
+		return "l'épisode " + this.getNbEpisode() + " de la saison " + this.getNbSeason() + " de la série " + this.getSerieTitle() + " sera diffusé le " + this.getDateOnAir() + ".";
+	}
+	
 	public static long getCount() {
 		return count;
 	}
