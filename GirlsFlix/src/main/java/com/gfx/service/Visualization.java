@@ -13,7 +13,8 @@ import com.gfx.domain.series.Serie;
 
 @Service
 public class Visualization {
-	protected List<Serie> listSeries;
+	//J'ai modifié cet attribut en static
+	protected static List<Serie> listSeries;
 	
 	public Visualization() {}
 	

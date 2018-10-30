@@ -1,8 +1,13 @@
 package com.gfx.domain.series;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gfx.domain.users.Enjoyer;
+import com.gfx.service.ThrowNotificationToEnjoyer;
+import com.gfx.helper.Config;
 
 public class Serie {
 	private int id;
@@ -10,10 +15,27 @@ public class Serie {
 	private List<String> serieGenres;
 	private String summary;
 	private LocalDate creationDate;
-	private int rating;
+	private double rating;
 	private boolean allowed;
 	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
+	private List<Enjoyer> enjoyersToNotify = new ArrayList<Enjoyer>();
+	private int nextEpisodeOnAir;
+	private int nbSeasonNEOA;
+	private LocalDate dateNextEpisodeOnAir;
+	private boolean nextEpisodeHasBeenNotified = false;
+	
+	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.serieGenres = serieGenres;
+		this.summary = summary;
+		this.creationDate = creationDate;
+		this.image = image;
+		this.allowed = true;
+		this.rating = rating;
+	}
 	
 	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image) {
 		super();
@@ -69,11 +91,24 @@ public class Serie {
 		seasons.add(season);
 	}
 	
-	public void show() {
-		//fonction à appeler quand l'utilisateur sélectionnera une série et qu'on souhaitera afficher les détails de la série
+	/**
+	 * this method is called on a regular basis. it checks if the episode will be on air
+	 * in 3 days exactly or if it will be on air in less than 3 days but hasn't been 
+	 * notified to the enjoyers. If the conditions are filled we browse the list of 
+	 * enjoyers we need to notify and we create one thread per enjoyer and each thread 
+	 * will take care of processing the notification process for the enjoyer.
+	 */
+	public void notifyNextEpisodeOnAirSoon() {
+		Period period = Period.between(LocalDate.now(),dateNextEpisodeOnAir);
+		if(period.getDays() <= Config.getNbdaysnotifbeforediff() && !nextEpisodeHasBeenNotified) {
+			for(Enjoyer enjoyer: enjoyersToNotify) {
+				Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyer, this));
+				throwNotif.start();
+			}
+			nextEpisodeHasBeenNotified = true;
+		}
 		
 	}
-	
 	
 	/*******************/
 	/*Getters & Setters*/
@@ -119,11 +154,11 @@ public class Serie {
 		this.creationDate = creationDate;
 	}
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
@@ -152,4 +187,55 @@ public class Serie {
 		this.seasons = seasons;
 	}
 
+	public List<Enjoyer> getEnjoyersToNotify() {
+		return enjoyersToNotify;
+	}
+
+	public void setEnjoyersToNotify(List<Enjoyer> enjoyersToNotify) {
+		this.enjoyersToNotify = enjoyersToNotify;
+	}
+
+	public List<String> getSerieGenres() {
+		return serieGenres;
+	}
+
+	public void setSeasons(List<Season> seasons) {
+		this.seasons = seasons;
+	}
+
+	public int getNextEpisodeOnAir() {
+		return nextEpisodeOnAir;
+	}
+
+	public void setNextEpisodeOnAir(int nextEpisodeOnAir) {
+		this.nextEpisodeOnAir = nextEpisodeOnAir;
+	}
+
+	public int getNbSeasonNEOA() {
+		return nbSeasonNEOA;
+	}
+
+	public void setNbSeasonNEOA(int nbSeasonNEOA) {
+		this.nbSeasonNEOA = nbSeasonNEOA;
+	}
+
+	public LocalDate getDateNextEpisodeOnAir() {
+		return dateNextEpisodeOnAir;
+	}
+
+	public void setDateNextEpisodeOnAir(LocalDate dateNextEpisodeOnAir) {
+		this.dateNextEpisodeOnAir = dateNextEpisodeOnAir;
+	}
+
+	public boolean isNextEpisodeHasBeenNotified() {
+		return nextEpisodeHasBeenNotified;
+	}
+
+	public void setNextEpisodeHasBeenNotified(boolean nextEpisodeHasBeenNotified) {
+		this.nextEpisodeHasBeenNotified = nextEpisodeHasBeenNotified;
+	}
+	
+	
+
+	
 }
