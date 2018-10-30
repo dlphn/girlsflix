@@ -95,7 +95,7 @@ public class UserDB {
 	public static void insertOne(User newUser) {
 		try {
 			preparedStatement = connect
-			        .prepareStatement("INSERT INTO users values (?, ?, ?, ?, ?, ?, null)");
+			        .prepareStatement("INSERT INTO users values (?, ?, ?, ?, ?, ?, null, null)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
             preparedStatement.setString(3, newUser.getPassword() != null ? newUser.getPassword() : null);
@@ -139,6 +139,22 @@ public class UserDB {
 			preparedStatement = connect
 			        .prepareStatement("UPDATE users SET favorites=? WHERE login=?");
             preparedStatement.setString(1, favStr);
+            preparedStatement.setString(2, login);
+            preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public static void updateNotifications(String login, List<String> notifications) {
+		String notifStr = String.join("/", notifications);
+		try {
+			preparedStatement = connect
+			        .prepareStatement("UPDATE users SET notifications=? WHERE login=?");
+            preparedStatement.setString(1, notifStr);
             preparedStatement.setString(2, login);
             preparedStatement.executeUpdate();
 		} catch (SQLException e) {
