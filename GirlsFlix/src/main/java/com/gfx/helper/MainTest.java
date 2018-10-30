@@ -20,19 +20,19 @@ public class MainTest {
 		System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
 		UserDB.connect();
-		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
-        User newUser = new Enjoyer("test2457893@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
-        if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
+		// System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
+        User newUser = new Enjoyer("test243", "tefe", "pwd", "Paulette");
+        //if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
         UserDB.insertOne(newUser);
-        UserDB.update(newUser);
-		List<TypeSerie> fav = new ArrayList<TypeSerie>();
-		fav.add(TypeSerie.ACTION);
-		UserDB.updateFav(newUser.getLogin(), fav);
+        //UserDB.update(newUser);
+		//List<TypeSerie> fav = new ArrayList<TypeSerie>();
+		//fav.add(TypeSerie.ACTION);
+		//UserDB.updateFav(newUser.getLogin(), fav);
         UserDB.readDatabase();
-        System.out.println("check pwd == pwd0" + UserDB.checkPwd(newUser.getPassword(), "pwd0"));
-		UserDB.updatePwd(newUser.getLogin(), "pwd0");
-        }
-        else {System.out.println("Please choose another login value");}
+        //System.out.println("check pwd == pwd0" + UserDB.checkPwd(newUser.getPassword(), "pwd0"));
+		//UserDB.updatePwd(newUser.getLogin(), "pwd0");
+        //}
+        //else {System.out.println("Please choose another login value");}
 	    
 		/*new SerieService();
 		System.out.println(SerieService.getGenres());

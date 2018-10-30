@@ -15,12 +15,20 @@ public class Enjoyer extends User{
 		super();
 	}
 	
+	public Enjoyer (String login, String pseudo, String password) {
+		super(login, pseudo, password);
+	}
+	
+	public Enjoyer (String login, String pseudo, String password, String firstName) {
+		super(login, pseudo, password, firstName);
+	}
+	
 	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
-		super(login, pseudo,password,firstName,lastName,gender);
+		super(login, pseudo, password, firstName,lastName, gender);
 	}
 	
 	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender, List<Integer> favorites) {
-		super(login, pseudo,password,firstName,lastName,gender);
+		super(login, pseudo, password, firstName, lastName, gender);
 		this.favorites = favorites;
 	}
 	
