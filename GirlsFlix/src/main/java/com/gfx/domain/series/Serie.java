@@ -4,16 +4,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gfx.domain.users.Enjoyer;
+
 public class Serie {
 	private int id;
 	private String title;
 	private List<String> serieGenres;
 	private String summary;
 	private LocalDate creationDate;
-	private int rating;
+	private double rating;
 	private boolean allowed;
 	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
+ 	private int nextEpisodeOnAir;
+ 	private int nbSeasonNEOA;
+ 	private LocalDate dateNextEpisodeOnAir;
+ 	private boolean nextEpisodeHasBeenNotified = false;
 	
 	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image) {
 		super();
@@ -119,11 +125,11 @@ public class Serie {
 		this.creationDate = creationDate;
 	}
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
@@ -151,5 +157,47 @@ public class Serie {
 	public void setSeasons(ArrayList<Season> seasons) {
 		this.seasons = seasons;
 	}
+
+	public int getNextEpisodeOnAir() {
+		return nextEpisodeOnAir;
+	}
+
+	public void setNextEpisodeOnAir(int nextEpisodeOnAir) {
+		this.nextEpisodeOnAir = nextEpisodeOnAir;
+	}
+
+	public int getNbSeasonNEOA() {
+		return nbSeasonNEOA;
+	}
+
+	public void setNbSeasonNEOA(int nbSeasonNEOA) {
+		this.nbSeasonNEOA = nbSeasonNEOA;
+	}
+
+	public LocalDate getDateNextEpisodeOnAir() {
+		return dateNextEpisodeOnAir;
+	}
+
+	public void setDateNextEpisodeOnAir(LocalDate dateNextEpisodeOnAir) {
+		this.dateNextEpisodeOnAir = dateNextEpisodeOnAir;
+	}
+
+	public boolean isNextEpisodeHasBeenNotified() {
+		return nextEpisodeHasBeenNotified;
+	}
+
+	public void setNextEpisodeHasBeenNotified(boolean nextEpisodeHasBeenNotified) {
+		this.nextEpisodeHasBeenNotified = nextEpisodeHasBeenNotified;
+	}
+
+	public List<String> getSerieGenres() {
+		return serieGenres;
+	}
+
+	public void setSeasons(List<Season> seasons) {
+		this.seasons = seasons;
+	}
+	
+	
 
 }
