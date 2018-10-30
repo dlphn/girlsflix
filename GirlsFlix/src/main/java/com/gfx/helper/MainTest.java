@@ -20,6 +20,16 @@ public class MainTest {
 		System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
 		UserDB.connect();
+/*
+		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
+        User newUser = new Enjoyer("Sandra@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
+        if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
+        UserDB.insertOne(newUser);
+        UserDB.update(newUser);
+		List<TypeSerie> fav = new ArrayList<TypeSerie>();
+		fav.add(TypeSerie.ACTION);
+		UserDB.updateFav(newUser.getLogin(), fav);
+
 		// System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
         User newUser = new Enjoyer("thello", "hi", "pwd", "Paulo");
         //if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
