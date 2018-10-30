@@ -11,6 +11,7 @@
 		<h2>
 			This is your final login : ${login}
 		</h2>
+		<p> ${msg} </p>
 	</center>
 </body>
 </html>

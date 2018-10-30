@@ -20,8 +20,8 @@ public class MainTest {
 		System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
 		UserDB.connect();
-		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("test3@test.com"));
-        User newUser = new Enjoyer("test3@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
+		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
+        User newUser = new Enjoyer("test2457893@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
         if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
         UserDB.insertOne(newUser);
         UserDB.update(newUser);

@@ -59,11 +59,11 @@
                     <td><form:checkboxes items="${serieTypesList}" path="affinities" /></td>
                  </tr>   
                 <tr>
-                    <td><input type="submit" value="Submit"/></td>
+                    <td><input type="submit" value="S'inscrire"/></td>
                 </tr>
 				</table>
 				</form:form>
-				
+				<a href="/GirlsFlix/login">Déjà un compte ?</a>
 			</div>
 		</div>
 		

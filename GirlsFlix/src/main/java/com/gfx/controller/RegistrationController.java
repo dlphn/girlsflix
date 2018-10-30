@@ -45,26 +45,20 @@ public class RegistrationController {
 		model.addAttribute("firstName", user.getFirstName());
 		model.addAttribute("lastName", user.getLastName());
 		//TODO: Voir pb avec gender -> Erreur État HTTP 400 – Bad Request même si la variable Gender est bien instanciée.
-		//model.addAttribute("gender", user.getGender());
+		model.addAttribute("gender", user.getGender());
 		model.addAttribute("affinities", user.getAffinities());
 		UserDB.connect();
 		Boolean notUsed = UserDB.checkLoginNotUsed(user.getLogin());
-		System.out.println("Login déjà utilisé ? " + notUsed);
-		
-			//System.out.println(user.getLogin());
+		System.out.println("**********************$");
+		System.out.println("Login déjà utilisé ? " + user.getLogin());
 		if(notUsed) {
 			UserDB.insertOne(user);
 			UserDB.update(user);
-			//UserDB.updateFav(user.getLogin(), user.getAffinities());
+			UserDB.updateFav(user.getLogin(), user.getAffinities());
 			}
 		else {throw new LoginExistsException(
 	              "Il existe déjà un compte avec le login:"  +  user.getLogin());
 	        }
-	
-		//ModelAndView newMav = new ModelAndView("user/userSuccess", "user", user);
-		//newMav.addObject("login", user.getLogin());
-		//newMav.addObject("pseudo", user.getPseudo());
-		//newMav.addObject("login", user.getLogin());
 		return "user/userSuccess";
 	}
 	

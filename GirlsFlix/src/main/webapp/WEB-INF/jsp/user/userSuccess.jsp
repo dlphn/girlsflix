@@ -12,7 +12,7 @@
 Hello
 
 <dl>
-<dt>Login: ${login} ${notUsed}</dt>
+<dt>Login: ${login}</dt>
 <dt>Pseudo : ${pseudo}  </dt>
 <dt>Prénom : ${firstName}</dt>
 <dt>Nom: ${lastName} </dt>
@@ -22,6 +22,9 @@ Hello
  <li>${affinity}</li>
  </c:forEach>
 </dl>
+
+<a href="/GirlsFlix/series">Découvrir des séries</a>
+
 </body>
 </html>
 
