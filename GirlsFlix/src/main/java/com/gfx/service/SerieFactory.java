@@ -19,19 +19,28 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 public class SerieFactory {
-	ArrayList<Serie> seriesList =  new ArrayList<Serie>(); // A changer plus tard en HashMap par exemple
 	
 	public SerieFactory() {
 		if (Data.getListSeries() == null) {
-			initSeries();
+			initData();
 		}
 	}
 	
-	public void initSeries() {
+	public SerieFactory(String action) {
+		if (action == "update") {
+			initData();
+		}
+	}
+	
+	/**
+	 * Fetch data from MongoDB, create the Series/Seasons/Episodes objects and save in Data's seriesList.
+	 */
+	public void initData() {
 		SerieDB.connect();
         
         JSONParser parser = new JSONParser();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    	ArrayList<Serie> seriesList =  new ArrayList<Serie>();
         
         List<Document> documents = SerieDB.find("series");
         
@@ -63,44 +72,6 @@ public class SerieFactory {
 			}
         }
 		Data.setListSeries(seriesList);
-	}
-	
-	public List<Serie> getSeries() {
-        SerieDB.connect();
-        
-        JSONParser parser = new JSONParser();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        
-        List<Document> documents = SerieDB.find("series");
-        
-    	for (Document doc : documents) {
-			try {
-				JSONObject jsnObj = (JSONObject) parser.parse(doc.toJson());
-				
-    			JSONArray genres = (JSONArray) jsnObj.get("serieType");
-    			List<String> serieType = new ArrayList<String>();
-    			for (int i = 0; i < genres.size(); i++){
-                    serieType.add(genres.get(i).toString());
-                }
-    			
-    			int serieId = Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString());
-				List<Season> seasons = getSeasons(serieId);
-    			
-    			Serie serie = new Serie(
-    					serieId, //id
-    					jsnObj.get("title") != null ? jsnObj.get("title").toString() : "", //title
-    					serieType,//serieGenres
-    					jsnObj.get("summary") != null ? jsnObj.get("summary").toString() : "", //summary
-    					jsnObj.get("date") != null ? LocalDate.parse((CharSequence) jsnObj.get("date"), formatter) : null, //date
-						jsnObj.get("imageLink") != null ? jsnObj.get("imageLink").toString() : "", //image
-    					seasons);//image
-    			seriesList.add(serie);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
-		return seriesList;
 	}
 	
 	public List<Season> getSeasons(int serieId) {
@@ -170,20 +141,5 @@ public class SerieFactory {
 		}
 		
 		return episodes;
-	}
-	
-	public List<Serie> getList(){
-		return seriesList;
-	}
-	
-	public Serie getById(int id) {
-		Serie searched = null;
-		for( Serie s : seriesList) {
-			if(s.getId() == id) {
-				 searched = s;
-			}
-		}
-		return searched;
-		
 	}
 }

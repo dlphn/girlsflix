@@ -42,9 +42,9 @@ public class Visualization {
 	}
 
 	
-	public void update(SerieFactory f) {
-		this.listSeries = f.getList();
-	}
+//	public void update(SerieFactory f) {
+//		this.listSeries = f.getList();
+//	}
 	
 	public List<Serie> pickNRandom(int n) {
 	    List<Serie> copy = new ArrayList<Serie>(this.listSeries);

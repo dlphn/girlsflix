@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.Document;
 
+import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
@@ -55,10 +56,10 @@ public class MainTest {
 			System.out.println(result.get(i).info());
 		}*/
 		
-		SerieFactory serieFactory = new SerieFactory();
+		new SerieFactory();
 		//serieFactory.getSeasons(60735);
 		//serieFactory.getEpisodes(60735, 1);
-		List<Serie> series = serieFactory.getSeries();
+		List<Serie> series = Data.getListSeries();
 
 	}
 }
