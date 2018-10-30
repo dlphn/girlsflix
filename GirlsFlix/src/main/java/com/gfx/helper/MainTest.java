@@ -31,7 +31,7 @@ public class MainTest {
 		//UserDB.updatePwd("test@test.com", "pwd0");
 		//System.out.println(UserDB.checkLoginNotUsed("test@test.com"));
 	    
-		SerieService serieService = new SerieService();
+		SerieService service = new SerieService();
 		System.out.println(Genre.getGenres());
 		//service.init();
 		
