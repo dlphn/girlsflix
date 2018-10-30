@@ -54,7 +54,7 @@ public class RegistrationController {
 		if(notUsed) {
 			UserDB.insertOne(user);
 			UserDB.update(user);
-			UserDB.updateFav(user.getLogin(), user.getAffinities());
+			UserDB.updateAffinities(user.getLogin(), user.getAffinities());
 			}
 		else {throw new LoginExistsException(
 	              "Il existe déjà un compte avec le login:"  +  user.getLogin());

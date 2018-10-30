@@ -105,6 +105,17 @@ public abstract class User {
 	public void setLogin(String login) {
 		this.login = login;
 	}
+	
+	public String toString() {
+		String result = "";
+		result += "Login : " + this.login + "\n";
+		result += "Pseudo : " + this.pseudo + "\n";
+		result += "First Name : " + this.firstName + "\n";
+		result += "Last Name : " + this.lastName + "\n";
+		result += "Gender : " + this.gender.toString() + "\n";
+		result += "Affinities : " + this.affinities.toString() + "\n";
+		return result;
+	}
 
 
 }

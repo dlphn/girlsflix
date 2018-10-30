@@ -52,7 +52,12 @@ public class Enjoyer extends User{
 		this.favorites = favorites;
 	}
 	
-	
-	
+	public String toString() {
+		String result = "";
+		result += super.toString();
+		result += "Favorites : " + this.favorites + "\n";
+		// result += "Notifications : " + this.notifications + "\n";
+		return result;
+	}
 
 }

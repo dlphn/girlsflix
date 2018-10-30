@@ -25,14 +25,21 @@ public class MainTest {
         //if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
         //UserDB.insertOne(newUser);
         //UserDB.update(newUser);
-		//List<TypeSerie> fav = new ArrayList<TypeSerie>();
-		//fav.add(TypeSerie.ACTION);
-		//UserDB.updateFav(newUser.getLogin(), fav);
-        List<String> notif = new ArrayList<String>();
-      	notif.add("Prochain épisode de la saison 7 de Grey's Anatomy le 12-10-2018");
-      	notif.add("Prochain épisode de la saison 2 de Flash le 22-12-2018");
-      	UserDB.updateNotifications(newUser.getLogin(), notif);
-        UserDB.readDatabase();
+//        List<TypeSerie> aff = new ArrayList<TypeSerie>();
+//        aff.add(TypeSerie.ACTION);
+//		UserDB.updateAffinities(newUser.getLogin(), aff);
+//        List<Integer> fav = new ArrayList<Integer>();
+//        fav.add(1);
+//        fav.add(4);
+//        fav.add(98);
+//		UserDB.updateFav(newUser.getLogin(), fav);
+//        List<String> notif = new ArrayList<String>();
+//      	notif.add("Prochain épisode de la saison 7 de Grey's Anatomy le 12-10-2018");
+//      	notif.add("Prochain épisode de la saison 2 de Flash le 22-12-2018");
+//      	UserDB.updateNotifications(newUser.getLogin(), notif);
+        //UserDB.readDatabase();
+        User user = UserDB.checkPwd("thello", "pwd");
+        System.out.println(user.toString());
         //System.out.println("check pwd == pwd0" + UserDB.checkPwd(newUser.getPassword(), "pwd0"));
 		//UserDB.updatePwd(newUser.getLogin(), "pwd0");
         //}

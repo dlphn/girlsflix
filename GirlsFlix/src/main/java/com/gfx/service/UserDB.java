@@ -131,14 +131,32 @@ public class UserDB {
 		}
 	}
 
-	public static void updateFav(String login, List<TypeSerie> favorites) {
+	public static void updateFav(String login, List<Integer> favorites) {
 		String favStr = favorites.stream()
       		  .map(String::valueOf)
-      		  .collect(Collectors.joining(", "));
+      		  .collect(Collectors.joining(","));
 		try {
 			preparedStatement = connect
 			        .prepareStatement("UPDATE users SET favorites=? WHERE login=?");
             preparedStatement.setString(1, favStr);
+            preparedStatement.setString(2, login);
+            preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public static void updateAffinities(String login, List<TypeSerie> affinities) {
+		String affStr = affinities.stream()
+      		  .map(String::valueOf)
+      		  .collect(Collectors.joining(","));
+		try {
+			preparedStatement = connect
+			        .prepareStatement("UPDATE users SET affinities=? WHERE login=?");
+            preparedStatement.setString(1, affStr);
             preparedStatement.setString(2, login);
             preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -181,22 +199,37 @@ public class UserDB {
 	}
 	
 	public static User checkPwd(String login, String pwd) {
-		String query = "SELECT pseudo, firstname, lastname, gender, favorites FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
+		String query = "SELECT pseudo, firstname, lastname, gender, favorites, notifications, affinities FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
 		try {
 			statement = connect.createStatement();
 	        resultSet = statement.executeQuery(query);
 	        if (resultSet.next()) {
-	        	String[] strList = new String[0];
+	        	String[] favStrList = new String[0];
 	        	List<Integer> favorites = new ArrayList<Integer>();
+	        	String[] notifStrList = new String[0];
+	        	List<String> notifications = new ArrayList<String>();
+	        	String[] affStrList = new String[0];
+	        	List<String> affinities = new ArrayList<String>();
 	            String pseudo = resultSet.getString("pseudo");
 	            String firstname = resultSet.getString("firstname");
 	            String lastname = resultSet.getString("lastname");
-	            Gender gender = Gender.valueOf(resultSet.getString("gender")); 
+	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
 	            String favoritesStr = resultSet.getString("favorites");
 	            if (favoritesStr != null) {
-	            	strList = resultSet.getString("favorites").split(",");
-	            	for(String s : strList) favorites.add(Integer.valueOf(s));
+	            	favStrList = resultSet.getString("favorites").split(",");
+	            	for(String fav : favStrList) favorites.add(Integer.valueOf(fav));
 	            }
+	            String notificationsStr = resultSet.getString("notifications");
+	            if (notificationsStr != null) {
+	            	notifStrList = notificationsStr.split("/");
+	            	for(String notif : notifStrList) notifications.add(notif);
+	            }
+	            String affinitiesStr = resultSet.getString("affinities");
+	            if (affinitiesStr != null) {
+	            	affStrList = affinitiesStr.split("/");
+	            	for(String aff : affStrList) affinities.add(aff);
+	            }
+	            // TODO User constructor with notifications and affinities
 	            User user = new Enjoyer(login, pseudo, pwd, firstname, lastname, gender, favorites);
 	            return user;
 	        }
