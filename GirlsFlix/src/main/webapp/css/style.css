@@ -1,9 +1,36 @@
+html {
+	height: 100%;
+}
+
+body {
+	background-color: #f8f9fa !important;
+	position: relative;
+	margin: 0;
+	padding-bottom: 6rem;
+	min-height: 85%;
+}
+
 .main {
 	margin-top: 120px;
-	margin-bottom: 200px;
+	margin-bottom: 120px;
 }
 
 footer {
     padding-top: 3rem;
     padding-bottom: 3rem;
 }
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+li {
+	list-style-type: none;
+}
+
+h1, h2 {
+	margin-bottom: 30px;
+}
+

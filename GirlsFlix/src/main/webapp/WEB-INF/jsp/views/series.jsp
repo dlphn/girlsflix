@@ -11,25 +11,69 @@
 		<title>GirlsFlix Series Page</title>
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/series.css" />
 	</head>
-	<body class="bg-light">
+	<body>
 	
 		<fragments:header />
 		
 		<div class="main">
 			<div class="container">
 				<h2>Toutes les séries</h2>
-				<ul>
-					<c:forEach var="item" items="${series}">
-		               	<li>
-		                   <a href="serie/${item.getId()}">
-							<h3>${fn:escapeXml(item.getTitle())}</h3>
-							<p>${fn:escapeXml(item.getPicture())}</p>
-		                   </a>
-		               </li>
-	           		</c:forEach>
-				</ul>
+				<form>
+					<div class="form-row">
+						<div class="col-md-9">
+					      	<div class="input-group mb-2">
+					        	<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Rechercher">
+					        	<div class="input-group-append">
+					          		<div class="input-group-text"><i class="fas fa-search"></i></div>
+					        	</div>
+					      	</div>
+					    </div>
+					    <div class="col-md-3">
+					    	<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+					      	<select class="custom-select mr-sm-2" id="selectGenre">
+						        <option selected value="">Genres</option>
+					      		<c:forEach var="item" items="${genres}">
+					      			<option value="${item.name}">${fn:escapeXml(item.name)}</option>
+					      		</c:forEach>
+					      	</select>
+					    </div>
+					</div>
+				</form>
+				<div>
+					<ul class="list-group">
+						<c:forEach var="item" items="${series}">
+							<a href="serie/${item.getId()}">
+								<li class="list-group-item">
+									<img class="list-img" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(item.getImage())}" alt="${fn:escapeXml(item.getTitle())}"/>
+									${fn:escapeXml(item.getTitle())}
+								</li>
+							</a>
+						</c:forEach>
+					</ul>
+				</div>
+				<nav id="pagination">
+					<ul class="pagination justify-content-center">
+				    	<li class="page-item disabled">
+				      		<a class="page-link" href="#" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						        <span class="sr-only">Previous</span>
+						    </a>
+				    	</li>
+					    <li class="page-item"><a class="page-link" href="#">1</a></li>
+					    <li class="page-item"><a class="page-link" href="#">2</a></li>
+					    <li class="page-item"><a class="page-link" href="#">3</a></li>
+					    <li class="page-item">
+					    	<a class="page-link" href="#" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						        <span class="sr-only">Next</span>
+						    </a>
+					    </li>
+				  </ul>
+				</nav>
 			</div>
 		</div>
 		

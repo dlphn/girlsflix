@@ -10,6 +10,7 @@
 		<title>GirlsFlix Index Page</title>
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 		<link rel="stylesheet" href="css/style.css" />
 	</head>
 	<body>
@@ -17,23 +18,23 @@
 		<div class="main">
 			<div class="container">
 				<center>
-					<h2>Welcome to GirlsFlix</h2>
+					<h1>Welcome to GirlsFlix</h1>
 				</center>
-				<ul>
-					<li>Série 1</li>
-					<li>Série 2</li>
-					<li>Série 3</li>
-				</ul>
-				<ul>
+				<div class="card-columns">
 					<c:forEach var="item" items="${columns}">
-		               	<li>
-		                   <a href="/serie/${item.id}">
-							<h3>${fn:escapeXml(item.title)}</h3>
-							<p>${fn:escapeXml(item.intro)}</p>
-		                   </a>
-		               </li>
+		               	<div class="card">
+							<a href="serie/${item.getId()}">
+								<img class="card-img-top" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(item.getImage())}" alt="${fn:escapeXml(item.getTitle())}"/>
+								<div class="card-body">
+									<h5>${fn:escapeXml(item.getTitle())}</h5>
+									<c:if test="${not empty loggedIn}">
+										<p>Ajouter aux favoris</p>
+									</c:if>
+								</div>
+							</a>
+		               </div>
 	           		</c:forEach>
-				</ul>
+	           	</div>
 			</div>
 		</div>
 		

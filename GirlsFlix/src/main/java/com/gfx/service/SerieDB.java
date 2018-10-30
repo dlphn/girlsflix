@@ -53,12 +53,13 @@ public class SerieDB {
 	    collection.insertMany(documents);	
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void upsert(String col, Document doc) {
 		MongoCollection<Document> collection = database.getCollection(col);
 		UpdateOptions options = new UpdateOptions().upsert(true);
 		collection.replaceOne(Filters.eq("id", doc.get("id")), doc, options);
-		/*collection.updateOne(
-                eq("_id", new ObjectId("57506d62f57802807471dd41")),
-                combine(set("stars", 1), set("contact.phone", "228-555-9999"), currentDate("lastModified")));*/
+		// replaceOne deprecated but updateOne was raising Exception :
+		// "java.lang.IllegalArtgumentException : Invalid BSON field name id"
+		// and replaceOne was the only working solution
 	}
 }

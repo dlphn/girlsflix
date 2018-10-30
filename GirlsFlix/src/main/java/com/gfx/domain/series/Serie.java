@@ -7,33 +7,33 @@ import java.util.List;
 public class Serie {
 	private int id;
 	private String title;
-	private List<Integer> serieGenres;
+	private List<String> serieGenres;
 	private String summary;
 	private LocalDate creationDate;
 	private int rating;
 	private boolean allowed;
-	private String picture;
+	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
 	
-	public Serie(int id, String title, List<Integer> serieGenres, String summary, LocalDate creationDate, String picture) {
+	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.serieGenres = serieGenres;
 		this.summary = summary;
 		this.creationDate = creationDate;
-		this.picture = picture;
+		this.image = image;
 		this.allowed = true;
 		this.rating = 0;
 	}
 	
-	public Serie(int id, String title, String summary, LocalDate creationDate, String picture) {
+	public Serie(int id, String title, String summary, LocalDate creationDate, String image) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.summary = summary;
 		this.creationDate = creationDate;
-		this.picture = picture;
+		this.image = image;
 		this.allowed = true;
 		this.rating = 0;
 	}
@@ -95,11 +95,11 @@ public class Serie {
 		this.title = title;
 	}
 	
-	public List<Integer> getSerieGenre() {
+	public List<String> getSerieGenre() {
 		return serieGenres;
 	}
 	
-	public void setSerieGenres(List<Integer> serieGenres) {
+	public void setSerieGenres(List<String> serieGenres) {
 		this.serieGenres = serieGenres;
 	}
 
@@ -136,12 +136,12 @@ public class Serie {
 	}
 
 
-	public String getPicture() {
-		return picture;
+	public String getImage() {
+		return image;
 	}
 
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public List<Season> getSeasons() {
