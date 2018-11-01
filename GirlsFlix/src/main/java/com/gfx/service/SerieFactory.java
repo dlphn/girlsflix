@@ -21,6 +21,7 @@ public class SerieFactory {
 	ArrayList<Serie> seriesList =  new ArrayList<Serie>(); // A changer plus tard en HashMap par exemple
 	
 	public SerieFactory() {
+		SerieDB.connect();
 	}
 	
 	public List<Serie> getSeries(){
@@ -31,7 +32,19 @@ public class SerieFactory {
         try {
         	for(Document doc: documents) {
         			JSONObject jsnObj = (JSONObject) parser.parse(doc.toJson());
-        			Serie s = new Serie(Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()), jsnObj.get("title").toString(), LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ), jsnObj.get("summary").toString());
+        			JSONArray genres = (JSONArray) jsnObj.get("serieType");
+        			List<String> serieType = new ArrayList<String>();
+        			for (int i = 0; i < genres.size(); i++){
+                        serieType.add(genres.get(i).toString());
+                    }
+        			
+        			Serie s = new Serie(
+        					Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()), //id
+        					jsnObj.get("title").toString(), //title
+        					serieType,//serieGenres
+        					jsnObj.get("summary").toString(), //summary
+        					LocalDate.parse( (CharSequence) jsnObj.get("date"), formatter ), //date
+        					jsnObj.get("imageLink").toString());//image
         			seriesList.add(s);
                 	//System.out.println(s.info());
                 }
