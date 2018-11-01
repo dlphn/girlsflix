@@ -1,5 +1,7 @@
 package com.gfx.helper;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +60,60 @@ public class MainTest {
 	    
 		SerieService service = new SerieService();
 		System.out.println(Genre.getGenres());
+		
+		/**
+		 * Test for the notifications
+		 */
+		/*SerieFactory serieFactory = new SerieFactory();
+		List<Serie> series = serieFactory.getSeries();
+		for(Serie s :series) {
+			System.out.println(s.getId());
+		}
+		Visualization visu = new Visualization(series);
+		Enjoyer e1 = new Enjoyer("enjoyer1");
+		
+		Serie s1 = visu.getById(1416);
+		Serie s2 = visu.getById(61889);
+		Serie s3 = visu.getById(1403);
+		
+		s1.setDateNextEpisodeOnAir(LocalDate.now());
+		s1.setNextEpisodeOnAir(18);
+		s1.setNbSeasonNEOA(7);
+		
+		s2.setDateNextEpisodeOnAir(LocalDate.of(2018, Month.NOVEMBER, 15));
+		s2.setNextEpisodeOnAir(3);
+		s2.setNbSeasonNEOA(4);
+		
+		s3.setDateNextEpisodeOnAir(LocalDate.of(2018, Month.NOVEMBER, 2));
+		s3.setNextEpisodeOnAir(8);
+		s3.setNbSeasonNEOA(6);
+		
+		
+		e1.addToFavorites(s1.getId());
+		e1.addToFavorites(s2.getId());
+		e1.addToFavorites(s3.getId());
+		
+		
+		s1.notifyNextEpisodeOnAirSoon();
+		s2.notifyNextEpisodeOnAirSoon();
+		s1.notifyNextEpisodeOnAirSoon();
+		s3.notifyNextEpisodeOnAirSoon();
+		s3.notifyNextEpisodeOnAirSoon();
+		
+		try {
+			Thread.sleep(5000);
+		}
+		catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		e1.displayAllNotificationsUnread();*/
+		/**End Test for notification*/
+		
+		
+		
+		
+		
 		//service.init();
 		
 		

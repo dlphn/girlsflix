@@ -37,7 +37,6 @@ public class SerieFactory {
         			for (int i = 0; i < genres.size(); i++){
                         serieType.add(genres.get(i).toString());
                     }
-        			
         			Serie s = new Serie(
         					Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()), //id
         					jsnObj.get("title").toString(), //title
