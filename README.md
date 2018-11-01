@@ -95,7 +95,7 @@ mvn clean install
 mvn tomcat7:run
 ```
 
-You can then go to [localhost:8080/GirlsFlix](localhost:8080/GirlsFlix) and voilà! :tada:
+You can then go to [localhost:8080/GirlsFlix](http://localhost:8080/GirlsFlix) and voilà! :tada:
 
 ## Project structure
 
