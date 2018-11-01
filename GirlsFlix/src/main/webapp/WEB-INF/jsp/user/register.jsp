@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fragments" tagdir="/WEB-INF/tags/fragments" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -19,8 +20,48 @@
 		
 		<div class="main">
 			<div class="container">
-				<h2>Créer un compte</h2>
-				FORMULAIRE
+				<h2>Créez-vous un compte GirlsFlix</h2>
+				<p> ${message} </p>
+				<form:form method="POST" modelAttribute="user">
+				<table>
+				<tr>
+				    <td><form:label path="login">Login</form:label></td>
+				    <td><form:input path="login"/></td>
+				</tr>
+				<tr>
+                    <td><form:label path="pseudo">Pseudo</form:label></td>
+                    <td><form:input path="pseudo"/></td>
+                </tr>
+                <tr>
+                    <td><form:label path="firstName">Prénom</form:label></td>
+                    <td><form:input path="firstName"/></td>
+                </tr>
+                <tr>
+                    <td><form:label path="lastName">Nom</form:label></td>
+                    <td><form:input path="lastName"/></td>
+                </tr>
+                <tr>
+                    <td><form:label path="password">Mot de Passe </form:label></td>
+                    <td><form:password path="password"/></td>
+                </tr>
+                <tr>
+                    <td><form:label path="gender"> Je suis : </form:label></td>
+                    <td>
+                    <form:radiobutton path="gender" value="Gender.MALE"/> Un homme    
+                    <form:radiobutton path="gender" value="Gender.FEMALE"/> Une femme    
+                    <form:radiobutton path="gender" value="Gender.OTHER"/> Autre  
+                    </td>
+                </tr>
+                 <tr>
+                    <td><form:label path="affinities"> Séléctionner vos préférences : </form:label></td>
+                    <td><form:checkboxes items="${serieTypesList}" path="affinities" /></td>
+                 </tr>   
+                <tr>
+                    <td><input type="submit" value="S'inscrire"/></td>
+                </tr>
+				</table>
+				</form:form>
+				<a href="/GirlsFlix/login">Déjà un compte ?</a>
 			</div>
 		</div>
 		

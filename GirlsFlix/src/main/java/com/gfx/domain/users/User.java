@@ -6,7 +6,7 @@ import java.util.List;
 import com.gfx.domain.series.TypeSerie;
 
 public abstract class User {
-	private final String login; // le User ne pourra plus changer son login une fois choisi
+	private String login; // [Deprecated][Impossible pour instanciation depuis formulaire]le User ne pourra plus changer son login une fois choisi
 	private String pseudo;
 	private String password;
 	private String firstName;
@@ -15,7 +15,21 @@ public abstract class User {
 	private List<TypeSerie> affinities = new ArrayList<TypeSerie>();
 	
 	public User() {
-		this.login = "";
+	}
+	
+	public User(String login, String pseudo, String password) {
+		super();
+		this.login = login;
+		this.pseudo = pseudo;
+		this.password = password;
+	}
+	
+	public User(String login, String pseudo, String password, String firstName) {
+		super();
+		this.login = login;
+		this.pseudo = pseudo;
+		this.password = password;
+		this.firstName = firstName;
 	}
 	
 	public User(String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
@@ -88,5 +102,20 @@ public abstract class User {
 		return login;
 	}
 	
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	
+	public String toString() {
+		String result = "";
+		result += "Login : " + this.login + "\n";
+		result += "Pseudo : " + this.pseudo + "\n";
+		result += "First Name : " + this.firstName + "\n";
+		result += "Last Name : " + this.lastName + "\n";
+		result += "Gender : " + this.gender.toString() + "\n";
+		result += "Affinities : " + this.affinities.toString() + "\n";
+		return result;
+	}
+
 
 }
