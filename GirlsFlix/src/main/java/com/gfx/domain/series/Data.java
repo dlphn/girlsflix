@@ -58,7 +58,7 @@ public class Data {
 	 */
 	public static List<Serie> searchGenre(String query) {
 		List<Serie> result = seriesList.stream()
-			     .filter(item -> item.getSerieGenre().contains(query))
+			     .filter(item -> item.getSerieGenres().contains(query))
 			     .collect(Collectors.toList());
 		return result;
 	}
