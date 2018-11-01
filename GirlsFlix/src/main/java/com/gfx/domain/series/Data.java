@@ -1,4 +1,4 @@
-package com.gfx.service;
+package com.gfx.domain.series;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,27 +6,24 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import com.gfx.domain.series.Genre;
-import com.gfx.domain.series.Serie;
+@Component
+public class Data {
+	private static List<Serie> seriesList;
+	
+	public static List<Serie> getListSeries() {
+		return seriesList;
+	}
 
-@Service
-public class Visualization {
-	//J'ai modifié cet attribut en static
-	protected static List<Serie> listSeries;
-	
-	public Visualization() {}
-	
-	public Visualization(List<Serie> list) {
-		this.listSeries = list;
+	public static void setListSeries(List<Serie> series) {
+		seriesList = series;
 	}
 	
 	public void showSeries() {
 		try {
 			System.out.println("The series available are : ");
-			for (Serie s:listSeries){
-				System.out.println(s);
+			for (Serie s : seriesList){
 				System.out.println(s.info());
 				//System.out.println("\n\n");
 			} 
@@ -34,21 +31,8 @@ public class Visualization {
 			System.out.println("size is :   No Series for the moment.");}
 	}
 	
-	public List<Serie> getListSeries() {
-		return listSeries;
-	}
-	
-	public void setListSeries(List<Serie> listSeries) {
-		this.listSeries = listSeries;
-	}
-
-	
-//	public void update(SerieFactory f) {
-//		this.listSeries = f.getList();
-//	}
-	
-	public List<Serie> pickNRandom(int n) {
-	    List<Serie> copy = new ArrayList<Serie>(this.listSeries);
+	public static List<Serie> pickNRandom(int n) {
+	    List<Serie> copy = new ArrayList<Serie>(seriesList);
 	    Collections.shuffle(copy);
 	    return copy.subList(0, n);
 	}
@@ -59,8 +43,8 @@ public class Visualization {
 	 * @param query		the user search request
 	 * @return 			the list of series that match the search query
 	 */
-	public List<Serie> search(String query) {
-		List<Serie> result = this.listSeries.stream()
+	public static List<Serie> search(String query) {
+		List<Serie> result = seriesList.stream()
 			     .filter(item -> 
 			     	Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(item.getTitle()).find())
 			     .collect(Collectors.toList());
@@ -72,16 +56,16 @@ public class Visualization {
 	 * @param query		the genre to filter on
 	 * @return 			the list of series of the genre specified
 	 */
-	public List<Serie> searchGenre(String query) {
-		List<Serie> result = this.listSeries.stream()
-			     .filter(item -> item.getSerieGenres().contains(query))
+	public static List<Serie> searchGenre(String query) {
+		List<Serie> result = seriesList.stream()
+			     .filter(item -> item.getSerieGenre().contains(query))
 			     .collect(Collectors.toList());
 		return result;
 	}
 	
-	public Serie getById(int id) {
+	public static Serie getById(int id) {
 		Serie searched = null;
-		for (Serie s : this.listSeries) {
+		for (Serie s : seriesList) {
 			if(s.getId() == id) {
 				 searched = s;
 			}

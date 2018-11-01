@@ -37,27 +37,9 @@ public class Serie {
 		this.rating = rating;
 	}
 	
-	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.serieGenres = serieGenres;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = 0;
-	}
-	
-	public Serie(int id, String title, String summary, LocalDate creationDate, String image) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = 0;
+
+	public Serie(String name) {
+		this.title = name;
 	}
 	
 	public Serie(int id, String title, LocalDate creationDate, String summary) {
@@ -79,9 +61,42 @@ public class Serie {
 		this.rating = 0;
 	}
 	
-	public Serie(String name) {
-		this.title = name;
+	public Serie(int id, String title, String summary, LocalDate creationDate, String image) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.summary = summary;
+		this.creationDate = creationDate;
+		this.image = image;
+		this.allowed = true;
+		this.rating = 0;
 	}
+	
+ 	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.serieGenres = serieGenres;
+		this.summary = summary;
+		this.creationDate = creationDate;
+		this.image = image;
+		this.allowed = true;
+		this.rating = 0;
+	}
+ 	
+	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, List<Season> seasons) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.serieGenres = serieGenres;
+		this.summary = summary;
+		this.creationDate = creationDate;
+		this.image = image;
+		this.allowed = true;
+		this.rating = 0;
+		this.seasons = seasons;
+	}
+	
 	
 	public String info() {
 		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + ".\n its ID is: " + this.id + "\n";

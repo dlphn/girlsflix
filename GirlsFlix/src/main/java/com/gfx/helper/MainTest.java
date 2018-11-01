@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bson.Document;
 
+import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.series.TypeSerie;
@@ -58,9 +59,40 @@ public class MainTest {
         //}
         //else {System.out.println("Please choose another login value");}
 	    
+
+		//SerieService service = new SerieService();
+		//System.out.println(Genre.getGenres());
+
 		SerieService service = new SerieService();
 		System.out.println(Genre.getGenres());
+		//service.init();
 		
+		
+		/*System.out.println("\n"+"**********************************"+"\n");
+		SerieFactory factoryTest = new SerieFactory();
+		List<Serie> series = factoryTest.getSeries();
+		System.out.println("\n"+"**********************************"+"\n");
+		System.out.println("result of json series : " + series.toString() +"\n");
+		System.out.println("**********************************"+"\n");
+		Visualization visu = new Visualization();
+		visu.update(factoryTest);
+		visu.showSeries(); // after udpate
+		visu.getListSeries();*/
+		
+		/*SerieFactory serieFactory = new SerieFactory();
+		Visualization visu = new Visualization(serieFactory.getSeries());
+		List<Serie> result = visu.search("the walk");
+		for (int i = 0; i < result.size(); i++) {
+			System.out.println(result.get(i).info());
+		}*/
+		
+		new SerieFactory();
+		//serieFactory.getSeasons(60735);
+		//serieFactory.getEpisodes(60735, 1);
+		List<Serie> series = Data.getListSeries();
+    
+    
+    
 		/**
 		 * Test for the notifications
 		 */
@@ -109,32 +141,6 @@ public class MainTest {
 		
 		e1.displayAllNotificationsUnread();*/
 		/**End Test for notification*/
-		
-		
-		
-		
-		
-		//service.init();
-		
-		
-		
-		/*System.out.println("\n"+"**********************************"+"\n");
-		SerieFactory factoryTest = new SerieFactory();
-		List<Serie> series = factoryTest.getSeries();
-		System.out.println("\n"+"**********************************"+"\n");
-		System.out.println("result of json series : " + series.toString() +"\n");
-		System.out.println("**********************************"+"\n");
-		Visualization visu = new Visualization();
-		visu.update(factoryTest);
-		visu.showSeries(); // after udpate
-		visu.getListSeries();*/
-		
-		/*SerieFactory serieFactory = new SerieFactory();
-		Visualization visu = new Visualization(serieFactory.getSeries());
-		List<Serie> result = visu.search("the walk");
-		for (int i = 0; i < result.size(); i++) {
-			System.out.println(result.get(i).info());
-		}*/
 
 	}
 }

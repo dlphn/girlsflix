@@ -43,6 +43,13 @@ public class SerieDB {
 		return result;
 	}
 	
+	public static List<Document> findFiltered(String col, Document filter) {
+		MongoCollection<Document> collection = database.getCollection(col);
+		List<Document> result = new ArrayList<Document>();
+		collection.find(filter).into(result);
+		return result;
+	}
+	
 	public static void insertOne(String col, Document doc) {
 	    MongoCollection<Document> collection = database.getCollection(col);
 	    collection.insertOne(doc);	

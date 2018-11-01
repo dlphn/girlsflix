@@ -4,48 +4,63 @@ import java.time.LocalDate;
 
 public class Episode {
 	
-	private int numberEpisode;
+	private int episodeId;
+	private int episodeNb;
 	private String summary;
 	private String name;
 	private LocalDate releaseDate;
 	private double rating;
-	private int seasonId;
+	private int seasonNb;
 	private int serieId;
-	private String picture;
+	private String image;
 
 	
-	public Episode(int numberEpisode, String summary, String name, LocalDate releaseDate, double rating, int seasonId,
-			int serieId, String picture) {
+	public Episode(int episodeId, int episodeNb, String name, String summary, LocalDate releaseDate, double rating, int seasonNb,
+			int serieId, String image) {
 		super();
-		this.numberEpisode = numberEpisode;
-		this.summary = summary;
+		this.episodeId = episodeId;
+		this.episodeNb = episodeNb;
 		this.name = name;
+		this.summary = summary;
 		this.releaseDate = releaseDate;
 		this.rating = rating;
-		this.seasonId = seasonId;
+		this.seasonNb = seasonNb;
 		this.serieId = serieId;
-		this.picture = picture;
+		this.image = image;
 	}
 
-	public Episode(int numberEpisode, String summary, String name, LocalDate releaseDate, int rating) {
+	public Episode(int episodeId, int episodeNb, String name, String summary, LocalDate releaseDate, int rating) {
 		super();
-		this.numberEpisode = numberEpisode;
-		this.summary = summary;
+		this.episodeId = episodeId;
+		this.episodeNb = episodeNb;
 		this.name = name;
+		this.summary = summary;
 		this.releaseDate = releaseDate;
 		this.rating = rating;
 	}
-	
+
+	public String toString() {
+		return "Episode "+ this.episodeNb + " " + this.name + " from Serie " + this.serieId + " Season " + this.seasonNb + "\n";
+	}
+
 	/*******************/
 	/*Getters & Setters*/
 	/*******************/
 
-	public int getNumberEpisode() {
-		return numberEpisode;
+	public int getEpisodeId() {
+		return episodeId;
 	}
 
-	public void setNumberEpisode(int numberEpisode) {
-		this.numberEpisode = numberEpisode;
+	public void setEpisodeId(int episodeId) {
+		this.episodeId = episodeId;
+	}
+	
+	public int getEpisodeNb() {
+		return episodeNb;
+	}
+
+	public void setEpisodeNb(int episodeNb) {
+		this.episodeNb = episodeNb;
 	}
 
 	public String getSummary() {
@@ -80,12 +95,12 @@ public class Episode {
 		this.rating = rating;
 	}
 
-	public int getSeasonId() {
-		return seasonId;
+	public int getSeasonNb() {
+		return seasonNb;
 	}
 
-	public void setSeasonId(int seasonId) {
-		this.seasonId = seasonId;
+	public void setSeasonNb(int seasonNb) {
+		this.seasonNb = seasonNb;
 	}
 
 	public int getSerieId() {
@@ -96,15 +111,12 @@ public class Episode {
 		this.serieId = serieId;
 	}
 
-	public String getPicture() {
-		return picture;
+	public String getImage() {
+		return image;
 	}
 
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setImage(String image) {
+		this.image = image;
 	}
-	
-	
-
 
 }
