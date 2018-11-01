@@ -72,7 +72,13 @@ Eclipse IDE for `Java EE` Web Developers (`Photon v4.9.0`) - download [link](htt
 
 #### Import project to Eclipse
 
-[...]
+`File -> Import...`
+
+`Maven -> Existing Maven Projects -> Next`
+
+`Browse -> Finish`
+
+Right Click on `Project -> Maven -> Update Maven Project -> Force Update of Snapshots/Releases`
 
 #### Build project
 
