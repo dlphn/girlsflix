@@ -21,6 +21,7 @@ public class SerieFactory {
 	ArrayList<Serie> seriesList =  new ArrayList<Serie>(); // A changer plus tard en HashMap par exemple
 	
 	public SerieFactory() {
+		SerieDB.connect();
 	}
 	
 	public List<Serie> getSeries(){

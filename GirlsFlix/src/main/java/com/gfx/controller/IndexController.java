@@ -21,7 +21,6 @@ class ResourceNotFoundException extends RuntimeException {
 @Controller
 public class IndexController {
 	@Inject
-	// à modifier pour ne pas appeler SerieFactory() à chaque fois
     private SerieFactory serieFactory = new SerieFactory();
 	private Visualization visu = new Visualization(serieFactory.getSeries());
 	String message = "Welcome!";
