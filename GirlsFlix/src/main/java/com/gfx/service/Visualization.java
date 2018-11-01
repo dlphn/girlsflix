@@ -13,7 +13,8 @@ import com.gfx.domain.series.Serie;
 
 @Service
 public class Visualization {
-	protected List<Serie> listSeries;
+	//J'ai modifié cet attribut en static
+	protected static List<Serie> listSeries;
 	
 	public Visualization() {}
 	
@@ -73,7 +74,7 @@ public class Visualization {
 	 */
 	public List<Serie> searchGenre(String query) {
 		List<Serie> result = this.listSeries.stream()
-			     .filter(item -> item.getSerieGenre().contains(query))
+			     .filter(item -> item.getSerieGenres().contains(query))
 			     .collect(Collectors.toList());
 		return result;
 	}
