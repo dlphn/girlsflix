@@ -34,3 +34,12 @@ h1, h2 {
 	margin-bottom: 30px;
 }
 
+div {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.input-btn, .input-btn-txt {
+	margin-top: 0;
+	margin-bottom: 0;
+}
