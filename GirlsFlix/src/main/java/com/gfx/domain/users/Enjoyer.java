@@ -25,6 +25,7 @@ public class Enjoyer extends User{
 	public Enjoyer(String pseudo) {
 		super();
 		setPseudo(pseudo);
+	}
 
 	public Enjoyer (String login, String pseudo, String password) {
 		super(login, pseudo, password);
