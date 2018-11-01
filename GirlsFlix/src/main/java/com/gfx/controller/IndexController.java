@@ -8,10 +8,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.service.SerieFactory;
-import com.gfx.service.Visualization;
  
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
@@ -22,12 +22,11 @@ class ResourceNotFoundException extends RuntimeException {
 public class IndexController {
 	@Inject
     private SerieFactory serieFactory = new SerieFactory();
-	private Visualization visu = new Visualization(serieFactory.getSeries());
 	String message = "Welcome!";
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
-		model.put("columns", visu.pickNRandom(9));
+		model.put("columns", Data.pickNRandom(9));
 
         return "index";
     }
@@ -55,7 +54,7 @@ public class IndexController {
 	
 	@RequestMapping("/series")
     public String series(ModelMap model) {
-		model.put("series", visu.getListSeries());
+		model.put("series", Data.getListSeries());
 		model.put("genres", Genre.getGenres());
 
         return "views/series";
@@ -63,7 +62,7 @@ public class IndexController {
 	
 	@RequestMapping("/serie/{id}")
     public String serie(@PathVariable("id") String id, ModelMap model) {
-        Serie serie = visu.getById(Integer.parseInt(id));
+        Serie serie = Data.getById(Integer.parseInt(id));
         if (serie == null) {
             throw new ResourceNotFoundException();
         }
@@ -73,11 +72,11 @@ public class IndexController {
         }
     }
 	
-	@RequestMapping("/serie-du-moment")
-	public String serieDuMoment(ModelMap model) {
-		model.put("series", visu.pickNRandom(1));
+	@RequestMapping("/serie-surprise")
+	public String serieSurprise(ModelMap model) {
+		model.put("series", Data.pickNRandom(1));
 
-        return "views/serie-du-moment";
+        return "views/serie-surprise";
     }
 	
 	@RequestMapping("/contact")

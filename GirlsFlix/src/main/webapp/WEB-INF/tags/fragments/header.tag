@@ -11,7 +11,7 @@
 				<a class="nav-link" href="/GirlsFlix/series">Toutes les séries</a>
 			</li>
 			<li class="nav-item">
-			  	<a class="nav-link" href="/GirlsFlix/serie-du-moment">Série du moment</a>
+			  	<a class="nav-link" href="/GirlsFlix/serie-surprise">Série surprise</a>
 			</li>
 		</ul>
 		<span class="navbar-text">

@@ -1,12 +1,16 @@
 package com.gfx.helper;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
 
+import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
+import com.gfx.domain.series.TypeSerie;
 import com.gfx.domain.users.Enjoyer;
 import com.gfx.domain.users.Gender;
 import com.gfx.domain.users.User;
@@ -17,24 +21,51 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
-		
+		System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
-		//UserDB.connect();
-        //User newUser = new Enjoyer("test@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
+		UserDB.connect();
+/*
+		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
+        User newUser = new Enjoyer("Sandra@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
+        if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
+        UserDB.insertOne(newUser);
+        UserDB.update(newUser);
+		List<TypeSerie> fav = new ArrayList<TypeSerie>();
+		fav.add(TypeSerie.ACTION);
+		UserDB.updateFav(newUser.getLogin(), fav);
+
+		// System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
+        User newUser = new Enjoyer("thello", "hi", "pwd", "Paulo");
+        //if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
         //UserDB.insertOne(newUser);
         //UserDB.update(newUser);
-		//List<Integer> fav = new ArrayList<Integer>();
-		//fav.add(5);
-		//UserDB.updateFav("test@test.com", fav);
+//        List<TypeSerie> aff = new ArrayList<TypeSerie>();
+//        aff.add(TypeSerie.ACTION);
+//		UserDB.updateAffinities(newUser.getLogin(), aff);
+//        List<Integer> fav = new ArrayList<Integer>();
+//        fav.add(1);
+//        fav.add(4);
+//        fav.add(98);
+//		UserDB.updateFav(newUser.getLogin(), fav);
+//        List<String> notif = new ArrayList<String>();
+//      	notif.add("Prochain épisode de la saison 7 de Grey's Anatomy le 12-10-2018");
+//      	notif.add("Prochain épisode de la saison 2 de Flash le 22-12-2018");
+//      	UserDB.updateNotifications(newUser.getLogin(), notif);
         //UserDB.readDatabase();
-        //System.out.println(UserDB.checkPwd("test@test.com", "pwd0"));
-		//UserDB.updatePwd("test@test.com", "pwd0");
-		//System.out.println(UserDB.checkLoginNotUsed("test@test.com"));
+        User user = UserDB.checkPwd("thello", "pwd");
+        System.out.println(user.toString());
+        //System.out.println("check pwd == pwd0" + UserDB.checkPwd(newUser.getPassword(), "pwd0"));
+		//UserDB.updatePwd(newUser.getLogin(), "pwd0");
+        //}
+        //else {System.out.println("Please choose another login value");}
 	    
-		SerieService serieService = new SerieService();
+
+		//SerieService service = new SerieService();
+		//System.out.println(Genre.getGenres());
+
+		SerieService service = new SerieService();
 		System.out.println(Genre.getGenres());
 		//service.init();
-		
 		
 		
 		/*System.out.println("\n"+"**********************************"+"\n");
@@ -54,6 +85,62 @@ public class MainTest {
 		for (int i = 0; i < result.size(); i++) {
 			System.out.println(result.get(i).info());
 		}*/
+		
+		new SerieFactory();
+		//serieFactory.getSeasons(60735);
+		//serieFactory.getEpisodes(60735, 1);
+		List<Serie> series = Data.getListSeries();
+    
+    
+    
+		/**
+		 * Test for the notifications
+		 */
+		/*SerieFactory serieFactory = new SerieFactory();
+		List<Serie> series = serieFactory.getSeries();
+		for(Serie s :series) {
+			System.out.println(s.getId());
+		}
+		Visualization visu = new Visualization(series);
+		Enjoyer e1 = new Enjoyer("enjoyer1");
+		
+		Serie s1 = visu.getById(1416);
+		Serie s2 = visu.getById(61889);
+		Serie s3 = visu.getById(1403);
+		
+		s1.setDateNextEpisodeOnAir(LocalDate.now());
+		s1.setNextEpisodeOnAir(18);
+		s1.setNbSeasonNEOA(7);
+		
+		s2.setDateNextEpisodeOnAir(LocalDate.of(2018, Month.NOVEMBER, 15));
+		s2.setNextEpisodeOnAir(3);
+		s2.setNbSeasonNEOA(4);
+		
+		s3.setDateNextEpisodeOnAir(LocalDate.of(2018, Month.NOVEMBER, 2));
+		s3.setNextEpisodeOnAir(8);
+		s3.setNbSeasonNEOA(6);
+		
+		
+		e1.addToFavorites(s1.getId());
+		e1.addToFavorites(s2.getId());
+		e1.addToFavorites(s3.getId());
+		
+		
+		s1.notifyNextEpisodeOnAirSoon();
+		s2.notifyNextEpisodeOnAirSoon();
+		s1.notifyNextEpisodeOnAirSoon();
+		s3.notifyNextEpisodeOnAirSoon();
+		s3.notifyNextEpisodeOnAirSoon();
+		
+		try {
+			Thread.sleep(5000);
+		}
+		catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		e1.displayAllNotificationsUnread();*/
+		/**End Test for notification*/
 
 	}
 }

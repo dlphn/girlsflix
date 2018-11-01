@@ -14,40 +14,37 @@
 		</div>
 		<div class="col-md-8">
 			<h3>${fn:escapeXml(serie.getTitle())} <span class="small-info creation-date">(${fn:escapeXml(serie.getCreationDate())})</span></h3>
-			<c:forEach var="genre" items="${serie.getSerieGenre()}">
+			<c:forEach var="genre" items="${serie.getSerieGenres()}">
 				<span class="badge badge-secondary">${fn:escapeXml(genre)}</span>
 			</c:forEach>
 			<p>${fn:escapeXml(serie.getSummary())}</p>
 			<c:if test="${not empty loggedIn}">Ajouter aux favoris</c:if>
 			<c:if test="${empty loggedIn}">Connectez-vous pour ajouter aux favoris</c:if>
 		</div>
-	</div>
+	</div><br/>
 	<div class="row">
 		<div class="col-md-12">
 			<h4>Saisons & Episodes</h4>
 		</div>
 		<div class="col-md-12">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
-		  		<li class="nav-item">
-		    		<a class="nav-link active" id="season1-tab" data-toggle="tab" href="#season1" role="tab" aria-controls="season1" aria-selected="true">Saison 1</a>
-		  		</li>
-			  	<li class="nav-item">
-			   		<a class="nav-link" id="season2-tab" data-toggle="tab" href="#season2" role="tab" aria-controls="season2" aria-selected="false">Saison 2</a>
-			  	</li>
-		  		<li class="nav-item">
-		    		<a class="nav-link" id="season3-tab" data-toggle="tab" href="#season3" role="tab" aria-controls="season3" aria-selected="false">Saison 3</a>
-		  		</li>
+				<c:forEach var="season" items="${serie.getSeasons()}">
+					<li class="nav-item">
+			    		<a class="nav-link ${(season.getSeasonNb() == 1 ? "active" : "")}" 
+			    		id="season${season.getSeasonNb()}-tab" 
+			    		data-toggle="tab" href="#season${season.getSeasonNb()}" 
+			    		role="tab" 
+			    		aria-controls="season${season.getSeasonNb()}" 
+			    		aria-selected="true">${season.getSeasonName()}</a>
+			  		</li>
+				</c:forEach>
 			</ul>
 			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade show active" id="season1" role="tabpanel" aria-labelledby="season1-tab">
-					<fragments:season nb="1"/>
-				</div>
-				<div class="tab-pane fade" id="season2" role="tabpanel" aria-labelledby="season2-tab">
-					<fragments:season nb="2"/>
-				</div>
-				<div class="tab-pane fade" id="season3" role="tabpanel" aria-labelledby="season3-tab">
-					<fragments:season nb="3"/>
-				</div>
+				<c:forEach var="season" items="${serie.getSeasons()}">
+					<div class="tab-pane fade ${(season.getSeasonNb() == 1 ? "show active" : "")}" id="season${season.getSeasonNb()}" role="tabpanel" aria-labelledby="season${season.getSeasonNb()}-tab">
+						<fragments:season season="${season}"/>
+					</div>
+				</c:forEach>
 			</div>
 			</div>
 	</div>
