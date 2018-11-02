@@ -25,7 +25,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { //config globale
         auth
             .inMemoryAuthentication() //La base des utilisateurs est en mémoire. En production, nous aurions très certainement une base de données afin de stocker les utilisateurs.
-            .withUser("user").password("password").roles("ADMIN"); //On ajoute un utilisateur avec le role ADMIN.
+            .withUser("user").password("password").roles("USER"); //On ajoute un utilisateur avec le role ROLE_USER.
     }
 
     @Override
@@ -35,7 +35,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	            .antMatchers("/**").authenticated() ///admin/** nécessite d’être authentifié
 	            .and()
             .formLogin() //Le login est disponible via un formulaire
-	            .permitAll()
+	            .loginPage("/login")
+            	.permitAll()
                 .and()
             .logout()
             .logoutSuccessUrl("/")
