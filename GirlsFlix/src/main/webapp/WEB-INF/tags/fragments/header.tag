@@ -14,6 +14,14 @@
 			<li class="nav-item">
 			  	<a class="nav-link" href="/GirlsFlix/serie-surprise">Série surprise</a>
 			</li>
+			<sec:authorize access="isAuthenticated()">
+				<li class="nav-item">
+					<a class="nav-link" href="/GirlsFlix/favoris">Mes favoris</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/GirlsFlix/notifications">Notifications</a>
+				</li>
+			</sec:authorize>
 		</ul>
 		<span class="navbar-text">
 			<sec:authorize access="!isAuthenticated()">

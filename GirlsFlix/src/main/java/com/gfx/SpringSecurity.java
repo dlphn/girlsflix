@@ -42,7 +42,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception { //Configuration des requêtes http
         http
             .authorizeRequests()
-            	.antMatchers("/GirlsFlix/*").permitAll()
+            	.antMatchers("/GirlsFlix/favoris", "/GirlsFlix/notifications").authenticated()
+            	.anyRequest().permitAll()
 	            .and()
             .formLogin()
 	            .loginPage("/login").failureUrl("/login?error")

@@ -22,6 +22,9 @@
 			<sec:authorize access="isAuthenticated()">
 				<button type="button" class="btn btn-danger">
 					<i class="fas fa-heart"></i> Ajouter aux favoris
+				</button> /
+				<button type="button" class="btn btn-secondary">
+					<i class="fas fa-trash-alt"></i> Supprimer des favoris
 				</button>
 			</sec:authorize>
 			<sec:authorize access="!isAuthenticated()">
