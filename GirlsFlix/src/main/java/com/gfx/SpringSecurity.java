@@ -1,7 +1,9 @@
 package com.gfx;
 
 import javax.inject.Inject;
+import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +17,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	DataSource dataSource;
 
 	@Bean
 	public static NoOpPasswordEncoder passwordEncoder() {
@@ -23,10 +28,15 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	
     @Inject
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { //config globale
-        auth
+        /*auth
             .inMemoryAuthentication() //La base des utilisateurs est en mémoire. En production, nous aurions très certainement une base de données afin de stocker les utilisateurs.
-            .withUser("user").password("password").roles("USER"); //On ajoute un utilisateur avec le role ROLE_USER.
-    }
+            .withUser("user").password("password").roles("USER"); //On ajoute un utilisateur avec le role ROLE_USER.*/
+    	auth
+	        .jdbcAuthentication() //base de données afin de stocker les utilisateurs.
+	        .dataSource(dataSource)
+	        .usersByUsernameQuery("select login, password, enabled from users where login=?")
+	        .authoritiesByUsernameQuery("select login, role from user_roles where login=?");
+	}
 
     @Override
     protected void configure(HttpSecurity http) throws Exception { //Configuration des requêtes http
@@ -35,7 +45,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	            .antMatchers("/**").authenticated() ///admin/** nécessite d’être authentifié
 	            .and()
             .formLogin() //Le login est disponible via un formulaire
-	            .loginPage("/login")
+	            //.loginPage("/login")
             	.permitAll()
                 .and()
             .logout()
