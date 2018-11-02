@@ -21,47 +21,69 @@
 		<div class="main">
 			<div class="container">
 				<h2>Créez-vous un compte GirlsFlix</h2>
+				<a href="/GirlsFlix/login">Déjà un compte ?</a>
 				<p> ${message} </p>
 				<form:form method="POST" modelAttribute="user">
-				<table>
-				<tr>
-				    <td><form:label path="login">Login</form:label></td>
-				    <td><form:input path="login"/></td>
-				</tr>
-				<tr>
-                    <td><form:label path="pseudo">Pseudo</form:label></td>
-                    <td><form:input path="pseudo"/></td>
-                </tr>
-                <tr>
-                    <td><form:label path="firstName">Prénom</form:label></td>
-                    <td><form:input path="firstName"/></td>
-                </tr>
-                <tr>
-                    <td><form:label path="lastName">Nom</form:label></td>
-                    <td><form:input path="lastName"/></td>
-                </tr>
-                <tr>
-                    <td><form:label path="password">Mot de Passe </form:label></td>
-                    <td><form:password path="password"/></td>
-                </tr>
-                <tr>
-                    <td><form:label path="gender"> Je suis : </form:label></td>
-                    <td>
-                    <form:radiobutton path="gender" value="Gender.MALE"/> Un homme    
-                    <form:radiobutton path="gender" value="Gender.FEMALE"/> Une femme    
-                    <form:radiobutton path="gender" value="Gender.OTHER"/> Autre  
-                    </td>
-                </tr>
-                 <tr>
-                    <td><form:label path="affinities"> Sélectionner vos préférences : </form:label></td>
-                    <td><form:checkboxes items="${genres}" path="affinities" /></td>
-                 </tr>   
-                <tr>
-                    <td><input type="submit" value="S'inscrire"/></td>
-                </tr>
-				</table>
+					<div class="row">
+					    <form:label path="login" for="inputLogin" class="col-sm-3 col-form-label">Login <span class="mandatory-field">*</span></form:label>
+					    <div class="col-sm-9">
+					      	<form:input class="form-control" id="inputLogin" path="login" required="required"/>
+					    </div>
+				    </div>
+				    <div class="row">
+					    <form:label path="pseudo" for="inputPseudo" class="col-sm-3 col-form-label">Pseudo <span class="mandatory-field">*</span></form:label>
+					    <div class="col-sm-9">
+					      	<form:input class="form-control" id="inputPseudo" path="pseudo" required="required"/>
+					    </div>
+				    </div>
+				    <div class="row">
+					    <form:label path="firstName" for="inputFirstName" class="col-sm-3 col-form-label">Prénom</form:label>
+					    <div class="col-sm-9">
+					      	<form:input class="form-control" id="inputFirstName" path="firstName"/>
+					    </div>
+				    </div>
+				    <div class="row">
+					    <form:label path="lastName" for="inputLastName" class="col-sm-3 col-form-label">Nom</form:label>
+					    <div class="col-sm-9">
+					      	<form:input class="form-control" id="inputLastName" path="lastName"/>
+					    </div>
+				    </div>
+				    <div class="row">
+					    <form:label path="password" for="inputPassword" class="col-sm-3 col-form-label">Mot de passe <span class="mandatory-field">*</span></form:label>
+					    <div class="col-sm-9">
+					      	<form:password class="form-control" id="inputPassword" path="password" required="required"/>
+					      	<small id="passwordHelpBlock" class="form-text text-muted">
+							  Votre mot de passe doit contenir entre 8 et 20 caractères.
+							</small>
+					    </div>
+				    </div>
+				    <fieldset class="row">
+					    <div class="row">
+							<form:label path="gender" class="col-form-label col-sm-3">Je suis :</form:label>
+							<div class="col-sm-9">
+								<div class="form-check">
+								    <form:radiobutton name="gridRadios" path="gender" value="Gender.MALE"/> Un homme
+							  	</div>
+							  <div class="form-check">
+								    <form:radiobutton name="gridRadios" path="gender" value="Gender.FEMALE"/> Une femme 
+							  </div>
+							  <div class="form-check">
+	                   				<form:radiobutton name="gridRadios" path="gender" value="Gender.OTHER"/> Autre  
+							  </div>
+							</div>
+					    </div>
+					</fieldset>
+					<div class="row">
+					    <form:label path="affinities" class="col-sm-3">Sélectionnez vos préférences</form:label>
+					    <div class="col-sm-9">
+				    		<c:forEach var="genre" items="${genres}">
+				    			<div class="form-check">
+				    				<form:checkbox path="affinities" value="${genre.name}"/> ${genre.name}
+				    			</div>
+				    		</c:forEach>
+					    </div>
+				  	</div>
 				</form:form>
-				<a href="/GirlsFlix/login">Déjà un compte ?</a>
 			</div>
 		</div>
 		

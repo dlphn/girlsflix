@@ -21,40 +21,29 @@
 		<div class="main">
 			<div class="container">
 				<h2>Se connecter</h2>
-				<p>
 				<c:if test="${not empty error}">
-				<div class="error">${error}</div>
-			</c:if>
-			<c:if test="${not empty msg}">
-				<div class="msg">${msg}</div>
-			</c:if>
+					<div class="error">${error}</div>
+				</c:if>
+				<c:if test="${not empty msg}">
+					<div class="msg">${msg}</div>
+				</c:if>
 				<c:url value="/login" var="loginUrl"/>
-				<form action="${loginUrl}" method="post">
-					<c:if test="${param.error != null}">
-						<p>
-							Invalid username and password.
-						</p>
-					</c:if>
-					<c:if test="${param.logout != null}">
-						<p>
-							You have been logged out.
-						</p>
-					</c:if>
-					<p>
-						<label for="username">Username</label>
-						<input type="text" id="username" name="username"/>
-					</p>
-					<p>
-						<label for="password">Password</label>
-						<input type="password" id="password" name="password"/>
-					</p>
+				<form action="${loginUrl}" method="post" class="form-signin">
+					<div class="form-group row">
+					  	<label for="username" class="sr-only">Login</label>
+				    	<input type="text" class="form-control" id="username" name="username" placeholder="Login"
+				    		required autofocus>
+					  	<label for="password" class="sr-only">Mot de passe</label>
+				    	<input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+					</div>
 					<input type="hidden"
 						name="${_csrf.parameterName}"
 						value="${_csrf.token}"/>
-					<button type="submit" class="btn">Log in</button>
+					<button type="submit" class="btn btn-lg btn-primary btn-block">Se connecter</button>
 				</form>
-                </p>
-				<a href="/GirlsFlix/register">Pas encore de compte ?</a>
+				<p class="text-center">
+					<a href="/GirlsFlix/register">Pas encore de compte ?</a>
+				</p>
 			</div>
 		</div>
 		

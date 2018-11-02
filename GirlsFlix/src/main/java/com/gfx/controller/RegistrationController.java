@@ -23,12 +23,7 @@ public class RegistrationController {
 		public ModelAndView loadRegisterPage() {
 	    ModelAndView mav = new ModelAndView("user/register", "command", new Enjoyer());
 	    mav.addObject("user", new Enjoyer());
-	    List<JSONObject> genres = Genre.getGenres();
-	    List<String> genresList = new ArrayList<String>();
-	    for (JSONObject genre : genres) {
-	    	genresList.add(genre.get("name").toString());
-	    }
- 	    mav.addObject("genres", genresList);
+ 	    mav.addObject("genres", Genre.getGenres());
 	    String message = "";
 	    //mav.addObject("genderTypes", Gender.values());
 	    return mav;
@@ -42,24 +37,19 @@ public class RegistrationController {
 		model.addAttribute("lastName", user.getLastName());
 		model.addAttribute("gender", user.getGender());
 		model.addAttribute("affinities", user.getAffinities());
-		List<JSONObject> genres = Genre.getGenres();
-	    List<String> genresList = new ArrayList<String>();
-	    for (JSONObject genre : genres) {
-	    	genresList.add(genre.get("name").toString());
-	    }
 		Boolean notUsed = UserDB.checkLoginNotUsed(user.getLogin());
 		if (notUsed) {
 			if (UserDB.insertOne(user)) {
 				return "user/userSuccess";
 			} else {
 				model.put("user", new Enjoyer());
-			    model.put("genres", genresList);
+				model.put("genres", Genre.getGenres());
 				model.put("message" , "La création de compte a été interrompue. Pourriez-vous vous réinscrire ?");
 				return "user/register";
 			}
 		} else {
 		    model.put("user", new Enjoyer());
-		    model.put("genres", genresList);
+		    model.put("genres", Genre.getGenres());
 		    model.put("message" , "Il existe déjà un compte avec le login : "  +  user.getLogin());
 		    return "user/register";
 	    }

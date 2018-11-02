@@ -16,23 +16,13 @@ import com.gfx.service.UserDB;
 public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	/*public ModelAndView showLoginPage(HttpServletRequest request, HttpServletResponse response) {
-	    ModelAndView mav = new ModelAndView("user/login");
-	    mav.addObject("user", new Enjoyer());
-	    return mav;
-	}*/
 	public ModelAndView login(
-		@RequestParam(value = "error", required = false) String error,
-		@RequestParam(value = "logout", required = false) String logout
+		@RequestParam(value = "error", required = false) String error
 	) {
 
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
-			model.addObject("error", "Invalid username and password!");
-		}
-
-		if (logout != null) {
-			model.addObject("msg", "You've been logged out successfully.");
+			model.addObject("error", "Le login et/ou mot de passe sont invalides.");
 		}
 		model.setViewName("user/login");
 
