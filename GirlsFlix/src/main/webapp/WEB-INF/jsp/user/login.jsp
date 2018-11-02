@@ -22,22 +22,37 @@
 			<div class="container">
 				<h2>Se connecter</h2>
 				<p>
-				${msg}
-				<form:form method="POST" modelAttribute="user">
-                <table>
-                <tr>
-                    <td><form:label path="login">Login</form:label></td>
-                    <td><form:input path="login"/></td>
-                </tr>
-                <tr>
-                    <td><form:label path="password">Mot de passe</form:label></td>
-                    <td><form:password path="password" /></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="Se connecter"/></td>
-                </tr>
-                 </table>
-                 </form:form>
+				<c:if test="${not empty error}">
+				<div class="error">${error}</div>
+			</c:if>
+			<c:if test="${not empty msg}">
+				<div class="msg">${msg}</div>
+			</c:if>
+				<c:url value="/login" var="loginUrl"/>
+				<form action="${loginUrl}" method="post">
+					<c:if test="${param.error != null}">
+						<p>
+							Invalid username and password.
+						</p>
+					</c:if>
+					<c:if test="${param.logout != null}">
+						<p>
+							You have been logged out.
+						</p>
+					</c:if>
+					<p>
+						<label for="username">Username</label>
+						<input type="text" id="username" name="username"/>
+					</p>
+					<p>
+						<label for="password">Password</label>
+						<input type="password" id="password" name="password"/>
+					</p>
+					<input type="hidden"
+						name="${_csrf.parameterName}"
+						value="${_csrf.token}"/>
+					<button type="submit" class="btn">Log in</button>
+				</form>
                 </p>
 				<a href="/GirlsFlix/register">Pas encore de compte ?</a>
 			</div>

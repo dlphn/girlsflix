@@ -42,14 +42,17 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception { //Configuration des requêtes http
         http
             .authorizeRequests()
-	            .antMatchers("/**").authenticated() ///admin/** nécessite d’être authentifié
+            	.antMatchers("/GirlsFlix/*").permitAll()
 	            .and()
-            .formLogin() //Le login est disponible via un formulaire
-	            //.loginPage("/login")
+            .formLogin()
+	            .loginPage("/login").failureUrl("/login?error")
+	  		  	.usernameParameter("username").passwordParameter("password")
             	.permitAll()
                 .and()
             .logout()
             .logoutSuccessUrl("/")
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .and()
+  		  	.csrf();
     }
 }
