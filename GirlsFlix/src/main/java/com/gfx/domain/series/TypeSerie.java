@@ -1,5 +1,7 @@
 package com.gfx.domain.series;
 
+
+//TODO to be removed
 public enum TypeSerie {
 	ACTION,
 	ANIMATION,

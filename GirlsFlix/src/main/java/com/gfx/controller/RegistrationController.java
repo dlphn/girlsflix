@@ -1,5 +1,9 @@
 package com.gfx.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,19 +11,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gfx.domain.series.TypeSerie;
+import com.gfx.domain.series.Genre;
 import com.gfx.domain.users.Enjoyer;
 import com.gfx.helper.LoginExistsException;
 import com.gfx.service.UserDB;
 
 @Controller
 public class RegistrationController {
-	
+
 	@GetMapping("/register")
 		public ModelAndView loadRegisterPage() {
 	    ModelAndView mav = new ModelAndView("user/register", "command", new Enjoyer());
 	    mav.addObject("user", new Enjoyer());
-	    mav.addObject("serieTypesList", TypeSerie.values());
+	    List<JSONObject> genres = Genre.getGenres();
+	    List<String> genresList = new ArrayList<String>();
+	    for (JSONObject genre : genres) {
+	    	genresList.add(genre.get("name").toString());
+	    }
+ 	    mav.addObject("genres", genresList);
 	    String message = "";
 	    //mav.addObject("genderTypes", Gender.values());
 	    return mav;
@@ -33,23 +42,25 @@ public class RegistrationController {
 		model.addAttribute("lastName", user.getLastName());
 		model.addAttribute("gender", user.getGender());
 		model.addAttribute("affinities", user.getAffinities());
-		UserDB.connect();
+		List<JSONObject> genres = Genre.getGenres();
+	    List<String> genresList = new ArrayList<String>();
+	    for (JSONObject genre : genres) {
+	    	genresList.add(genre.get("name").toString());
+	    }
 		Boolean notUsed = UserDB.checkLoginNotUsed(user.getLogin());
-		if(notUsed) {
-				if(UserDB.insertOne(user)) {
-					UserDB.updateAffinities(user.getLogin(), user.getAffinities());
-					return "user/userSuccess";
-					}
-				else { 
-					 model.put("user", new Enjoyer());
-					 model.put("serieTypesList", TypeSerie.values());
-				     model.put("message" , "La création de compte a été interrompue. Pourriez-vous vous réinscrire ?");
-				     return "user/register";
-					}
+		if (notUsed) {
+			if (UserDB.insertOne(user)) {
+				return "user/userSuccess";
+			} else {
+				model.put("user", new Enjoyer());
+			    model.put("genres", genresList);
+				model.put("message" , "La création de compte a été interrompue. Pourriez-vous vous réinscrire ?");
+				return "user/register";
+			}
 		} else {
 		    model.put("user", new Enjoyer());
-		    model.put("serieTypesList", TypeSerie.values());
-		    model.put("message" , "Il existe déjà un compte avec le login:"  +  user.getLogin());
+		    model.put("genres", genresList);
+		    model.put("message" , "Il existe déjà un compte avec le login : "  +  user.getLogin());
 		    return "user/register";
 	    }
 	}
