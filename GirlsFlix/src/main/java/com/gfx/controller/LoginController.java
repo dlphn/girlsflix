@@ -27,21 +27,19 @@ public class LoginController {
 	
 	@RequestMapping( "/login")
 	public String connectUser(ModelMap model, @ModelAttribute("user") Enjoyer user) throws LoginExistsException {
-		UserDB.connect();
 		String msg = "";
-		Boolean connectionAllowed = false;
-		model.addAttribute("login", user.getLogin());
-		model.addAttribute("password", user.getPassword());
-		if(!UserDB.checkLoginNotUsed(user.getLogin())) {
-			user =(Enjoyer) UserDB.checkPwd(user.getLogin(), user.getPassword());//Si le compte existe on instancie l'objet user
-			connectionAllowed = true;
-		}
-		if(connectionAllowed) {
+		Enjoyer loggedInUser = UserDB.checkPwd(user.getLogin(), user.getPassword());//Si le compte existe on instancie l'objet user
+		if (loggedInUser != null) {
 			msg = "Connexion réussie";
-			return "views/welcome";}
-		else {
+			model.put("msg", msg);
+			model.put("login", user.getLogin());
+			model.put("password", user.getPassword());
+			return "views/welcome";
+		} else {
 			msg = "Le login et/ou Mot de passe sont invalides.";
-			return "user/login";}
+			model.put("msg", msg);
+			return "user/login";
+		}
 	
 	}
 }

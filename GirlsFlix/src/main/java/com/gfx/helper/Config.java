@@ -22,7 +22,7 @@ public class Config {
 		return lang;
 	}
 
-	public static int getNbdaysnotifbeforediff() {
+	public static int getNbDaysNotifBeforeDiff() {
 		return nbDaysNotifBeforeDiff;
 	}
 	

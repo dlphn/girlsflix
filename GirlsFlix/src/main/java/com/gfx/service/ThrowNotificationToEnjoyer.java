@@ -15,7 +15,7 @@ public class ThrowNotificationToEnjoyer implements Runnable {
 	}
 	
 	public void run() {
-		enjoyerToNotify.notifyNextEpisodeOnAirSoon(serieNotified);
+		UserService.notifyNextEpisodeOnAirSoon(enjoyerToNotify, serieNotified);
 	}
 
 }

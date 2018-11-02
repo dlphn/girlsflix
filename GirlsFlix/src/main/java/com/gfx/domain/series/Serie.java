@@ -105,25 +105,7 @@ public class Serie {
 	public void addSeason(Season season) {
 		seasons.add(season);
 	}
-	
-	/**
-	 * this method is called on a regular basis. it checks if the episode will be on air
-	 * in 3 days exactly or if it will be on air in less than 3 days but hasn't been 
-	 * notified to the enjoyers. If the conditions are filled we browse the list of 
-	 * enjoyers we need to notify and we create one thread per enjoyer and each thread 
-	 * will take care of processing the notification process for the enjoyer.
-	 */
-	public void notifyNextEpisodeOnAirSoon() {
-		Period period = Period.between(LocalDate.now(),dateNextEpisodeOnAir);
-		if(period.getDays() <= Config.getNbdaysnotifbeforediff() && !nextEpisodeHasBeenNotified) {
-			for(Enjoyer enjoyer: enjoyersToNotify) {
-				Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyer, this));
-				throwNotif.start();
-			}
-			nextEpisodeHasBeenNotified = true;
-		}
-		
-	}
+
 	
 	/*******************/
 	/*Getters & Setters*/

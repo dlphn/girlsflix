@@ -1,6 +1,5 @@
 package com.gfx.service;
 
-import com.gfx.domain.series.TypeSerie;
 import com.gfx.domain.users.Enjoyer;
 
 import com.gfx.domain.users.Gender;
@@ -29,18 +28,15 @@ public class UserDB {
 	private static ResultSet resultSet = null;
     
 	public static void connect() {
-		Keys keys = new Keys();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e1) {
-			System.out.println("Connexion non reconnue");
-			e1.printStackTrace();
-		}
-		
-		String url = "jdbc:mysql://" + keys.getMysqlHost() + "/" + keys.getMysqlDb() + "?allowPublicKeyRetrieval=true&useSSL=false";
 		if (connect == null) {
 			try {
+				Keys keys = new Keys();
+				Class.forName("com.mysql.jdbc.Driver");
+				String url = "jdbc:mysql://" + keys.getMysqlHost() + "/" + keys.getMysqlDb() + "?allowPublicKeyRetrieval=true&useSSL=false";
 				connect = DriverManager.getConnection(url, keys.getMysqlUser(), keys.getMysqlPwd());
+			} catch (ClassNotFoundException e1) {
+				System.out.println("Connexion non reconnue");
+				e1.printStackTrace();
 			} catch(SQLException e) {
 				System.out.println("Impossible de se connecter à la BDD");
 				e.printStackTrace();
@@ -81,11 +77,12 @@ public class UserDB {
             	resultSet.close();
             }
         } catch (Exception e) {
-
+        	e.printStackTrace();
         }
     }
 	
 	public static void readDatabase() {
+		connect();
 		String query = "SELECT * FROM users";
 		try {
 			statement = connect.createStatement();
@@ -99,17 +96,19 @@ public class UserDB {
 		}
 	}
 	
-	public static boolean insertOne(User newUser){
+	public static boolean insertOne(Enjoyer newUser){
+		connect();
 		try {
+			// login, pseudo, password, firstname, lastname, gender, favorites, notifications, affinities
 			preparedStatement = connect
-			        .prepareStatement("INSERT INTO users values (?, ?, ?, ?, ?, ?, null, null)");
+			        .prepareStatement("INSERT INTO users values (?, ?, ?, ?, ?, ?, null, null, ?)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
             preparedStatement.setString(3, newUser.getPassword() != null ? newUser.getPassword() : null);
             preparedStatement.setString(4, newUser.getFirstName() != null ? newUser.getFirstName() : null);
             preparedStatement.setString(5, newUser.getLastName() != null ? newUser.getLastName() : null);
             preparedStatement.setString(6, newUser.getGender() != null ? newUser.getGender().toString() : null);
-            //preparedStatement.setString(7, newUser.getAffinities().toString());
+            preparedStatement.setString(7, newUser.getGender() != null ? newUser.getAffinities().toString() : null);
             preparedStatement.executeUpdate();
             return true;
 		} catch (SQLException e) {
@@ -120,14 +119,25 @@ public class UserDB {
 		}
 	}
 	
-	public static void update(User updatedUser) {
+	public static void update(Enjoyer updatedUser) {
+		connect();
 		try {
+			String affStr = String.join("/", updatedUser.getAffinities());
+			String favStr = updatedUser.getFavorites().stream()
+	      		  .map(String::valueOf)
+	      		  .collect(Collectors.joining(","));
+			String notifStr = String.join("/", updatedUser.getNotifications());
+			
 			String query = "UPDATE users SET";
-			query += " pseudo='" + updatedUser.getPseudo() + "'";
-			if (updatedUser.getFirstName() != null) query += ", firstname='" + updatedUser.getFirstName() + "'";
-			if (updatedUser.getLastName() != null) query += ", lastname='" + updatedUser.getLastName() + "'";
-			if (updatedUser.getGender() != null) query += ", gender='" + updatedUser.getGender().toString() + "'";
-			query += " WHERE login='" + updatedUser.getLogin() + "'";
+			query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
+			if (updatedUser.getPassword() != null) query += ", password=\"" + updatedUser.getPassword() + "\"";
+			if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
+			if (updatedUser.getLastName() != null) query += ", lastname=\"" + updatedUser.getLastName() + "\"";
+			if (updatedUser.getGender() != null) query += ", gender=\"" + updatedUser.getGender().toString() + "\"";
+			if (updatedUser.getAffinities() != null) query += ", affinities=\"" + affStr + "\"";
+			if (updatedUser.getFavorites() != null) query += ", favorites=\"" + favStr + "\"";
+			if (updatedUser.getNotifications() != null) query += ", notifications=\"" + notifStr + "\"";
+			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
 			System.out.println(query);
 			preparedStatement = connect
 			        .prepareStatement(query);
@@ -139,75 +149,9 @@ public class UserDB {
 			close();
 		}
 	}
-
-	public static void updateFav(String login, List<Integer> favorites) {
-		String favStr = favorites.stream()
-      		  .map(String::valueOf)
-      		  .collect(Collectors.joining(","));
-		try {
-			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET favorites=? WHERE login=?");
-            preparedStatement.setString(1, favStr);
-            preparedStatement.setString(2, login);
-            preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
 	
-	public static void updateAffinities(String login, List<TypeSerie> affinities) {
-		String affStr = affinities.stream()
-      		  .map(String::valueOf)
-      		  .collect(Collectors.joining(","));
-		try {
-			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET affinities=? WHERE login=?");
-            preparedStatement.setString(1, affStr);
-            preparedStatement.setString(2, login);
-            preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	
-	public static void updateNotifications(String login, List<String> notifications) {
-		String notifStr = String.join("/", notifications);
-		try {
-			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET notifications=? WHERE login=?");
-            preparedStatement.setString(1, notifStr);
-            preparedStatement.setString(2, login);
-            preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	
-	public static void updatePwd(String login, String newPwd) {
-		try {
-			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET password=? WHERE login=?");
-            preparedStatement.setString(1, newPwd);
-            preparedStatement.setString(2, login);
-            preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	
-	public static User checkPwd(String login, String pwd) {
+	public static Enjoyer checkPwd(String login, String pwd) {
+		connect();
 		String query = "SELECT pseudo, firstname, lastname, gender, favorites, notifications, affinities FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
 		try {
 			statement = connect.createStatement();
@@ -238,8 +182,7 @@ public class UserDB {
 	            	affStrList = affinitiesStr.split("/");
 	            	for(String aff : affStrList) affinities.add(aff);
 	            }
-	            // TODO User constructor with notifications and affinities
-	            User user = new Enjoyer(login, pseudo, pwd, firstname, lastname, gender, favorites);
+	            Enjoyer user = new Enjoyer(login, pseudo, pwd, firstname, lastname, gender, affinities, favorites, notifications);
 	            return user;
 	        }
 		} catch (SQLException e) {
@@ -252,12 +195,13 @@ public class UserDB {
 	}
 	
 	/**
-	 * Checks if the login does not already exist in the database.
+	 * Check if the login does not already exist in the database.
 	 * 
 	 * @param login
 	 * @return true if the login can be used for an account creation, else false
 	 */
 	public static Boolean checkLoginNotUsed(String login) {
+		connect();
 		String query = "SELECT pseudo FROM users WHERE login='" + login + "'";
 		try {
 			statement = connect.createStatement();
