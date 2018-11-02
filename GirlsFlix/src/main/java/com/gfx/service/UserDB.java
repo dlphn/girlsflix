@@ -150,6 +150,51 @@ public class UserDB {
 		}
 	}
 	
+	public static Enjoyer getUser(String login) {
+		connect();
+		String query = "SELECT pseudo, password, firstname, lastname, gender, favorites, notifications, affinities FROM users WHERE login='" + login + "'";
+		try {
+			statement = connect.createStatement();
+	        resultSet = statement.executeQuery(query);
+	        if (resultSet.next()) {
+	        	String[] favStrList = new String[0];
+	        	List<Integer> favorites = new ArrayList<Integer>();
+	        	String[] notifStrList = new String[0];
+	        	List<String> notifications = new ArrayList<String>();
+	        	String[] affStrList = new String[0];
+	        	List<String> affinities = new ArrayList<String>();
+	            String pseudo = resultSet.getString("pseudo");
+	            String password = resultSet.getString("password");
+	            String firstname = resultSet.getString("firstname");
+	            String lastname = resultSet.getString("lastname");
+	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
+	            String favoritesStr = resultSet.getString("favorites");
+	            if (favoritesStr != null) {
+	            	favStrList = resultSet.getString("favorites").split(",");
+	            	for(String fav : favStrList) favorites.add(Integer.valueOf(fav));
+	            }
+	            String notificationsStr = resultSet.getString("notifications");
+	            if (notificationsStr != null) {
+	            	notifStrList = notificationsStr.split("/");
+	            	for(String notif : notifStrList) notifications.add(notif);
+	            }
+	            String affinitiesStr = resultSet.getString("affinities");
+	            if (affinitiesStr != null) {
+	            	affStrList = affinitiesStr.split("/");
+	            	for(String aff : affStrList) affinities.add(aff);
+	            }
+	            Enjoyer user = new Enjoyer(login, pseudo, password, firstname, lastname, gender, affinities, favorites, notifications);
+	            return user;
+	        }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
+	
 	public static Enjoyer checkPwd(String login, String pwd) {
 		connect();
 		String query = "SELECT pseudo, firstname, lastname, gender, favorites, notifications, affinities FROM users WHERE login='" + login + "' AND password='" + pwd + "'";

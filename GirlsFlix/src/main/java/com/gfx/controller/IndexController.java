@@ -12,6 +12,7 @@ import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.service.SerieFactory;
+import com.gfx.service.UserService;
  
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
@@ -27,6 +28,7 @@ public class IndexController {
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
 		model.put("columns", Data.pickNRandom(9));
+		System.out.println(UserService.currentUserLogin());
 
         return "index";
     }
