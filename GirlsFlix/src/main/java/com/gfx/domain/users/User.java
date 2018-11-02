@@ -1,20 +1,17 @@
 package com.gfx.domain.users;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gfx.domain.series.TypeSerie;
-
 public abstract class User {
-	private String login; // [Deprecated][Impossible pour instanciation depuis formulaire]le User ne pourra plus changer son login une fois choisi
-	private String pseudo;
-	private String password;
-	private String firstName;
-	private String lastName;
-	private Gender gender;
-	private List<TypeSerie> affinities = new ArrayList<TypeSerie>();
+	private String login = ""; // [Deprecated][Impossible pour instanciation depuis formulaire]le User ne pourra plus changer son login une fois choisi
+	private String pseudo = "";
+	private String password = "";
+	private String firstName = "";
+	private String lastName = "";
 	
 	public User() {
+	}
+	
+	public User(String login) {
+		this.login = login;
 	}
 	
 	public User(String login, String pseudo, String password) {
@@ -32,14 +29,13 @@ public abstract class User {
 		this.firstName = firstName;
 	}
 	
-	public User(String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
+	public User(String login, String pseudo, String password, String firstName, String lastName) {
 		super();
 		this.login = login;
 		this.pseudo = pseudo;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.gender = gender;
 	}
 	
 	public void login() {
@@ -82,22 +78,6 @@ public abstract class User {
 		this.lastName = lastName;
 	}
 
-	public Gender getGender() {
-		return gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-
-	public List<TypeSerie> getAffinities() {
-		return affinities;
-	}
-
-	public void setAffinities(List<TypeSerie> affinities) {
-		this.affinities = affinities;
-	}
-
 	public String getLogin() {
 		return login;
 	}
@@ -112,8 +92,6 @@ public abstract class User {
 		result += "Pseudo : " + this.pseudo + "\n";
 		result += "First Name : " + this.firstName + "\n";
 		result += "Last Name : " + this.lastName + "\n";
-		result += "Gender : " + this.gender.toString() + "\n";
-		result += "Affinities : " + this.affinities.toString() + "\n";
 		return result;
 	}
 

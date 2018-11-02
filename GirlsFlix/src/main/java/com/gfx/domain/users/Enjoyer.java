@@ -2,19 +2,14 @@ package com.gfx.domain.users;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import com.gfx.domain.series.Notification;
-import com.gfx.domain.series.Serie;
-import com.gfx.service.Visualization;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class Enjoyer extends User{
-	
+
+	private Gender gender;
+	private List<String> affinities = new ArrayList<String>();
 	private List<Integer> favorites = new ArrayList<Integer>();
 	private List<String> notifications = new ArrayList<String>();
 	
@@ -22,9 +17,8 @@ public class Enjoyer extends User{
 		super();
 	}
 	
-	public Enjoyer(String pseudo) {
-		super();
-		setPseudo(pseudo);
+	public Enjoyer(String login) {
+		super(login);
 	}
 
 	public Enjoyer (String login, String pseudo, String password) {
@@ -36,18 +30,54 @@ public class Enjoyer extends User{
 	}
 	
 	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
-		super(login, pseudo, password, firstName,lastName, gender);
+		super(login, pseudo, password, firstName,lastName);
+		this.gender = gender;
 	}
 	
-	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender, List<Integer> favorites) {
-		super(login, pseudo, password, firstName, lastName, gender);
+	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender, List<String> affinities) {
+		super(login, pseudo, password, firstName, lastName);
+		this.gender = gender;
+		this.affinities = affinities;
+	}
+	
+	public Enjoyer (
+			String login, 
+			String pseudo, 
+			String password, 
+			String firstName, 
+			String lastName, 
+			Gender gender, 
+			List<String> affinities, 
+			List<Integer> favorites, 
+			List<String> notifications) {
+		super(login, pseudo, password, firstName, lastName);
+		this.gender = gender;
+		this.affinities = affinities;
 		this.favorites = favorites;
+		this.notifications = notifications;
 	}
 
 	/**
 	 * Getters and Setters
 	 */
 
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public List<String> getAffinities() {
+		return affinities;
+	}
+
+	public void setAffinities(List<String> affinities) {
+		this.affinities = affinities;
+	}
+	
 	public List<Integer> getFavorites() {
 		return favorites;
 	}
@@ -67,6 +97,8 @@ public class Enjoyer extends User{
 	public String toString() {
 		String result = "";
 		result += super.toString();
+		result += "Gender : " + this.gender.toString() + "\n";
+		result += "Affinities : " + this.affinities.toString() + "\n";
 		result += "Favorites : " + this.favorites + "\n";
 		// result += "Notifications : " + this.notifications + "\n";
 		return result;

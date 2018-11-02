@@ -21,7 +21,7 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
-		System.out.println(Gender.MALE.toString());
+		// System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
 		UserDB.connect();
 /*
@@ -100,6 +100,7 @@ public class MainTest {
 		// 	System.out.println(s.getId());
 		// }
 		Enjoyer e1 = new Enjoyer("enjoyer1");
+		UserDB.insertOne(e1);
 		
 		Serie s1 = Data.getById(1416);
 		Serie s2 = Data.getById(61889);

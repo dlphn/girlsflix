@@ -2,18 +2,34 @@ package com.gfx.service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
 import com.gfx.helper.Config;
 
+@Service
 public class UserService {
+	
+	public static void updateAffinities(Enjoyer user, List<String> affinities) {
+		user.setAffinities(affinities);
+		UserDB.update(user);
+	}
+	
+	public static void updatePwd(Enjoyer user, String pwd) {
+		user.setPassword(pwd);
+		UserDB.update(user);
+	}
+	
+	
 	public static void addToFavorites(Enjoyer enjoyer, int id) {
 		enjoyer.addToFavorites(id);
 		Serie s = Data.getById(id);
 		s.getEnjoyersToNotify().add(enjoyer);
-		// UserDB.updateFav(enjoyer);
+		UserDB.update(enjoyer);
 		// update series in MongoDB
 	}
 	
@@ -21,7 +37,7 @@ public class UserService {
 		enjoyer.removeFromFavorites(id);
 		Serie s = Data.getById(id);
 		s.getEnjoyersToNotify().remove(enjoyer);
-		// UserDB.updateFav(enjoyer);
+		UserDB.update(enjoyer);
 		// update series in MongoDB
 	}
 	
@@ -64,6 +80,7 @@ public class UserService {
 				+ "S" + serie.getNbSeasonNEOA()  + "E" + serie.getNextEpisodeOnAir()
 				+ " diffusé le " + serie.getDateNextEpisodeOnAir() + " !";
 		enjoyer.getNotifications().add(notification);
+		UserDB.update(enjoyer);
 	}
 	
 	
@@ -75,5 +92,6 @@ public class UserService {
 	 */
 	public static void deleteNotification(Enjoyer enjoyer, int index) {
 		enjoyer.getNotifications().remove(enjoyer.getNotifications().get(index));
+		UserDB.update(enjoyer);
 	}
 }

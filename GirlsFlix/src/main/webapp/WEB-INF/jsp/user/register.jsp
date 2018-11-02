@@ -53,8 +53,8 @@
                     </td>
                 </tr>
                  <tr>
-                    <td><form:label path="affinities"> Séléctionner vos préférences : </form:label></td>
-                    <td><form:checkboxes items="${serieTypesList}" path="affinities" /></td>
+                    <td><form:label path="affinities"> Sélectionner vos préférences : </form:label></td>
+                    <td><form:checkboxes items="${genres}" path="affinities" /></td>
                  </tr>   
                 <tr>
                     <td><input type="submit" value="S'inscrire"/></td>
