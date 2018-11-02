@@ -24,6 +24,7 @@ public class UserDB {
 	private static Connection connect = null;
 	private static Statement statement = null;
 	private static PreparedStatement preparedStatement = null;
+	private static PreparedStatement preparedStatement2 = null;
 	
 	private static ResultSet resultSet = null;
     
@@ -99,17 +100,22 @@ public class UserDB {
 	public static boolean insertOne(Enjoyer newUser){
 		connect();
 		try {
-			// login, pseudo, password, firstname, lastname, gender, favorites, notifications, affinities
+			// login, pseudo, password, enabled, firstname, lastname, gender, favorites, notifications, affinities
 			preparedStatement = connect
-			        .prepareStatement("INSERT INTO users values (?, ?, ?, ?, ?, ?, null, null, ?)");
+			        .prepareStatement("INSERT INTO users values (?, ?, ?, 1, ?, ?, ?, null, null, ?)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
             preparedStatement.setString(3, newUser.getPassword() != null ? newUser.getPassword() : null);
             preparedStatement.setString(4, newUser.getFirstName() != null ? newUser.getFirstName() : null);
             preparedStatement.setString(5, newUser.getLastName() != null ? newUser.getLastName() : null);
             preparedStatement.setString(6, newUser.getGender() != null ? newUser.getGender().toString() : null);
-            preparedStatement.setString(7, newUser.getGender() != null ? newUser.getAffinities().toString() : null);
+            preparedStatement.setString(7, newUser.getAffinities() != null ? newUser.getAffinities().toString() : null);
             preparedStatement.executeUpdate();
+            preparedStatement2 = connect
+ 			        .prepareStatement("INSERT INTO user_roles (login, role) VALUES (?, 'ROLE_USER')");
+ 			preparedStatement2.setString(1, newUser.getLogin());
+            preparedStatement.executeUpdate();
+            preparedStatement2.executeUpdate();
             return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
