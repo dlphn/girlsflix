@@ -96,17 +96,14 @@ public class MainTest {
 		/**
 		 * Test for the notifications
 		 */
-		/*SerieFactory serieFactory = new SerieFactory();
-		List<Serie> series = serieFactory.getSeries();
-		for(Serie s :series) {
-			System.out.println(s.getId());
-		}
-		Visualization visu = new Visualization(series);
+		// for(Serie s : series) {
+		// 	System.out.println(s.getId());
+		// }
 		Enjoyer e1 = new Enjoyer("enjoyer1");
 		
-		Serie s1 = visu.getById(1416);
-		Serie s2 = visu.getById(61889);
-		Serie s3 = visu.getById(1403);
+		Serie s1 = Data.getById(1416);
+		Serie s2 = Data.getById(61889);
+		Serie s3 = Data.getById(1413);
 		
 		s1.setDateNextEpisodeOnAir(LocalDate.now());
 		s1.setNextEpisodeOnAir(18);
@@ -121,16 +118,16 @@ public class MainTest {
 		s3.setNbSeasonNEOA(6);
 		
 		
-		e1.addToFavorites(s1.getId());
-		e1.addToFavorites(s2.getId());
-		e1.addToFavorites(s3.getId());
+		UserService.addToFavorites(e1, s1.getId());
+		UserService.addToFavorites(e1, s2.getId());
+		UserService.addToFavorites(e1, s3.getId());
 		
 		
-		s1.notifyNextEpisodeOnAirSoon();
-		s2.notifyNextEpisodeOnAirSoon();
-		s1.notifyNextEpisodeOnAirSoon();
-		s3.notifyNextEpisodeOnAirSoon();
-		s3.notifyNextEpisodeOnAirSoon();
+		UserService.notifyNextEpisodeOnAirSoon(s1);
+		UserService.notifyNextEpisodeOnAirSoon(s2);
+		UserService.notifyNextEpisodeOnAirSoon(s1);
+		UserService.notifyNextEpisodeOnAirSoon(s3);
+		UserService.notifyNextEpisodeOnAirSoon(s3);
 		
 		try {
 			Thread.sleep(5000);
@@ -139,7 +136,7 @@ public class MainTest {
 			e.printStackTrace();
 		}
 		
-		e1.displayAllNotificationsUnread();*/
+		e1.displayAllNotificationsUnread();
 		/**End Test for notification*/
 
 	}

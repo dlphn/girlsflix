@@ -43,51 +43,6 @@ public class Enjoyer extends User{
 		super(login, pseudo, password, firstName, lastName, gender);
 		this.favorites = favorites;
 	}
-	
-	public void addToFavorites(Integer id) {
-		favorites.add(id);
-		Serie s = new Visualization().getById(id);
-		s.getEnjoyersToNotify().add(this);
-	}
-	
-	public void removeFromFavorties(Integer id) {
-		favorites.remove(id);
-		Serie s = new Visualization().getById(id);
-		s.getEnjoyersToNotify().remove(this);
-	}
-	
-	
-	/**
-	 * this method is called when an Episode of a Serie which is in favorites of
-	 * the enjoyer will be on air soon
-	 */
-	public synchronized void notifyNextEpisodeOnAirSoon(Serie s) {
-		//Notification notification = new Notification(this, s.getId(), s.getTitle(), s.getNbSeasonNEOA(), s.getNextEpisodeOnAir(), s.getDateNextEpisodeOnAir());
-		String notification = "l'épisode " + s.getNextEpisodeOnAir() + " de la saison " + s.getNbSeasonNEOA() + " de la série " + s.getTitle() + " sera diffusé le " + s.getDateNextEpisodeOnAir() + ".";
-		notifications.add(notification);
-	}
-	
-	
-	/**
-	 * Display the notifications
-	 */
-	public void displayAllNotificationsUnread() {
-		System.out.println("Notifications non lues de " + this.getPseudo() + ": \n") ;
-		for (String notif : notifications) {
-			System.out.println(notif);
-		}
-		System.out.println("*****************");
-	}
-	
-	/**
-	 * Delete notification from the list of notifications of the enjoyer
-	 * @param notif
-	 */
-	public void deleteNotif(int index) {
-		notifications.remove(notifications.get(index));
-	}
-	
-
 
 	/**
 	 * Getters and Setters
@@ -116,5 +71,28 @@ public class Enjoyer extends User{
 		// result += "Notifications : " + this.notifications + "\n";
 		return result;
 	}
+	
+	
+	/**
+	 * Display the notifications
+	 */
+	public void displayAllNotificationsUnread() {
+		System.out.println("Notifications non lues de " + this.getPseudo() + " : \n") ;
+		for (String notif : notifications) {
+			System.out.println(notif);
+		}
+		System.out.println("*****************");
+	}
+	
+
+	
+	public void addToFavorites(Integer id) {
+		favorites.add(id);
+	}
+	
+	public void removeFromFavorites(Integer id) {
+		favorites.remove(id);
+	}
+	
 
 }

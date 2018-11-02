@@ -140,7 +140,8 @@ public class UserDB {
 		}
 	}
 
-	public static void updateFav(String login, List<Integer> favorites) {
+	public static void updateFav(Enjoyer updatedUser) {
+		List<Integer> favorites = updatedUser.getFavorites();
 		String favStr = favorites.stream()
       		  .map(String::valueOf)
       		  .collect(Collectors.joining(","));
@@ -148,7 +149,7 @@ public class UserDB {
 			preparedStatement = connect
 			        .prepareStatement("UPDATE users SET favorites=? WHERE login=?");
             preparedStatement.setString(1, favStr);
-            preparedStatement.setString(2, login);
+            preparedStatement.setString(2, updatedUser.getLogin());
             preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
