@@ -3,8 +3,7 @@ package com.gfx.service;
 import com.gfx.domain.users.Enjoyer;
 
 import com.gfx.domain.users.Gender;
-import com.gfx.domain.users.User;
-import com.gfx.helper.Keys;
+import com.gfx.Keys;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,10 +30,9 @@ public class UserDB {
 	public static void connect() {
 		if (connect == null) {
 			try {
-				Keys keys = new Keys();
 				Class.forName("com.mysql.jdbc.Driver");
-				String url = "jdbc:mysql://" + keys.getMysqlHost() + "/" + keys.getMysqlDb() + "?allowPublicKeyRetrieval=true&useSSL=false";
-				connect = DriverManager.getConnection(url, keys.getMysqlUser(), keys.getMysqlPwd());
+				String url = "jdbc:mysql://" + Keys.mysqlHost + "/" + Keys.mysqlDb + "?allowPublicKeyRetrieval=true&useSSL=false";
+				connect = DriverManager.getConnection(url, Keys.mysqlUser, Keys.mysqlPwd);
 			} catch (ClassNotFoundException e1) {
 				System.out.println("Connexion non reconnue");
 				e1.printStackTrace();

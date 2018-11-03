@@ -5,6 +5,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import com.gfx.Keys;
+
 @Configuration
 @ComponentScan("com.gfx.service")
 public class SpringConfig {
@@ -13,9 +15,9 @@ public class SpringConfig {
 	public DriverManagerDataSource dataSource() {
 	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 	    driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	    driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/girlsflix");
-	    driverManagerDataSource.setUsername("user");
-	    driverManagerDataSource.setPassword("gfxpower");
+	    driverManagerDataSource.setUrl("jdbc:mysql://" + Keys.mysqlHost);
+	    driverManagerDataSource.setUsername(Keys.mysqlUser);
+	    driverManagerDataSource.setPassword(Keys.mysqlPwd);
 	    return driverManagerDataSource;
 	}
 }

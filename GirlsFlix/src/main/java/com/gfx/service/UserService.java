@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.helper.Config;
+import com.gfx.Config;
 
 @Service
 public class UserService {
@@ -77,7 +77,7 @@ public class UserService {
 	 */
 	public static void notifyNextEpisodeOnAirSoon(Serie serie) {
 		Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
-		if (period.getDays() <= Config.getNbDaysNotifBeforeDiff() && !serie.isNextEpisodeHasBeenNotified()) {
+		if (period.getDays() <= Config.nbDaysNotifBeforeDiff && !serie.isNextEpisodeHasBeenNotified()) {
 			for (Enjoyer enjoyer: serie.getEnjoyersToNotify()) {
 				Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyer, serie));
 				throwNotif.start();
