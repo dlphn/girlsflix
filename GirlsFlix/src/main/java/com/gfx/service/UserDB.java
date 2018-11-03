@@ -114,7 +114,6 @@ public class UserDB {
             preparedStatement2 = connect
  			        .prepareStatement("INSERT INTO user_roles (login, role) VALUES (?, 'ROLE_USER')");
  			preparedStatement2.setString(1, newUser.getLogin());
-            preparedStatement.executeUpdate();
             preparedStatement2.executeUpdate();
             return true;
 		} catch (SQLException e) {

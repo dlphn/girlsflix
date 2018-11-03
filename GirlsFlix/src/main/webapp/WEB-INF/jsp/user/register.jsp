@@ -83,6 +83,14 @@
 				    		</c:forEach>
 					    </div>
 				  	</div>
+					<input type="hidden"
+						name="${_csrf.parameterName}"
+						value="${_csrf.token}"/>
+					<div class="row">
+						<div class="col-sm-3">
+							<button type="submit" class="btn btn-lg btn-primary btn-block">S'inscrire</button>
+						</div>
+					</div>
 				</form:form>
 			</div>
 		</div>
