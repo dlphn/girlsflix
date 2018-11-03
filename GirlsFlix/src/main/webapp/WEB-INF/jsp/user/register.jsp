@@ -62,13 +62,13 @@
 							<form:label path="gender" class="col-form-label col-sm-3">Je suis :</form:label>
 							<div class="col-sm-9">
 								<div class="form-check">
-								    <form:radiobutton name="gridRadios" path="gender" value="Gender.MALE"/> Un homme
+								    <form:radiobutton name="gridRadios" path="gender" value="MALE"/> Un homme
 							  	</div>
 							  <div class="form-check">
-								    <form:radiobutton name="gridRadios" path="gender" value="Gender.FEMALE"/> Une femme 
+								    <form:radiobutton name="gridRadios" path="gender" value="FEMALE"/> Une femme 
 							  </div>
 							  <div class="form-check">
-	                   				<form:radiobutton name="gridRadios" path="gender" value="Gender.OTHER"/> Autre  
+	                   				<form:radiobutton name="gridRadios" path="gender" value="OTHER"/> Autre  
 							  </div>
 							</div>
 					    </div>
@@ -83,6 +83,7 @@
 				    		</c:forEach>
 					    </div>
 				  	</div>
+				  	<button type="submit" class="btn btn-lg btn-primary btn-block">Se connecter</button>
 				</form:form>
 			</div>
 		</div>
