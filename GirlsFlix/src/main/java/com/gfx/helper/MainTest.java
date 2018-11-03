@@ -99,7 +99,7 @@ public class MainTest {
 		// for(Serie s : series) {
 		// 	System.out.println(s.getId());
 		// }
-		Enjoyer e1 = new Enjoyer("enjoyer1");
+		/*Enjoyer e1 = new Enjoyer("enjoyer1");
 		UserDB.insertOne(e1);
 		
 		Serie s1 = Data.getById(1416);
@@ -137,7 +137,7 @@ public class MainTest {
 			e.printStackTrace();
 		}
 		
-		e1.displayAllNotificationsUnread();
+		e1.displayAllNotificationsUnread();*/
 		/**End Test for notification*/
 
 	}

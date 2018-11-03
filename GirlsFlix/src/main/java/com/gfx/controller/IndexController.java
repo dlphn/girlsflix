@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
+import com.gfx.domain.users.Enjoyer;
 import com.gfx.service.SerieFactory;
+import com.gfx.service.UserDB;
+import com.gfx.service.UserService;
  
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
@@ -27,20 +29,10 @@ public class IndexController {
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
 		model.put("columns", Data.pickNRandom(9));
+		System.out.println(UserService.currentUserLogin());
 
         return "index";
     }
- 
-	@RequestMapping("/hello")
-	public ModelAndView showMessage(
-			@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
-		System.out.println("in controller");
- 
-		ModelAndView mv = new ModelAndView("views/helloworld");
-		mv.addObject("message", message);
-		mv.addObject("name", name);
-		return mv;
-	}
 	
 	@RequestMapping("/series")
     public String series(ModelMap model) {
@@ -70,8 +62,27 @@ public class IndexController {
     }
 	
 	@RequestMapping("/contact")
-	public ModelAndView showContact() {
-		ModelAndView mv = new ModelAndView("views/contact");
-		return mv;
+	public String showContact() {
+		return "views/contact";
+	}
+	
+	@RequestMapping("/favoris")
+	public String showFavorites(ModelMap model) {
+		if (UserService.currentUserLogin() == null) {
+			return "user/login";
+		}
+		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		model.put("favorites", user.getFavorites());
+		return "user/favorites";
+	}
+
+	@RequestMapping("/notifications")
+	public String showNotifications(ModelMap model) {
+		if (UserService.currentUserLogin() == null) {
+			return "user/login";
+		}
+		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		model.put("notifications", user.getNotifications());
+		return "user/notifications";
 	}
 }

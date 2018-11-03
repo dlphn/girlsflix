@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fragments" tagdir="/WEB-INF/tags/fragments" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@ attribute name="serie" required="true" rtexprvalue="true" type="com.gfx.domain.series.Serie"%>
 
@@ -18,8 +19,17 @@
 				<span class="badge badge-secondary">${fn:escapeXml(genre)}</span>
 			</c:forEach>
 			<p>${fn:escapeXml(serie.getSummary())}</p>
-			<c:if test="${not empty loggedIn}">Ajouter aux favoris</c:if>
-			<c:if test="${empty loggedIn}">Connectez-vous pour ajouter aux favoris</c:if>
+			<sec:authorize access="isAuthenticated()">
+				<button type="button" class="btn btn-danger">
+					<i class="fas fa-heart"></i> Ajouter aux favoris
+				</button> /
+				<button type="button" class="btn btn-secondary">
+					<i class="fas fa-trash-alt"></i> Supprimer des favoris
+				</button>
+			</sec:authorize>
+			<sec:authorize access="!isAuthenticated()">
+				<span>Connectez-vous pour ajouter aux favoris</span>
+			</sec:authorize>
 		</div>
 	</div><br/>
 	<div class="row">

@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.gfx.domain.series.Data;
@@ -13,6 +17,27 @@ import com.gfx.helper.Config;
 
 @Service
 public class UserService {
+	
+
+	public static UserDetails currentUserDetails(){
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    Authentication authentication = securityContext.getAuthentication();
+	    if (authentication != null) {
+	        Object principal = authentication.getPrincipal();
+	        return principal instanceof UserDetails ? (UserDetails) principal : null;
+	    }
+	    return null;
+	}
+	
+	public static String currentUserLogin(){
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    Authentication authentication = securityContext.getAuthentication();
+	    if (authentication != null) {
+	        Object principal = authentication.getPrincipal();
+	        return principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : null;
+	    }
+	    return null;
+	}
 	
 	public static void updateAffinities(Enjoyer user, List<String> affinities) {
 		user.setAffinities(affinities);
@@ -94,4 +119,5 @@ public class UserService {
 		enjoyer.getNotifications().remove(enjoyer.getNotifications().get(index));
 		UserDB.update(enjoyer);
 	}
+	
 }
