@@ -41,13 +41,17 @@ public class IndexController {
 	) {
 	    model.put("search", search);
 		model.put("genres", Genre.getGenres());
-	    model.put("genreFilter", genre);
+		String genreFilter = "";
+		if (genre != null) {
+			genreFilter = new String(genre).replaceAll("and", "&");
+		}
+	    model.put("genreFilter", genreFilter);
 		
 		if (search != null) {
 			model.put("series", Data.search(search));
 		} else {
 			if (genre != null) {
-				model.put("series", Data.searchGenre(genre));
+				model.put("series", Data.searchGenre(genreFilter));
 			} else {
 			    model.put("series", Data.getListSeries());
 			}

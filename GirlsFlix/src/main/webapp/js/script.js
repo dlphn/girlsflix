@@ -14,7 +14,8 @@ $(function(){
 	$('select[id="selectGenre"]').change(function() {
     	event.preventDefault();
     	if ($("#selectGenre").val().length > 0) {
-            window.location.href = '/GirlsFlix/series?genre=' + $("#selectGenre").val();
+    		var encoded = $("#selectGenre").val().replace(/&/g, 'and');
+            window.location.href = '/GirlsFlix/series?genre=' + encoded;
     	} else {
             window.location.href = '/GirlsFlix/series';
     	}
