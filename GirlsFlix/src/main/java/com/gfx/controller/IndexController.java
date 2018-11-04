@@ -34,13 +34,19 @@ public class IndexController {
         return "index";
     }
 	
-	@RequestMapping("/series")
-    public String series(ModelMap model) {
-		model.put("series", Data.getListSeries());
+	@RequestMapping(value = "/series", method = RequestMethod.GET)
+	public String Search(ModelMap model, @RequestParam(value = "search", required = false) String search) {
+	    model.put("search", search);
 		model.put("genres", Genre.getGenres());
+		
+		if (search != null) {
+			model.put("series", Data.search(search));
+		} else {
+		    model.put("series", Data.getListSeries());
+		}
 
-        return "views/series";
-    }
+	    return "views/series";
+	}
 	
 	@RequestMapping("/serie/{id}")
     public String serie(@PathVariable("id") String id, ModelMap model) {

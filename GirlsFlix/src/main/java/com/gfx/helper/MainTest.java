@@ -102,7 +102,16 @@ public class MainTest {
 		new SerieFactory();
 		//serieFactory.getSeasons(60735);
 		//serieFactory.getEpisodes(60735, 1);
-		List<Serie> series = Data.getListSeries();
+		/*List<Serie> series = Data.getListSeries();
+		for (Serie s : series) {
+			System.out.println(s.toString());
+		}
+		
+		List<Serie> result = Data.searchGenre("Drame");
+		System.out.println("Search results :");
+		for (Serie s : result) {
+			System.out.println(s.toString());
+		}*/
     
     
     
