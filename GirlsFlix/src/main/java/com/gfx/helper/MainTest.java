@@ -3,6 +3,7 @@ package com.gfx.helper;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
@@ -21,9 +22,21 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
+		
 		// System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
-		UserDB.connect();
+		/*UserDB.connect();
+		Enjoyer userTest = UserDB.checkPwd("testDimanche", "motdepasse");
+		userTest.getAffinities();
+		System.out.println("user " + userTest + " and affinities 1: " + userTest.getAffinities());
+		userTest.setAffinities(Arrays.asList("Horreur", "Crime", "Documentaire"));
+		System.out.println("user " + userTest + " and affinities : " + userTest.getAffinities());
+		System.out.println("********************");
+		Enjoyer userTest2 = UserDB.checkPwd("login", "motdepasse");
+		userTest2.getAffinities();
+		System.out.println("user " + userTest2 + " and affinities 2: " + userTest2.getAffinities());
+		*/
+		
 /*
 		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
         User newUser = new Enjoyer("Sandra@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
