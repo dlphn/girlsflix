@@ -28,6 +28,8 @@ The GirlsFlix web app allows you to:
 Add `Keys.java` in `src/main/java/com.gfx` (ignored by Git).
 
 ```java
+package com.gfx;
+
 public class Keys {
 	public static final String apiKey = "${tmdb_api_key}";
 	
@@ -52,8 +54,7 @@ public class Keys {
 ### Start MySQL server
 Make sure that your MySQL is running.
 
-Initiate database.
-
+####Initiate database
 ```sql
 CREATE USER '${mysql_user}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${mysql_password}';
 
@@ -64,27 +65,27 @@ GRANT ALL ON girlsflix.* TO '${mysql_user}'@'localhost';
 USE girlsflix;
 
 CREATE TABLE users (
-  login VARCHAR(45) NOT NULL,
-  pseudo VARCHAR(45) NOT NULL,
-  password VARCHAR(45) NOT NULL,
-  enabled TINYINT NOT NULL DEFAULT 1,
-  firstname VARCHAR(45) NULL,
-  lastname VARCHAR(45) NULL,
-  gender VARCHAR(45) NULL,
-  favorites VARCHAR(100) NULL,
-  notifications VARCHAR(255) NULL,
-  affinities VARCHAR(255) NULL,
-  PRIMARY KEY (login)
+	login VARCHAR(45) NOT NULL,
+	pseudo VARCHAR(45) NOT NULL,
+  	password VARCHAR(45) NOT NULL,
+  	enabled TINYINT NOT NULL DEFAULT 1,
+  	firstname VARCHAR(45) NULL,
+	lastname VARCHAR(45) NULL,
+	gender VARCHAR(45) NULL,
+	favorites VARCHAR(100) NULL,
+	notifications VARCHAR(255) NULL,
+	affinities VARCHAR(255) NULL,
+	PRIMARY KEY (login)
 );
 
 CREATE TABLE user_roles (
-  user_role_id int(11) NOT NULL AUTO_INCREMENT,
-  login varchar(45) NOT NULL,
-  role varchar(45) NOT NULL,
-  PRIMARY KEY (user_role_id),
-  UNIQUE KEY uni_login_role (role, login),
-  KEY fk_login_idx (login),
-  CONSTRAINT fk_login FOREIGN KEY (login) REFERENCES users (login)
+	user_role_id int(11) NOT NULL AUTO_INCREMENT,
+	login varchar(45) NOT NULL,
+	role varchar(45) NOT NULL,
+	PRIMARY KEY (user_role_id),
+	UNIQUE KEY uni_login_role (role, login),
+	KEY fk_login_idx (login),
+	CONSTRAINT fk_login FOREIGN KEY (login) REFERENCES users (login)
 );
 ```
 
