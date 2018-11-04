@@ -7,14 +7,12 @@
 [![API](https://img.shields.io/badge/api_provider-tmdb-orange.svg?style=flat-square)](https://www.themoviedb.org/documentation/api)
 
 
-GirlsFlix is a web app that allows you to search for TV series and add your favorites so you never miss any new episode.
+> GirlsFlix is a web app that allows you to search for TV series and add your favorites so you never miss any new episode.
 
 ## Description
-
 It is a Java school project developed by 3 students from CentraleSupélec : Jihane, Sophie, and Delphine as part of the POOA Module.
 
 ### Features
-
 The GirlsFlix web app allows you to:
 
 - :tv: Browse through TV series
@@ -26,52 +24,76 @@ The GirlsFlix web app allows you to:
 - :gift: Be surprised with a random popular series suggestion
 
 ## Installation
-
 ### Settings
-
-Add `Keys.java` in `src/main/java/com.gfx.helper` (ignored by Git).
+Add `Keys.java` in `src/main/java/com.gfx` (ignored by Git).
 
 ```java
 public class Keys {
-	private final String apiKey = "${tmdb_api_key}";
+	public static final String apiKey = "${tmdb_api_key}";
 	
-	private final String mongoUser = "${mongo_user}";
-	private final String mongoPwd = "${mongo_password}";
-	private final String mongoHost = "${mongo_host}";
-	private final String mongoDb = "girlsflix";
+	public static final String mongoUser = "${mongo_user}";
+	public static final String mongoPwd = "${mongo_password}";
+	public static final String mongoHost = "${mongo_host}";
+	public static final String mongoDb = "girlsflix";
 	
-	private final String mysqlUser = "${mysql_user}";
-	private final String mysqlPwd = "${mysql_password}";
-	private final String mysqlHost = "${mysql_host}";
-	private final String mysqlDb = "girlsflix";
-	
-	/***********/
-	/* Getters */
-	/***********/
+	public static final String mysqlUser = "${mysql_user}";
+	public static final String mysqlPwd = "${mysql_password}";
+	public static final String mysqlHost = "localhost:3306";
+	public static final String mysqlDb = "girlsflix";
 }
 ```
 
 ### Dependencies
-
 - Maven 3.5.4
 - Tomcat 9.0.12 - download [latest](https://tomcat.apache.org/download-90.cgi)
 - JDK 10.0.2 - download [latest](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - MySQL 8.0.13 - download [latest](https://dev.mysql.com/downloads/mysql/)
 
 ### Start MySQL server
-
 Make sure that your MySQL is running.
 
-Initiate database. [...]
+Initiate database.
+
+```sql
+CREATE USER '${mysql_user}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${mysql_password}';
+
+CREATE DATABASE girlsflix;
+
+GRANT ALL ON girlsflix.* TO '${mysql_user}'@'localhost';
+
+USE girlsflix;
+
+CREATE TABLE users (
+  login VARCHAR(45) NOT NULL,
+  pseudo VARCHAR(45) NOT NULL,
+  password VARCHAR(45) NOT NULL,
+  enabled TINYINT NOT NULL DEFAULT 1,
+  firstname VARCHAR(45) NULL,
+  lastname VARCHAR(45) NULL,
+  gender VARCHAR(45) NULL,
+  favorites VARCHAR(100) NULL,
+  notifications VARCHAR(255) NULL,
+  affinities VARCHAR(255) NULL,
+  PRIMARY KEY (login)
+);
+
+CREATE TABLE user_roles (
+  user_role_id int(11) NOT NULL AUTO_INCREMENT,
+  login varchar(45) NOT NULL,
+  role varchar(45) NOT NULL,
+  PRIMARY KEY (user_role_id),
+  UNIQUE KEY uni_login_role (role, login),
+  KEY fk_login_idx (login),
+  CONSTRAINT fk_login FOREIGN KEY (login) REFERENCES users (login)
+);
+```
 
 ### Start server on Eclipse
-
 Eclipse IDE for `Java EE` Web Developers (`Photon v4.9.0`) - download [link](http://www.eclipse.org/downloads/packages/).
 
 [Add Apache Tomcat to Eclipse](https://crunchify.com/step-by-step-guide-to-setup-and-install-apache-tomcat-server-in-eclipse-development-environment-ide/)
 
 #### Import project to Eclipse
-
 `File -> Import...`
 
 `Maven -> Existing Maven Projects -> Next`
@@ -81,18 +103,15 @@ Eclipse IDE for `Java EE` Web Developers (`Photon v4.9.0`) - download [link](htt
 Right Click on `Project -> Maven -> Update Maven Project -> Force Update of Snapshots/Releases`
 
 #### Build project
-
 Right Click on `Project -> Run As -> Maven Build...`
 
 `Add Goals`: `clean install`. Click `Apply` and `Run`.
 
 #### Run on server
-
 Right Click on `Project -> Run As -> Run on Server`
 
 
 ### Start server from console (not working)
-
 Use maven and tomcat to install and run the web app.
 
 ```bash
@@ -104,7 +123,6 @@ mvn tomcat7:run
 You can then go to [localhost:8080/GirlsFlix](http://localhost:8080/GirlsFlix) and voilà! :tada:
 
 ## Project structure
-
 Technology stack:
 
 - Java
@@ -118,13 +136,14 @@ Technology stack:
 
 [project folder tree]
 
+### Spring MVC
+
+### Spring Security
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
-
 ## Team
-
 - Jihane Bennis | [jihane.bennis@student.ecp.fr](mailto:jihane.bennis@student.ecp.fr)  | [@JihaneBennis](https://github.com/JihaneBennis)
 - Sophie Dambricourt | [sophie.dambricourt@student.ecp.fr](mailto:sophie.dambricourt@student.ecp.fr) | [@SophieKaramazov](https://github.com/SophieKaramazov)
 - Delphine Shi | [delphine.shi@student.ecp.fr](mailto:delphine.shi@student.ecp.fr) | [@dlphn](https://github.com/dlphn)
