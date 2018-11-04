@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gfx.domain.users.Enjoyer;
+import com.gfx.service.ThrowNotificationToEnjoyer;
+import com.gfx.Config;
 
 public class Serie {
 	private int id;

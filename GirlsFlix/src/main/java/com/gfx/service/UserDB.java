@@ -225,9 +225,11 @@ public class UserDB {
 	            	notifStrList = notificationsStr.split("/");
 	            	for(String notif : notifStrList) notifications.add(notif);
 	            }
-	            String affinitiesStr = resultSet.getString("affinities");
+	            String affinitiesStr1 = resultSet.getString("affinities");
+	            String affinitiesStr2 = affinitiesStr1.replace("[", "");
+	            String affinitiesStr = affinitiesStr2.replace("]", "");
 	            if (affinitiesStr != null) {
-	            	affStrList = affinitiesStr.split("/");
+	            	affStrList = affinitiesStr.split(",");
 	            	for(String aff : affStrList) affinities.add(aff);
 	            }
 	            Enjoyer user = new Enjoyer(login, pseudo, pwd, firstname, lastname, gender, affinities, favorites, notifications);
