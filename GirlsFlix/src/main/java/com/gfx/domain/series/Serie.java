@@ -1,7 +1,6 @@
 package com.gfx.domain.series;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
