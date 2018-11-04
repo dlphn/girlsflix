@@ -11,7 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -39,8 +41,14 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	}
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception { //Configuration des requêtes http
-        http
+    protected void configure(HttpSecurity http) throws Exception { 
+    	//Encoding UTF-8 pour ne pas avoir de problème d'accents (prénom, affinities..)
+    	CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        //Configuration des requêtes http
+        http.addFilterBefore(filter,CsrfFilter.class);
+    	http
             .authorizeRequests()
             	.antMatchers("/GirlsFlix/favoris", "/GirlsFlix/notifications").authenticated()
             	.anyRequest().permitAll()
