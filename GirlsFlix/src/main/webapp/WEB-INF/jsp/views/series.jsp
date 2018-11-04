@@ -39,7 +39,7 @@
 					      	<select class="custom-select mr-sm-2" id="selectGenre">
 						        <option selected value="">Genres</option>
 					      		<c:forEach var="item" items="${genres}">
-					      			<option value="${item.name}">${fn:escapeXml(item.name)}</option>
+					      			<option value="${item.name}" ${genreFilter == item.name ? "selected" : ""}>${fn:escapeXml(item.name)}</option>
 					      		</c:forEach>
 					      	</select>
 					    </div>

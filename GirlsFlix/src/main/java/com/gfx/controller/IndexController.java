@@ -35,14 +35,22 @@ public class IndexController {
     }
 	
 	@RequestMapping(value = "/series", method = RequestMethod.GET)
-	public String Search(ModelMap model, @RequestParam(value = "search", required = false) String search) {
+	public String Search(ModelMap model, 
+			@RequestParam(value = "search", required = false) String search,
+			@RequestParam(value = "genre", required = false) String genre
+	) {
 	    model.put("search", search);
 		model.put("genres", Genre.getGenres());
+	    model.put("genreFilter", genre);
 		
 		if (search != null) {
 			model.put("series", Data.search(search));
 		} else {
-		    model.put("series", Data.getListSeries());
+			if (genre != null) {
+				model.put("series", Data.searchGenre(genre));
+			} else {
+			    model.put("series", Data.getListSeries());
+			}
 		}
 
 	    return "views/series";

@@ -10,6 +10,15 @@ $(function(){
             window.location.href = '/GirlsFlix/series';
     	}
     });
+	
+	$('select[id="selectGenre"]').change(function() {
+    	event.preventDefault();
+    	if ($("#selectGenre").val().length > 0) {
+            window.location.href = '/GirlsFlix/series?genre=' + $("#selectGenre").val();
+    	} else {
+            window.location.href = '/GirlsFlix/series';
+    	}
+    });
     
 });
 
