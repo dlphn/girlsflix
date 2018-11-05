@@ -1,11 +1,11 @@
 package com.gfx.domain.users;
 
 public abstract class User {
-	private String login = ""; // [Deprecated][Impossible pour instanciation depuis formulaire]le User ne pourra plus changer son login une fois choisi
-	private String pseudo = "";
-	private String password = "";
-	private String firstName = "";
-	private String lastName = "";
+	private String login = null; // [Deprecated][Impossible pour instanciation depuis formulaire]le User ne pourra plus changer son login une fois choisi
+	private String pseudo = null;
+	private String password = null;
+	private String firstName = null;
+	private String lastName = null;
 	
 	public User() {
 	}

@@ -15,6 +15,9 @@ public class Enjoyer extends User{
 	
 	public Enjoyer() {
 		super();
+		this.affinities=null;
+		this.notifications=null;
+		this.favorites=null;
 	}
 	
 	public Enjoyer(String login) {
@@ -94,6 +97,7 @@ public class Enjoyer extends User{
 		this.notifications = notifications;
 	}
 	
+	@Override
 	public String toString() {
 		String result = "";
 		result += super.toString();

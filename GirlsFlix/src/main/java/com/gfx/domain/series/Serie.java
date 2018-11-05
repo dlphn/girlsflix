@@ -13,7 +13,7 @@ public class Serie {
 	private String summary;
 	private LocalDate creationDate;
 	private double rating;
-	private boolean allowed;
+	private boolean allowed = true;
 	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
 	private List<Enjoyer> enjoyersToNotify = new ArrayList<Enjoyer>();

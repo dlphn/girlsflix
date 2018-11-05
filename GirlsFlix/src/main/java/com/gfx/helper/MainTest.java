@@ -3,6 +3,7 @@ package com.gfx.helper;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
@@ -23,7 +24,42 @@ public class MainTest {
 		System.out.println("Hello world!");
 		// System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
+		/*UserDB.connect();
+		Enjoyer Jihane = UserDB.getUser("loginé");
+		System.out.println(Jihane.toString());
+		List<String> notif = Arrays.asList("La série Beta3 va bientôt sortir", "La série Gamma2 est sortie !");
+		List<Integer> fav = Arrays.asList(1,2,3,4,0,56);
+		Jihane.setNotifications(notif);
+		Jihane.setPseudo("Bibou");
+		Jihane.setFavorites(fav);
+		//Jihane.setPseudo("Jihane");
+		System.out.println("************************");
+		UserDB.update(Jihane);
+		System.out.println("update : " + Jihane.toString());
+		System.out.println("************************");
 		UserDB.connect();
+		Enjoyer Jihane2 = UserDB.getUser("loginé");
+		System.out.println(Jihane2.getFavorites());
+		System.out.println("************************");
+		System.out.println("readDB : " + Jihane2.toString());
+		System.out.println("************************");
+		List<String> aff = Arrays.asList("Comédie", "Horreur", "Policier", "Mystère");
+		Jihane2.setAffinities(aff);
+		
+		Serie serie = new Serie("GirlsFlix.tv");
+		serie.setId(42);
+		serie.setNbSeasonNEOA(2);
+		serie.setNextEpisodeOnAir(3);
+		serie.setDateNextEpisodeOnAir(LocalDate.now());
+		List<Serie> series = new ArrayList<Serie>();
+		System.out.println("***** series ******" +series);
+		series.add(serie);
+		Data.setListSeries(series);
+		UserService.addToFavorites(Jihane2, 42);
+		UserService.notifyNextEpisodeOnAirSoon(Jihane2, serie);
+		UserDB.update(Jihane2);
+		System.out.println("Jihane2 modified Affinities" + Jihane2.toString());*/
+		
 /*
 		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
         User newUser = new Enjoyer("Sandra@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
@@ -86,10 +122,10 @@ public class MainTest {
 			System.out.println(result.get(i).info());
 		}*/
 		
-		new SerieFactory();
+		//new SerieFactory();
 		//serieFactory.getSeasons(60735);
 		//serieFactory.getEpisodes(60735, 1);
-		List<Serie> series = Data.getListSeries();
+		//List<Serie> series = Data.getListSeries();
     
     
     
