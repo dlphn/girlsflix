@@ -24,8 +24,8 @@ public class MainTest {
 		System.out.println("Hello world!");
 		// System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
-		/*UserDB.connect();
-		Enjoyer Jihane = UserDB.getUser("loginé");
+		UserDB.connect();
+		/*Enjoyer Jihane = UserDB.getUser("loginé");
 		System.out.println(Jihane.toString());
 		List<String> notif = Arrays.asList("La série Beta3 va bientôt sortir", "La série Gamma2 est sortie !");
 		List<Integer> fav = Arrays.asList(1,2,3,4,0,56);
