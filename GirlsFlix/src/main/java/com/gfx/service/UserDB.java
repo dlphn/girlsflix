@@ -88,7 +88,7 @@ public class UserDB {
 	        resultSet = statement.executeQuery(query);
 	        writeResultSet(resultSet);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Impossible de lire la BDD users.");
 			e.printStackTrace();
 		} finally {
 			close();
@@ -96,6 +96,7 @@ public class UserDB {
 	}
 	
 	public static boolean insertOne(Enjoyer newUser){
+		// Fonction pour insérer un utilisateur dans la BDD après son inscription
 		connect();
 		try {
 			// login, pseudo, password, enabled, firstname, lastname, gender, favorites, notifications, affinities
@@ -125,28 +126,23 @@ public class UserDB {
 	public static void update(Enjoyer updatedUser) {
 		connect();
 		try {
-			String affStr = String.join("/", updatedUser.getAffinities());
-			String favStr = updatedUser.getFavorites().stream()
-	      		  .map(String::valueOf)
-	      		  .collect(Collectors.joining(","));
-			String notifStr = String.join("/", updatedUser.getNotifications());
-			
 			String query = "UPDATE users SET";
+			//On utilise des \ au lieu de ' pour éviter les cas comme Grey's Anatomy
 			query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
 			if (updatedUser.getPassword() != null) query += ", password=\"" + updatedUser.getPassword() + "\"";
 			if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
 			if (updatedUser.getLastName() != null) query += ", lastname=\"" + updatedUser.getLastName() + "\"";
 			if (updatedUser.getGender() != null) query += ", gender=\"" + updatedUser.getGender().toString() + "\"";
-			if (updatedUser.getAffinities() != null) query += ", affinities=\"" + affStr + "\"";
-			if (updatedUser.getFavorites() != null) query += ", favorites=\"" + favStr + "\"";
-			if (updatedUser.getNotifications() != null) query += ", notifications=\"" + notifStr + "\"";
+			if (updatedUser.getAffinities() != null) query += ", affinities=\"" + updatedUser.getAffinities() + "\"";
+			if (updatedUser.getFavorites() != null) query += ", favorites=\"" + updatedUser.getFavorites().toString() + "\"";
+			if (updatedUser.getNotifications() != null) query += ", notifications=\"" + updatedUser.getNotifications() + "\"";
 			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
 			System.out.println(query);
 			preparedStatement = connect
 			        .prepareStatement(query);
             preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("la requête n'a pas marché.");
 			e.printStackTrace();
 		} finally {
 			close();
@@ -160,37 +156,51 @@ public class UserDB {
 			statement = connect.createStatement();
 	        resultSet = statement.executeQuery(query);
 	        if (resultSet.next()) {
-	        	String[] favStrList = new String[0];
 	        	List<Integer> favorites = new ArrayList<Integer>();
 	        	String[] notifStrList = new String[0];
 	        	List<String> notifications = new ArrayList<String>();
 	        	String[] affStrList = new String[0];
 	        	List<String> affinities = new ArrayList<String>();
 	            String pseudo = resultSet.getString("pseudo");
-	            String password = resultSet.getString("password");
 	            String firstname = resultSet.getString("firstname");
 	            String lastname = resultSet.getString("lastname");
+	            String password = resultSet.getString("password");
 	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
-	            String favoritesStr = resultSet.getString("favorites");
+	            // Processing pour bien récupérer les champs List depuis la BDD String
+	            String favoritesDB = resultSet.getString("favorites");
+	            String favoritesStr = favoritesDB.replace("[", "").replace("]", "").replace(" ", "");  // Traitement du String pour enlever les [] et espaces
 	            if (favoritesStr != null) {
-	            	favStrList = resultSet.getString("favorites").split(",");
-	            	for(String fav : favStrList) favorites.add(Integer.valueOf(fav));
+	            	String [] favStrList = favoritesStr.split(",");
+	            	for(String fav : favStrList) {
+	            		try {// On traite le cas où une exception est levée lors de la conversion en Integer
+	            			int favInt = Integer.valueOf(fav);
+	            			favorites.add(favInt);
+	            		}catch(NumberFormatException e) {
+	            			System.out.println("L'utilisateur" + login +" n'a actuellement aucune série favorite ");
+	            		}
+	            	}	
 	            }
-	            String notificationsStr = resultSet.getString("notifications");
+	            String notificationsDB = resultSet.getString("notifications");
+	            String notifications_modif = notificationsDB.replace("[", "");
+	            String notificationsStr = notifications_modif.replace("]", "");
 	            if (notificationsStr != null) {
-	            	notifStrList = notificationsStr.split("/");
+	            	notifStrList = notificationsStr.split(",");
 	            	for(String notif : notifStrList) notifications.add(notif);
 	            }
-	            String affinitiesStr = resultSet.getString("affinities");
+	            
+	            String affinitiesDB = resultSet.getString("affinities");
+	            String affinities_modif = affinitiesDB.replace("[", "");
+	            String affinitiesStr = affinities_modif.replace("]", "");
 	            if (affinitiesStr != null) {
-	            	affStrList = affinitiesStr.split("/");
+	            	affStrList = affinitiesStr.split(",");
 	            	for(String aff : affStrList) affinities.add(aff);
 	            }
+	            
 	            Enjoyer user = new Enjoyer(login, pseudo, password, firstname, lastname, gender, affinities, favorites, notifications);
 	            return user;
 	        }
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Connexion MySQL interrompue");
 			e.printStackTrace();
 		} finally {
 			close();
@@ -205,7 +215,7 @@ public class UserDB {
 			statement = connect.createStatement();
 	        resultSet = statement.executeQuery(query);
 	        if (resultSet.next()) {
-	        	String[] favStrList = new String[0];
+	        	
 	        	List<Integer> favorites = new ArrayList<Integer>();
 	        	String[] notifStrList = new String[0];
 	        	List<String> notifications = new ArrayList<String>();
@@ -215,19 +225,31 @@ public class UserDB {
 	            String firstname = resultSet.getString("firstname");
 	            String lastname = resultSet.getString("lastname");
 	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
-	            String favoritesStr = resultSet.getString("favorites");
+	          
+	            String favoritesDB = resultSet.getString("favorites");
+	            String favoritesStr = favoritesDB.replace("[", "").replace("]", "").replace(" ", "");  // Traitement du String pour enlever les [] et espaces
 	            if (favoritesStr != null) {
-	            	favStrList = resultSet.getString("favorites").split(",");
-	            	for(String fav : favStrList) favorites.add(Integer.valueOf(fav));
+	            	String [] favStrList = favoritesStr.split(",");
+	            	for(String fav : favStrList) {
+	            		try {// On traite le cas où une exception est levée lors de la conversion en Integer
+	            			int favInt = Integer.valueOf(fav);
+	            			favorites.add(favInt);
+	            		}catch(NumberFormatException e) {
+	            			System.out.println("L'utilisateur" + login +" n'a actuellement aucune série favorite ");
+	            		}
+	            	}	
 	            }
-	            String notificationsStr = resultSet.getString("notifications");
+	            String notificationsDB = resultSet.getString("notifications");
+	            String notifications_modif = notificationsDB.replace("[", "");
+	            String notificationsStr = notifications_modif.replace("]", "");
 	            if (notificationsStr != null) {
-	            	notifStrList = notificationsStr.split("/");
+	            	notifStrList = notificationsStr.split(",");
 	            	for(String notif : notifStrList) notifications.add(notif);
 	            }
-	            String affinitiesStr1 = resultSet.getString("affinities");
-	            String affinitiesStr2 = affinitiesStr1.replace("[", "");
-	            String affinitiesStr = affinitiesStr2.replace("]", "");
+	            
+	            String affinitiesDB = resultSet.getString("affinities");
+	            String affinities_modif = affinitiesDB.replace("[", "");
+	            String affinitiesStr = affinities_modif.replace("]", "");
 	            if (affinitiesStr != null) {
 	            	affStrList = affinitiesStr.split(",");
 	            	for(String aff : affStrList) affinities.add(aff);
