@@ -93,12 +93,9 @@ public class IndexController {
             throw new ResourceNotFoundException();
         }
         else {
-        	Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-        	try{ 
-        	model.put("isFavorite", user.getFavorites().contains(Integer.parseInt(id)));}
-        	catch(NullPointerException e) {
-        		model.put("isFavorite", "Vous voulez l'ajouter en favori ? Connectez-vous à votre compte !" );
-        		e.printStackTrace();
+        	if (UserService.currentUserLogin() != null) {
+        		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+            	model.put("isFavorite", user.getFavorites().contains(Integer.parseInt(id)));
         	}
             model.put("serie", serie);
             return "views/serie";
@@ -109,29 +106,38 @@ public class IndexController {
 	public String addFavoriteSerie (@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 		UserService.addToFavorites(user, id);
-		model.put("message", user.getFavorites().contains(id) ? "La série a bien été ajoutée à vos favoris !" : "Oups, pourriez-vous rééssayer ?");
-		model.put("isFavorite", user.getFavorites().contains(id));
-		Serie serie = Data.getById(id);
-		model.put("serie", serie);
-		return "views/serie";
+		//model.put("message", user.getFavorites().contains(id) ? "La série a bien été ajoutée à vos favoris !" : "Oups, pourriez-vous rééssayer ?");
+		//model.put("isFavorite", user.getFavorites().contains(id));
+		//Serie serie = Data.getById(id);
+		// model.put("serie", serie);
+		return "redirect:/serie/" + id;
 	}
 	
 	@RequestMapping("/serie/{id}/removeFav")
-	public String removeFavoriteSerie (@PathVariable("id") int id, ModelMap model) {
+	public String removeFavoriteSerie(@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 		UserService.removeFromFavorites(user, id);
-		model.put("message", user.getFavorites().contains(id) ? "Oups, pourriez-vous rééssayer ?" : "La série ne fait plus partie de vos favoris.");
-		model.put("isFavorite", user.getFavorites().contains(id));
-		Serie serie = Data.getById(id);
-		model.put("serie", serie);
-		return "redirect:/favoris";
+		//model.put("message", user.getFavorites().contains(id) ? "Oups, pourriez-vous rééssayer ?" : "La série ne fait plus partie de vos favoris.");
+		//model.put("isFavorite", user.getFavorites().contains(id));
+		//Serie serie = Data.getById(id);
+		//model.put("serie", serie);
+		return "redirect:/serie/" + id;
 	}
 	
 	@RequestMapping("/serie-surprise")
 	public String serieSurprise(ModelMap model) {
 		model.put("series", Data.pickNRandom(1));
-
-        return "views/serie-surprise";
+		Serie serie = Data.pickNRandom(1).get(0);
+        if (serie == null) {
+            throw new ResourceNotFoundException();
+        } else {
+        	if (UserService.currentUserLogin() != null) {
+            	Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+            	model.put("isFavorite", user.getFavorites().contains(serie.getId()));
+        	}
+            model.put("serie", serie);
+            return "views/serie-surprise";
+        }
     }
 	
 	@RequestMapping("/contact")
@@ -150,6 +156,13 @@ public class IndexController {
 			favoritesSeries.add(Data.getById(fav));}
 		model.addAttribute("favorites", favoritesSeries);
 		return "user/favorites";
+	}
+	
+	@RequestMapping("/favoris/remove/{id}")
+	public String removeFavorite(@PathVariable("id") int id, ModelMap model) {
+		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		UserService.removeFromFavorites(user, id);
+		return "redirect:/favoris";
 	}
 
 	@RequestMapping(value = "/notifications", method = RequestMethod.GET)

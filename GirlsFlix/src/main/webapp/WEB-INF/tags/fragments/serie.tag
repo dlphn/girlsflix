@@ -32,9 +32,13 @@
 			</c:if>
 			</sec:authorize>
 			<sec:authorize access="!isAuthenticated()">
-				<span> <button type="button" class="btn btn-danger" onclick="location.href='/GirlsFlix/login'" value="submit">
-                    <i class="fas fa-heart"></i> Connexion
-                    </button></span>
+				<p>Connectez-vous pour ajouter aux favoris :
+				<span>
+					<button type="button" class="btn btn-primary" onclick="location.href='/GirlsFlix/login'" value="submit">
+                    	<i class="fas fa-user"></i> Connexion
+                    </button>
+                </span>
+                </p>
 			</sec:authorize>
 		</div>
 	</div><br/>

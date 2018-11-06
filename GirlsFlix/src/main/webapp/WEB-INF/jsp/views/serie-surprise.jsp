@@ -20,10 +20,7 @@
 		<div class="main">
 			<div class="container">
 				<h2>Une série populaire aléatoire</h2>
-			
-				<c:forEach var="serie" items="${series}">
-					<fragments:serie serie="${serie}" />
-				</c:forEach>
+				<fragments:serie serie="${serie}" />
 			</div>
 		</div>
 		<fragments:footer />

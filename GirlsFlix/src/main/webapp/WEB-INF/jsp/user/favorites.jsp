@@ -26,7 +26,7 @@
 				  <div class="alert alert-primary" role="alert">
 	                   <a href="serie/${favorite.getId()}">
 					  	${favorite.getTitle()}
-					  	<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="location.href='/GirlsFlix/serie/${favorite.getId()}/removeFav'">
+					  	<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="location.href='/GirlsFlix/favoris/remove/${favorite.getId()}'">
                             <span aria-hidden="true">&times;</span>
 					  </button>
 					  

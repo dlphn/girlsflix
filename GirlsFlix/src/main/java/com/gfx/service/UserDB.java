@@ -137,6 +137,7 @@ public class UserDB {
 			if (updatedUser.getFavorites() != null) query += ", favorites=\"" + updatedUser.getFavorites().toString() + "\"";
 			if (updatedUser.getNotifications() != null) query += ", notifications=\"" + updatedUser.getNotifications() + "\"";
 			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
+			// TODO remove
 			System.out.println(query);
 			preparedStatement = connect
 			        .prepareStatement(query);
