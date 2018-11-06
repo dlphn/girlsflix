@@ -1,9 +1,5 @@
 package com.gfx.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.domain.users.Gender;
 import com.gfx.helper.LoginExistsException;
 import com.gfx.service.UserDB;
 
@@ -25,8 +20,6 @@ public class RegistrationController {
 	    ModelAndView mav = new ModelAndView("user/register", "command", new Enjoyer());
 	    mav.addObject("user", new Enjoyer());
  	    mav.addObject("genres", Genre.getGenres());
-	    String message = "";
-	    //mav.addObject("genderTypes", Gender.values());
 	    return mav;
 	}
 	

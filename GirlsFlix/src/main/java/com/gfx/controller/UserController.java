@@ -3,29 +3,20 @@ package com.gfx.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.helper.LoginExistsException;
-import com.gfx.service.SerieFactory;
 import com.gfx.service.UserDB;
 import com.gfx.service.UserService;
 
 
 @Controller
 public class UserController {
-	@Inject
-    private SerieFactory serieFactory = new SerieFactory();
-	String message = "Welcome!";
 	
 	@RequestMapping("/favoris")
 	public String showFavorites(ModelMap model) {
@@ -77,9 +68,18 @@ public class UserController {
 	}
 	
 	@GetMapping("/profil")
-	public String loadProfilePage(ModelMap model) {
+	public String loadProfilePage(ModelMap model,
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "success", required = false) String success) {
+		if (error != null) {
+			model.put("message", "Oups, un problème est survenu. Réessayez plus tard.");
+		}
+		if (success != null) {
+			model.put("message", "Vos informations ont bien été modifiées.");
+		}
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			// TODO Les préférences ne sont pas rendues correctement à cause d'espaces avant les valeurs
 			System.out.println(user.toString());
 		    model.put("user", user);
 		} else {
@@ -92,16 +92,10 @@ public class UserController {
 	
 	@RequestMapping(value = "/profil", method = RequestMethod.POST)
 	public String addUser(ModelMap model, @ModelAttribute("user") Enjoyer user) {
-		model.put("genres", Genre.getGenres());
 		if (UserDB.update(user)) {
-			model.put("user", user);
-			model.put("message" , "Vos informations ont bien été modifiées.");
-			return "redirect:/profil";
+			return "redirect:/profil?success";
 		} else {
-			Enjoyer userOld = UserDB.getUser(UserService.currentUserLogin());
-			model.put("user", userOld);
-			model.put("message" , "La modification de compte a été interrompue. Pourriez-vous réessayer ?");
-			return "redirect:/profil";
+			return "redirect:/profil?error";
 		}
 	}
 }
