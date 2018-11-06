@@ -23,7 +23,9 @@
 				<h2>Mes favoris</h2>
 				<ul class="list-group">
 					<c:forEach var="favorite" items="${favorites}">
-					  	<li class="list-group-item">${favorite}</li>
+					   <a href="serie/${favorite.getId()}">
+					  	<li class="list-group-item">${favorite.getTitle()}</li>
+					  	</a>
 					</c:forEach>
 				</ul>
 			</div>

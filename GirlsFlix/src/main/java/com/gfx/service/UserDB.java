@@ -101,7 +101,7 @@ public class UserDB {
 		try {
 			// login, pseudo, password, enabled, firstname, lastname, gender, favorites, notifications, affinities
 			preparedStatement = connect
-			        .prepareStatement("INSERT INTO users values (?, ?, ?, 1, ?, ?, ?, null, null, ?)");
+			        .prepareStatement("INSERT INTO users values (?, ?, ?, 1, ?, ?, ?, '[]', '[]', ?)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
             preparedStatement.setString(3, newUser.getPassword() != null ? newUser.getPassword() : null);

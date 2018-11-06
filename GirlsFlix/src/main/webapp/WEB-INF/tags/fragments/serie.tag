@@ -20,12 +20,16 @@
 			</c:forEach>
 			<p>${fn:escapeXml(serie.getSummary())}</p>
 			<sec:authorize access="isAuthenticated()">
-				<button type="button" class="btn btn-danger">
+			<p>${message}</p>
+			<c:if test="${isFavorite == false}">
+				<button type="button" class="btn btn-danger" onclick="location.href='/GirlsFlix/serie/${serie.getId()}/addFav'" value="submit">
 					<i class="fas fa-heart"></i> Ajouter aux favoris
-				</button> /
-				<button type="button" class="btn btn-secondary">
+				</button> </c:if>
+			<c:if test="${isFavorite == true}">	
+				<button type="submit" class="btn btn-secondary" name = "deleteFav" value="deleteFav">
 					<i class="fas fa-trash-alt"></i> Supprimer des favoris
 				</button>
+			</c:if>
 			</sec:authorize>
 			<sec:authorize access="!isAuthenticated()">
 				<span>Connectez-vous pour ajouter aux favoris</span>
@@ -40,7 +44,7 @@
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<c:forEach var="season" items="${serie.getSeasons()}">
 					<li class="nav-item">
-			    		<a class="nav-link ${(season.getSeasonNb() == 1 ? "active" : "")}" 
+			    		<a class="nav-link ${season.getSeasonNb() == 1 ? "active" : ""}" 
 			    		id="season${season.getSeasonNb()}-tab" 
 			    		data-toggle="tab" href="#season${season.getSeasonNb()}" 
 			    		role="tab" 
@@ -51,7 +55,7 @@
 			</ul>
 			<div class="tab-content" id="myTabContent">
 				<c:forEach var="season" items="${serie.getSeasons()}">
-					<div class="tab-pane fade ${(season.getSeasonNb() == 1 ? "show active" : "")}" id="season${season.getSeasonNb()}" role="tabpanel" aria-labelledby="season${season.getSeasonNb()}-tab">
+					<div class="tab-pane fade ${season.getSeasonNb() == 1 ? "show active" : ""}" id="season${season.getSeasonNb()}" role="tabpanel" aria-labelledby="season${season.getSeasonNb()}-tab">
 						<fragments:season season="${season}"/>
 					</div>
 				</c:forEach>

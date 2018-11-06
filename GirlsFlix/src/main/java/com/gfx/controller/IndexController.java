@@ -93,10 +93,23 @@ public class IndexController {
             throw new ResourceNotFoundException();
         }
         else {
+        	Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+        	model.put("isFavorite", user.getFavorites().contains(Integer.parseInt(id)));
             model.put("serie", serie);
             return "views/serie";
         }
     }
+	
+	@RequestMapping("/serie/{id}/addFav")
+	public String addFavoriteSerie (@PathVariable("id") int id, ModelMap model) {
+		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		UserService.addToFavorites(user, id);
+		model.put("message", user.getFavorites().contains(id) ? "La série a bien été ajoutée à vos favoris !" : "Oups, pourriez-vous rééssayer ?");
+		model.put("isFavorite", user.getFavorites().contains(id));
+		Serie serie = Data.getById(id);
+		model.put("serie", serie);
+		return "views/serie";
+	}
 	
 	@RequestMapping("/serie-surprise")
 	public String serieSurprise(ModelMap model) {
@@ -116,7 +129,10 @@ public class IndexController {
 			return "user/login";
 		}
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-		model.put("favorites", user.getFavorites());
+		List<Serie> favoritesSeries = new ArrayList<Serie>();
+		for(int fav:user.getFavorites()) {		
+			favoritesSeries.add(Data.getById(fav));}
+		model.addAttribute("favorites", favoritesSeries);
 		return "user/favorites";
 	}
 
