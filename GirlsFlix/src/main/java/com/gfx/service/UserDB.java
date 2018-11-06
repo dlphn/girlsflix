@@ -3,8 +3,7 @@ package com.gfx.service;
 import com.gfx.domain.users.Enjoyer;
 
 import com.gfx.domain.users.Gender;
-import com.gfx.domain.users.User;
-import com.gfx.helper.Keys;
+import com.gfx.Keys;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,16 +23,16 @@ public class UserDB {
 	private static Connection connect = null;
 	private static Statement statement = null;
 	private static PreparedStatement preparedStatement = null;
+	private static PreparedStatement preparedStatement2 = null;
 	
 	private static ResultSet resultSet = null;
     
 	public static void connect() {
 		if (connect == null) {
 			try {
-				Keys keys = new Keys();
 				Class.forName("com.mysql.jdbc.Driver");
-				String url = "jdbc:mysql://" + keys.getMysqlHost() + "/" + keys.getMysqlDb() + "?allowPublicKeyRetrieval=true&useSSL=false";
-				connect = DriverManager.getConnection(url, keys.getMysqlUser(), keys.getMysqlPwd());
+				String url = "jdbc:mysql://" + Keys.mysqlHost + "/" + Keys.mysqlDb + "?allowPublicKeyRetrieval=true&useSSL=false";
+				connect = DriverManager.getConnection(url, Keys.mysqlUser, Keys.mysqlPwd);
 			} catch (ClassNotFoundException e1) {
 				System.out.println("Connexion non reconnue");
 				e1.printStackTrace();
@@ -89,7 +88,7 @@ public class UserDB {
 	        resultSet = statement.executeQuery(query);
 	        writeResultSet(resultSet);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Impossible de lire la BDD users.");
 			e.printStackTrace();
 		} finally {
 			close();
@@ -97,19 +96,24 @@ public class UserDB {
 	}
 	
 	public static boolean insertOne(Enjoyer newUser){
+		// Fonction pour insérer un utilisateur dans la BDD après son inscription
 		connect();
 		try {
-			// login, pseudo, password, firstname, lastname, gender, favorites, notifications, affinities
+			// login, pseudo, password, enabled, firstname, lastname, gender, favorites, notifications, affinities
 			preparedStatement = connect
-			        .prepareStatement("INSERT INTO users values (?, ?, ?, ?, ?, ?, null, null, ?)");
+			        .prepareStatement("INSERT INTO users values (?, ?, ?, 1, ?, ?, ?, '[]', '[]', ?)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
             preparedStatement.setString(3, newUser.getPassword() != null ? newUser.getPassword() : null);
             preparedStatement.setString(4, newUser.getFirstName() != null ? newUser.getFirstName() : null);
             preparedStatement.setString(5, newUser.getLastName() != null ? newUser.getLastName() : null);
             preparedStatement.setString(6, newUser.getGender() != null ? newUser.getGender().toString() : null);
-            preparedStatement.setString(7, newUser.getGender() != null ? newUser.getAffinities().toString() : null);
+            preparedStatement.setString(7, newUser.getAffinities() != null ? newUser.getAffinities().toString() : null);
             preparedStatement.executeUpdate();
+            preparedStatement2 = connect
+ 			        .prepareStatement("INSERT INTO user_roles (login, role) VALUES (?, 'ROLE_USER')");
+ 			preparedStatement2.setString(1, newUser.getLogin());
+            preparedStatement2.executeUpdate();
             return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -122,32 +126,87 @@ public class UserDB {
 	public static void update(Enjoyer updatedUser) {
 		connect();
 		try {
-			String affStr = String.join("/", updatedUser.getAffinities());
-			String favStr = updatedUser.getFavorites().stream()
-	      		  .map(String::valueOf)
-	      		  .collect(Collectors.joining(","));
-			String notifStr = String.join("/", updatedUser.getNotifications());
-			
 			String query = "UPDATE users SET";
+			//On utilise des \ au lieu de ' pour éviter les cas comme Grey's Anatomy
 			query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
 			if (updatedUser.getPassword() != null) query += ", password=\"" + updatedUser.getPassword() + "\"";
 			if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
 			if (updatedUser.getLastName() != null) query += ", lastname=\"" + updatedUser.getLastName() + "\"";
 			if (updatedUser.getGender() != null) query += ", gender=\"" + updatedUser.getGender().toString() + "\"";
-			if (updatedUser.getAffinities() != null) query += ", affinities=\"" + affStr + "\"";
-			if (updatedUser.getFavorites() != null) query += ", favorites=\"" + favStr + "\"";
-			if (updatedUser.getNotifications() != null) query += ", notifications=\"" + notifStr + "\"";
+			if (updatedUser.getAffinities() != null) query += ", affinities=\"" + updatedUser.getAffinities() + "\"";
+			if (updatedUser.getFavorites() != null) query += ", favorites=\"" + updatedUser.getFavorites().toString() + "\"";
+			if (updatedUser.getNotifications() != null) query += ", notifications=\"" + updatedUser.getNotifications() + "\"";
 			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
+			// TODO remove
 			System.out.println(query);
 			preparedStatement = connect
 			        .prepareStatement(query);
             preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("la requête n'a pas marché.");
 			e.printStackTrace();
 		} finally {
 			close();
 		}
+	}
+	
+	public static Enjoyer getUser(String login) {
+		connect();
+		String query = "SELECT pseudo, password, firstname, lastname, gender, favorites, notifications, affinities FROM users WHERE login='" + login + "'";
+		try {
+			statement = connect.createStatement();
+	        resultSet = statement.executeQuery(query);
+	        if (resultSet.next()) {
+	        	List<Integer> favorites = new ArrayList<Integer>();
+	        	String[] notifStrList = new String[0];
+	        	List<String> notifications = new ArrayList<String>();
+	        	String[] affStrList = new String[0];
+	        	List<String> affinities = new ArrayList<String>();
+	            String pseudo = resultSet.getString("pseudo");
+	            String firstname = resultSet.getString("firstname");
+	            String lastname = resultSet.getString("lastname");
+	            String password = resultSet.getString("password");
+	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
+	            // Processing pour bien récupérer les champs List depuis la BDD String
+	            String favoritesDB = resultSet.getString("favorites");
+	            String favoritesStr = favoritesDB.replace("[", "").replace("]", "").replaceAll(" ", "");  // Traitement du String pour enlever les [] et espaces
+	            if (favoritesStr != null) {
+	            	String [] favStrList = favoritesStr.split(",");
+	            	for(String fav : favStrList) {
+	            		try {// On traite le cas où une exception est levée lors de la conversion en Integer
+	            			int favInt = Integer.valueOf(fav);
+	            			favorites.add(favInt);
+	            		}catch(NumberFormatException e) {
+	            			System.out.println("L'utilisateur " + login +" n'a actuellement aucune série favorite ");
+	            		}
+	            	}	
+	            }
+	            String notificationsDB = resultSet.getString("notifications");
+	            String notifications_modif = notificationsDB.replace("[", "");
+	            String notificationsStr = notifications_modif.replace("]", "");
+	            if (notificationsStr != null) {
+	            	notifStrList = notificationsStr.split(",");
+	            	for(String notif : notifStrList) notifications.add(notif);
+	            }
+	            
+	            String affinitiesDB = resultSet.getString("affinities");
+	            String affinities_modif = affinitiesDB.replace("[", "");
+	            String affinitiesStr = affinities_modif.replace("]", "");
+	            if (affinitiesStr != null) {
+	            	affStrList = affinitiesStr.split(",");
+	            	for(String aff : affStrList) affinities.add(aff);
+	            }
+	            
+	            Enjoyer user = new Enjoyer(login, pseudo, password, firstname, lastname, gender, affinities, favorites, notifications);
+	            return user;
+	        }
+		} catch (SQLException e) {
+			System.out.println("Connexion MySQL interrompue");
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
 	}
 	
 	public static Enjoyer checkPwd(String login, String pwd) {
@@ -157,7 +216,7 @@ public class UserDB {
 			statement = connect.createStatement();
 	        resultSet = statement.executeQuery(query);
 	        if (resultSet.next()) {
-	        	String[] favStrList = new String[0];
+	        	
 	        	List<Integer> favorites = new ArrayList<Integer>();
 	        	String[] notifStrList = new String[0];
 	        	List<String> notifications = new ArrayList<String>();
@@ -167,19 +226,33 @@ public class UserDB {
 	            String firstname = resultSet.getString("firstname");
 	            String lastname = resultSet.getString("lastname");
 	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
-	            String favoritesStr = resultSet.getString("favorites");
+	          
+	            String favoritesDB = resultSet.getString("favorites");
+	            String favoritesStr = favoritesDB.replace("[", "").replace("]", "").replace(" ", "");  // Traitement du String pour enlever les [] et espaces
 	            if (favoritesStr != null) {
-	            	favStrList = resultSet.getString("favorites").split(",");
-	            	for(String fav : favStrList) favorites.add(Integer.valueOf(fav));
+	            	String [] favStrList = favoritesStr.split(",");
+	            	for(String fav : favStrList) {
+	            		try {// On traite le cas où une exception est levée lors de la conversion en Integer
+	            			int favInt = Integer.valueOf(fav);
+	            			favorites.add(favInt);
+	            		}catch(NumberFormatException e) {
+	            			System.out.println("L'utilisateur" + login +" n'a actuellement aucune série favorite ");
+	            		}
+	            	}	
 	            }
-	            String notificationsStr = resultSet.getString("notifications");
+	            String notificationsDB = resultSet.getString("notifications");
+	            String notifications_modif = notificationsDB.replace("[", "");
+	            String notificationsStr = notifications_modif.replace("]", "");
 	            if (notificationsStr != null) {
-	            	notifStrList = notificationsStr.split("/");
+	            	notifStrList = notificationsStr.split(",");
 	            	for(String notif : notifStrList) notifications.add(notif);
 	            }
-	            String affinitiesStr = resultSet.getString("affinities");
+	            
+	            String affinitiesDB = resultSet.getString("affinities");
+	            String affinities_modif = affinitiesDB.replace("[", "");
+	            String affinitiesStr = affinities_modif.replace("]", "");
 	            if (affinitiesStr != null) {
-	            	affStrList = affinitiesStr.split("/");
+	            	affStrList = affinitiesStr.split(",");
 	            	for(String aff : affStrList) affinities.add(aff);
 	            }
 	            Enjoyer user = new Enjoyer(login, pseudo, pwd, firstname, lastname, gender, affinities, favorites, notifications);

@@ -15,6 +15,9 @@ public class Enjoyer extends User{
 	
 	public Enjoyer() {
 		super();
+		this.affinities=null;
+		this.notifications=null;
+		this.favorites=null;
 	}
 	
 	public Enjoyer(String login) {
@@ -94,13 +97,14 @@ public class Enjoyer extends User{
 		this.notifications = notifications;
 	}
 	
+	@Override
 	public String toString() {
 		String result = "";
 		result += super.toString();
 		result += "Gender : " + this.gender.toString() + "\n";
 		result += "Affinities : " + this.affinities.toString() + "\n";
 		result += "Favorites : " + this.favorites + "\n";
-		// result += "Notifications : " + this.notifications + "\n";
+		result += "Notifications : " + this.notifications + "\n";
 		return result;
 	}
 	
@@ -119,11 +123,17 @@ public class Enjoyer extends User{
 
 	
 	public void addToFavorites(Integer id) {
-		favorites.add(id);
+		if(favorites.contains(id)==false) {
+		favorites.add(id);}
 	}
 	
 	public void removeFromFavorites(Integer id) {
-		favorites.remove(id);
+		if(favorites.contains(id)==true) {
+		favorites.remove(id);}
+	}
+	
+	public void removeFromNotifications(int index) {
+		notifications.remove(index);
 	}
 	
 

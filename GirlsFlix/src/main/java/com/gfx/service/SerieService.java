@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
-import com.gfx.helper.Config;
-import com.gfx.helper.Keys;
+import com.gfx.Config;
+import com.gfx.Keys;
 
 @Service
 public class SerieService {
@@ -30,12 +30,9 @@ public class SerieService {
 	 * Initiates/updates the series genres.
 	 */
 	public void initGenres() {
-		Keys apiKey = new Keys();
-		Config config = new Config();
-		
 		ConnectionWS connection = new ConnectionWS();
 		try {
-			String url = config.getApiUrl() + "genre/tv/list?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang();
+			String url = Config.apiUrl + "genre/tv/list?api_key=" + Keys.apiKey + "&language=" + Config.lang;
 			String response = connection.connect(url);
 			List<JSONObject> genres = buildGenresList(response);
 			Genre.setGenres(genres);
@@ -73,13 +70,10 @@ public class SerieService {
 	 * Initiates/updates the database collections series, seasons and episodes.
 	 */
 	public void init() {
-		Keys apiKey = new Keys();
-		Config config = new Config();
-		
 		ConnectionWS connection = new ConnectionWS();
 		try {
 			// GET popular series
-			String url = config.getApiUrlFull() + "popular?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang() + "&page=1";
+			String url = Config.apiFull + "popular?api_key=" + Keys.apiKey + "&language=" + Config.lang + "&page=1";
 			String response = connection.connect(url);
 			
 			// Series and Seasons
@@ -153,15 +147,13 @@ public class SerieService {
 	 * @return the Serie and Season Documents to be added and the seasons/series ids
 	 */
 	private SeasonResult getSeriesSeasonsDetails(List<Integer> seriesList) {
-		Keys apiKey = new Keys();
-		Config config = new Config();
 		ConnectionWS connection = new ConnectionWS();
 		List<Document> series = new ArrayList<Document>();
 		List<Document> seasons = new ArrayList<Document>();
 		List<SeasonPair> seasonsSeries = new ArrayList<SeasonPair>();
 		for (int id : seriesList) {
 			try {
-				String response = connection.connect(config.getApiUrlFull() + id + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
+				String response = connection.connect(Config.apiFull + id + "?api_key=" + Keys.apiKey + "&language=" + Config.lang);
 				SeasonResult res = buildSeriesSeasonsList(response, id);
 				series.addAll(res.getSeriesDocs());
 				seasons.addAll(res.getSeasonsDocs());
@@ -247,13 +239,11 @@ public class SerieService {
 	 * @return the Documents to be added
 	 */
 	private List<Document> getSeasonsDetails(List<SeasonPair> seasonsList) {
-		Keys apiKey = new Keys();
-		Config config = new Config();
 		ConnectionWS connection = new ConnectionWS();
 		List<Document> seasons = new ArrayList<Document>();
 		for (SeasonPair season : seasonsList) {
 			try {
-				String response = connection.connect(config.getApiUrlFull() + season.getTvId() + "/season/" + season.getSeasonNumber() + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
+				String response = connection.connect(Config.apiFull + season.getTvId() + "/season/" + season.getSeasonNumber() + "?api_key=" + Keys.apiKey + "&language=" + Config.lang);
 				List<Document> res = buildEpisodesList(response, season);
 				seasons.addAll(res);
 			} catch (ClientProtocolException e) {

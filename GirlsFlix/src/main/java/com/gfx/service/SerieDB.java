@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bson.Document;
 
-import com.gfx.helper.Keys;
+import com.gfx.Keys;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -19,18 +19,16 @@ public class SerieDB {
 	
 	
 	public static void connect() {
-		Keys keys = new Keys();
 		if (mongoClient == null) {
-		    mongoClient = MongoClients.create("mongodb+srv://" + keys.getMongoUser() + ":" + keys.getMongoPwd() + "@" + keys.getMongoHost() + "/");
+		    mongoClient = MongoClients.create("mongodb+srv://" + Keys.mongoUser + ":" + Keys.mongoPwd + "@" + Keys.mongoHost + "/");
 		}
-		MongoDatabase db = mongoClient.getDatabase(keys.getMongoDb());
+		MongoDatabase db = mongoClient.getDatabase(Keys.mongoDb);
 		database = db;
 	}
 	
 	public static void connect(String dbName) {
-		Keys keys = new Keys();
 		if (mongoClient == null) {
-		    mongoClient = MongoClients.create("mongodb+srv://" + keys.getMongoUser() + ":" + keys.getMongoPwd() + "@" + keys.getMongoHost() + "/");
+		    mongoClient = MongoClients.create("mongodb+srv://" + Keys.mongoUser + ":" + Keys.mongoPwd + "@" + Keys.mongoHost + "/");
 		}
 		MongoDatabase db = mongoClient.getDatabase(dbName);
 		database = db;

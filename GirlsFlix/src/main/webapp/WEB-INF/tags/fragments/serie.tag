@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fragments" tagdir="/WEB-INF/tags/fragments" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@ attribute name="serie" required="true" rtexprvalue="true" type="com.gfx.domain.series.Serie"%>
 
@@ -18,19 +19,38 @@
 				<span class="badge badge-secondary">${fn:escapeXml(genre)}</span>
 			</c:forEach>
 			<p>${fn:escapeXml(serie.getSummary())}</p>
-			<c:if test="${not empty loggedIn}">Ajouter aux favoris</c:if>
-			<c:if test="${empty loggedIn}">Connectez-vous pour ajouter aux favoris</c:if>
+			<sec:authorize access="isAuthenticated()">
+			<p>${message}</p>
+			<c:if test="${isFavorite == false}">
+				<button type="button" class="btn btn-danger" onclick="location.href='/GirlsFlix/serie/${serie.getId()}/addFav'" value="submit">
+					<i class="fas fa-heart"></i> Ajouter aux favoris
+				</button> </c:if>
+			<c:if test="${isFavorite == true}">	
+				<button type="button" class="btn btn-secondary" onclick="location.href='/GirlsFlix/serie/${serie.getId()}/removeFav'" value="submit">
+					<i class="fas fa-trash-alt"></i> Supprimer des favoris
+				</button>
+			</c:if>
+			</sec:authorize>
+			<sec:authorize access="!isAuthenticated()">
+				<p>Connectez-vous pour ajouter aux favoris :
+				<span>
+					<button type="button" class="btn btn-primary" onclick="location.href='/GirlsFlix/login'" value="submit">
+                    	<i class="fas fa-user"></i> Connexion
+                    </button>
+                </span>
+                </p>
+			</sec:authorize>
 		</div>
 	</div><br/>
 	<div class="row">
 		<div class="col-md-12">
-			<h4>Saisons & Episodes</h4>
+			<h4>Saisons et Episodes</h4>
 		</div>
 		<div class="col-md-12">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<c:forEach var="season" items="${serie.getSeasons()}">
 					<li class="nav-item">
-			    		<a class="nav-link ${(season.getSeasonNb() == 1 ? "active" : "")}" 
+			    		<a class="nav-link ${season.getSeasonNb() == 1 ? "active" : ""}" 
 			    		id="season${season.getSeasonNb()}-tab" 
 			    		data-toggle="tab" href="#season${season.getSeasonNb()}" 
 			    		role="tab" 
@@ -41,7 +61,7 @@
 			</ul>
 			<div class="tab-content" id="myTabContent">
 				<c:forEach var="season" items="${serie.getSeasons()}">
-					<div class="tab-pane fade ${(season.getSeasonNb() == 1 ? "show active" : "")}" id="season${season.getSeasonNb()}" role="tabpanel" aria-labelledby="season${season.getSeasonNb()}-tab">
+					<div class="tab-pane fade ${season.getSeasonNb() == 1 ? "show active" : ""}" id="season${season.getSeasonNb()}" role="tabpanel" aria-labelledby="season${season.getSeasonNb()}-tab">
 						<fragments:season season="${season}"/>
 					</div>
 				</c:forEach>

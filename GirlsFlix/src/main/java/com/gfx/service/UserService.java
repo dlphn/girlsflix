@@ -4,15 +4,40 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.helper.Config;
+import com.gfx.Config;
 
 @Service
 public class UserService {
+	
+
+	public static UserDetails currentUserDetails(){
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    Authentication authentication = securityContext.getAuthentication();
+	    if (authentication != null) {
+	        Object principal = authentication.getPrincipal();
+	        return principal instanceof UserDetails ? (UserDetails) principal : null;
+	    }
+	    return null;
+	}
+	
+	public static String currentUserLogin(){
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    Authentication authentication = securityContext.getAuthentication();
+	    if (authentication != null) {
+	        Object principal = authentication.getPrincipal();
+	        return principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : null;
+	    }
+	    return null;
+	}
 	
 	public static void updateAffinities(Enjoyer user, List<String> affinities) {
 		user.setAffinities(affinities);
@@ -52,7 +77,7 @@ public class UserService {
 	 */
 	public static void notifyNextEpisodeOnAirSoon(Serie serie) {
 		Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
-		if (period.getDays() <= Config.getNbDaysNotifBeforeDiff() && !serie.isNextEpisodeHasBeenNotified()) {
+		if (period.getDays() <= Config.nbDaysNotifBeforeDiff && !serie.isNextEpisodeHasBeenNotified()) {
 			for (Enjoyer enjoyer: serie.getEnjoyersToNotify()) {
 				Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyer, serie));
 				throwNotif.start();
@@ -91,7 +116,8 @@ public class UserService {
 	 * @param index 	notification to remove
 	 */
 	public static void deleteNotification(Enjoyer enjoyer, int index) {
-		enjoyer.getNotifications().remove(enjoyer.getNotifications().get(index));
+		enjoyer.removeFromNotifications(index);
 		UserDB.update(enjoyer);
 	}
+	
 }

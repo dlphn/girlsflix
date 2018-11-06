@@ -1,4 +1,5 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm" id="menu">
 	<a class="navbar-brand" href="/GirlsFlix">GirlsFlix</a>
@@ -13,9 +14,22 @@
 			<li class="nav-item">
 			  	<a class="nav-link" href="/GirlsFlix/serie-surprise">Série surprise</a>
 			</li>
+			<sec:authorize access="isAuthenticated()">
+				<li class="nav-item">
+					<a class="nav-link" href="/GirlsFlix/favoris">Mes favoris</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/GirlsFlix/notifications">Notifications</a>
+				</li>
+			</sec:authorize>
 		</ul>
 		<span class="navbar-text">
-			<a class="nav-link" href="/GirlsFlix/login">Connexion</a>
+			<sec:authorize access="!isAuthenticated()">
+				<a class="nav-link" href="/GirlsFlix/login">Connexion</a>
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<a class="nav-link" href="/GirlsFlix/logout">Déconnexion</a>
+			</sec:authorize>
 		</span>
 	</div>
 </nav>

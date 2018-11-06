@@ -9,7 +9,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
-		<title>GirlsFlix Login</title>
+		<title>GirlsFlix - Mes favoris</title>
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="css/style.css" />
@@ -20,31 +20,21 @@
 		
 		<div class="main">
 			<div class="container">
-				<h2>Se connecter</h2>
-				<c:if test="${not empty error}">
-					<div class="error">${error}</div>
-				</c:if>
-				<c:if test="${not empty msg}">
-					<div class="msg">${msg}</div>
-				</c:if>
-				<c:url value="/login" var="loginUrl"/>
-				<form action="${loginUrl}" method="post" class="form-signin">
-					<div class="form-group row">
-					  	<label for="username" class="sr-only">Login</label>
-				    	<input type="text" class="form-control" id="username" name="username" placeholder="Login"
-				    		required autofocus>
-					  	<label for="password" class="sr-only">Mot de passe</label>
-				    	<input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
-					</div>
-					<input type="hidden"
-						name="${_csrf.parameterName}"
-						value="${_csrf.token}"/>
-					<button type="submit" class="btn btn-lg btn-primary btn-block">Se connecter</button>
-				</form>
-				<p class="text-center">
-					<a href="/GirlsFlix/register">Pas encore de compte ?</a>
-				</p>
+				<h2>Mes favoris</h2>
+				
+				<c:forEach var="favorite" items="${favorites}">
+				  <div class="alert alert-primary" role="alert">
+	                   <a href="serie/${favorite.getId()}">
+					  	${favorite.getTitle()}
+					  	<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="location.href='/GirlsFlix/favoris/remove/${favorite.getId()}'">
+                            <span aria-hidden="true">&times;</span>
+					  </button>
+					  
+                            </a>
+					
 			</div>
+			</c:forEach>
+		</div>
 		</div>
 		
 		<fragments:footer />
