@@ -26,19 +26,21 @@
 					<i class="fas fa-heart"></i> Ajouter aux favoris
 				</button> </c:if>
 			<c:if test="${isFavorite == true}">	
-				<button type="submit" class="btn btn-secondary" name = "deleteFav" value="deleteFav">
+				<button type="button" class="btn btn-secondary" onclick="location.href='/GirlsFlix/serie/${serie.getId()}/removeFav'" value="submit">
 					<i class="fas fa-trash-alt"></i> Supprimer des favoris
 				</button>
 			</c:if>
 			</sec:authorize>
 			<sec:authorize access="!isAuthenticated()">
-				<span>Connectez-vous pour ajouter aux favoris</span>
+				<span> <button type="button" class="btn btn-danger" onclick="location.href='/GirlsFlix/login'" value="submit">
+                    <i class="fas fa-heart"></i> Connexion
+                    </button></span>
 			</sec:authorize>
 		</div>
 	</div><br/>
 	<div class="row">
 		<div class="col-md-12">
-			<h4>Saisons & Episodes</h4>
+			<h4>Saisons et Episodes</h4>
 		</div>
 		<div class="col-md-12">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">

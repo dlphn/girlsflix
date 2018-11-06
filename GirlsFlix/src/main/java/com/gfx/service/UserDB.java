@@ -176,7 +176,7 @@ public class UserDB {
 	            			int favInt = Integer.valueOf(fav);
 	            			favorites.add(favInt);
 	            		}catch(NumberFormatException e) {
-	            			System.out.println("L'utilisateur" + login +" n'a actuellement aucune série favorite ");
+	            			System.out.println("L'utilisateur " + login +" n'a actuellement aucune série favorite ");
 	            		}
 	            	}	
 	            }

@@ -94,7 +94,12 @@ public class IndexController {
         }
         else {
         	Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-        	model.put("isFavorite", user.getFavorites().contains(Integer.parseInt(id)));
+        	try{ 
+        	model.put("isFavorite", user.getFavorites().contains(Integer.parseInt(id)));}
+        	catch(NullPointerException e) {
+        		model.put("isFavorite", "Vous voulez l'ajouter en favori ? Connectez-vous à votre compte !" );
+        		e.printStackTrace();
+        	}
             model.put("serie", serie);
             return "views/serie";
         }
@@ -109,6 +114,17 @@ public class IndexController {
 		Serie serie = Data.getById(id);
 		model.put("serie", serie);
 		return "views/serie";
+	}
+	
+	@RequestMapping("/serie/{id}/removeFav")
+	public String removeFavoriteSerie (@PathVariable("id") int id, ModelMap model) {
+		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		UserService.removeFromFavorites(user, id);
+		model.put("message", user.getFavorites().contains(id) ? "Oups, pourriez-vous rééssayer ?" : "La série ne fait plus partie de vos favoris.");
+		model.put("isFavorite", user.getFavorites().contains(id));
+		Serie serie = Data.getById(id);
+		model.put("serie", serie);
+		return "redirect:/favoris";
 	}
 	
 	@RequestMapping("/serie-surprise")
