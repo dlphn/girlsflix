@@ -99,6 +99,16 @@ public class Serie {
 		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + ".\n its ID is: " + this.id + "\n";
 	}
 	
+	public String toString() {
+		String result = "";
+		result += "Title : " + this.title + "\n";
+		result += "Summary : " + this.summary + "\n";
+		result += "Creation Date : " + this.creationDate + "\n";
+		result += "Genres : " + this.serieGenres.toString() + "\n";
+		result += "Rating : " + this.rating + "\n";
+		return result;
+	}
+	
 	public void addSeason(Season season) {
 		seasons.add(season);
 	}
