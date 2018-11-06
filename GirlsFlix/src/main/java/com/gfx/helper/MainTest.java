@@ -29,22 +29,46 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
-		
 		// System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
-		/*UserDB.connect();
-		Enjoyer userTest = UserDB.checkPwd("testDimanche", "motdepasse");
-		userTest.getAffinities();
-		System.out.println("user " + userTest + " and affinities 1: " + userTest.getAffinities());
-		userTest.setAffinities(Arrays.asList("Horreur", "Crime", "Documentaire"));
-		System.out.println("user " + userTest + " and affinities : " + userTest.getAffinities());
-		System.out.println("********************");
-		Enjoyer userTest2 = UserDB.checkPwd("login", "motdepasse");
-		userTest2.getAffinities();
-		System.out.println("user " + userTest2 + " and affinities 2: " + userTest2.getAffinities());
-		*/
+		UserDB.connect();
+		//test
+		/*Enjoyer Jihane = UserDB.getUser("loginé");
+		System.out.println(Jihane.toString());
+		List<String> notif = Arrays.asList("La série Beta3 va bientôt sortir", "La série Gamma2 est sortie !");
+		List<Integer> fav = Arrays.asList(1,2,3,4,0,56);
+		Jihane.setNotifications(notif);
+		Jihane.setPseudo("Bibou");
+		Jihane.setFavorites(fav);
+		//Jihane.setPseudo("Jihane");
+		System.out.println("************************");
+		UserDB.update(Jihane);
+		System.out.println("update : " + Jihane.toString());
+		System.out.println("************************");
+		UserDB.connect();
+		Enjoyer Jihane2 = UserDB.getUser("loginé");
+		System.out.println(Jihane2.getFavorites());
+		System.out.println("************************");
+		System.out.println("readDB : " + Jihane2.toString());
+		System.out.println("************************");
+		List<String> aff = Arrays.asList("Comédie", "Horreur", "Policier", "Mystère");
+		Jihane2.setAffinities(aff);
 		
-/*
+		Serie serie = new Serie("Grey's Anatomy");
+		serie.setId(421);
+		serie.setNbSeasonNEOA(2);
+		serie.setNextEpisodeOnAir(3);
+		serie.setDateNextEpisodeOnAir(LocalDate.now());
+		List<Serie> series = new ArrayList<Serie>();
+		System.out.println("***** series ******" +series);
+		series.add(serie);
+		Data.setListSeries(series);
+		UserService.addToFavorites(Jihane2, 421);
+		UserService.notifyNextEpisodeOnAirSoon(Jihane2, serie);
+		UserDB.update(Jihane2);
+		System.out.println("Jihane2 modified Affinities" + Jihane2.toString());
+		
+
 		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
         User newUser = new Enjoyer("Sandra@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
         if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
@@ -109,7 +133,17 @@ public class MainTest {
 		//new SerieFactory();
 		//serieFactory.getSeasons(60735);
 		//serieFactory.getEpisodes(60735, 1);
-		//List<Serie> series = Data.getListSeries();
+
+		/*List<Serie> series = Data.getListSeries();
+		for (Serie s : series) {
+			System.out.println(s.toString());
+		}
+		
+		List<Serie> result = Data.searchGenre("Drame");
+		System.out.println("Search results :");
+		for (Serie s : result) {
+			System.out.println(s.toString());
+		}*/
     
     
     

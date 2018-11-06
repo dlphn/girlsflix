@@ -21,12 +21,20 @@
 		<div class="main">
 			<div class="container">
 				<h2>Mes favoris</h2>
-				<ul class="list-group">
-					<c:forEach var="favorite" items="${favorites}">
-					  	<li class="list-group-item">${favorite}</li>
-					</c:forEach>
-				</ul>
+				
+				<c:forEach var="favorite" items="${favorites}">
+				  <div class="alert alert-primary" role="alert">
+	                   <a href="serie/${favorite.getId()}">
+					  	${favorite.getTitle()}
+					  	<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="location.href='/GirlsFlix/favoris/remove/${favorite.getId()}'">
+                            <span aria-hidden="true">&times;</span>
+					  </button>
+					  
+                            </a>
+					
 			</div>
+			</c:forEach>
+		</div>
 		</div>
 		
 		<fragments:footer />

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.service.ThrowNotificationToEnjoyer;
-import com.gfx.Config;
 
 public class Serie {
 	private int id;
@@ -15,7 +13,7 @@ public class Serie {
 	private String summary;
 	private LocalDate creationDate;
 	private double rating;
-	private boolean allowed;
+	private boolean allowed = true;
 	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
 	private List<Enjoyer> enjoyersToNotify = new ArrayList<Enjoyer>();
@@ -104,6 +102,16 @@ public class Serie {
 	
 	public String info() {
 		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + ".\n its ID is: " + this.id + "\n";
+	}
+	
+	public String toString() {
+		String result = "";
+		result += "Title : " + this.title + "\n";
+		result += "Summary : " + this.summary + "\n";
+		result += "Creation Date : " + this.creationDate + "\n";
+		result += "Genres : " + this.serieGenres.toString() + "\n";
+		result += "Rating : " + this.rating + "\n";
+		return result;
 	}
 	
 	public void addSeason(Season season) {
