@@ -21,10 +21,10 @@
 		<div class="main">
 			<div class="container">
 				<h2>Notifications</h2>
-				<c:forEach var="notification" items="${notifications}">
+				<c:forEach var="notification" items="${notifications}" varStatus="loop">
 		    		<div class="alert alert-primary" role="alert">
 						${notification}
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="location.href='/GirlsFlix/notifications/remove?index=${loop.index}'">
 					    	<span aria-hidden="true">&times;</span>
 						</button>
 					</div>

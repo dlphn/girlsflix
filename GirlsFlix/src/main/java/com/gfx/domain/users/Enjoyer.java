@@ -104,7 +104,7 @@ public class Enjoyer extends User{
 		result += "Gender : " + this.gender.toString() + "\n";
 		result += "Affinities : " + this.affinities.toString() + "\n";
 		result += "Favorites : " + this.favorites + "\n";
-		// result += "Notifications : " + this.notifications + "\n";
+		result += "Notifications : " + this.notifications + "\n";
 		return result;
 	}
 	
@@ -128,6 +128,10 @@ public class Enjoyer extends User{
 	
 	public void removeFromFavorites(Integer id) {
 		favorites.remove(id);
+	}
+	
+	public void removeFromNotifications(int index) {
+		notifications.remove(index);
 	}
 	
 

@@ -116,7 +116,7 @@ public class UserService {
 	 * @param index 	notification to remove
 	 */
 	public static void deleteNotification(Enjoyer enjoyer, int index) {
-		enjoyer.getNotifications().remove(enjoyer.getNotifications().get(index));
+		enjoyer.removeFromNotifications(index);
 		UserDB.update(enjoyer);
 	}
 	

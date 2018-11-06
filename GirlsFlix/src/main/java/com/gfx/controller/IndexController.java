@@ -120,13 +120,32 @@ public class IndexController {
 		return "user/favorites";
 	}
 
-	@RequestMapping("/notifications")
+	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
 	public String showNotifications(ModelMap model) {
 		if (UserService.currentUserLogin() == null) {
 			return "user/login";
 		}
-		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-		model.put("notifications", user.getNotifications());
+		
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("notifications", user.getNotifications());
+		} else {
+			model.put("notifications", new ArrayList<String>());
+		}
 		return "user/notifications";
+	}
+	
+	@RequestMapping(value = "/notifications/remove", method = RequestMethod.GET)
+	public String removeNotification(ModelMap model, 
+			@RequestParam(value = "index", required = false) String removeId
+	) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			
+			if (removeId != null) {
+				UserService.deleteNotification(user, Integer.parseInt(removeId));
+			}
+		}
+		return "redirect:/notifications";
 	}
 }

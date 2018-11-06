@@ -168,7 +168,7 @@ public class UserDB {
 	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
 	            // Processing pour bien récupérer les champs List depuis la BDD String
 	            String favoritesDB = resultSet.getString("favorites");
-	            String favoritesStr = favoritesDB.replace("[", "").replace("]", "").replace(" ", "");  // Traitement du String pour enlever les [] et espaces
+	            String favoritesStr = favoritesDB.replace("[", "").replace("]", "").replaceAll(" ", "");  // Traitement du String pour enlever les [] et espaces
 	            if (favoritesStr != null) {
 	            	String [] favStrList = favoritesStr.split(",");
 	            	for(String fav : favStrList) {
