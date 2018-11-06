@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.service.ThrowNotificationToEnjoyer;
-import com.gfx.Config;
 
 public class Serie {
 	private int id;
@@ -15,7 +13,7 @@ public class Serie {
 	private String summary;
 	private LocalDate creationDate;
 	private double rating;
-	private boolean allowed;
+	private boolean allowed = true;
 	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
 	private List<Enjoyer> enjoyersToNotify = new ArrayList<Enjoyer>();
