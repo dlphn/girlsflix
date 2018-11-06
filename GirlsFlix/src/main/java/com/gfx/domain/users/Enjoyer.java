@@ -123,11 +123,13 @@ public class Enjoyer extends User{
 
 	
 	public void addToFavorites(Integer id) {
-		favorites.add(id);
+		if(favorites.contains(id)==false) {
+		favorites.add(id);}
 	}
 	
 	public void removeFromFavorites(Integer id) {
-		favorites.remove(id);
+		if(favorites.contains(id)==true) {
+		favorites.remove(id);}
 	}
 	
 
