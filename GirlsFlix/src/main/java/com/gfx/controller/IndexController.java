@@ -1,5 +1,8 @@
 package com.gfx.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
@@ -39,21 +42,44 @@ public class IndexController {
 			@RequestParam(value = "search", required = false) String search,
 			@RequestParam(value = "genre", required = false) String genre
 	) {
-	    model.put("search", search);
+		
+		// render the filter values
 		model.put("genres", Genre.getGenres());
+	    model.put("search", search);
 		String genreFilter = "";
 		if (genre != null) {
 			genreFilter = new String(genre).replaceAll("and", "&");
 		}
 	    model.put("genreFilter", genreFilter);
+	    
+	    List<Serie> titleResult = new ArrayList<Serie>();
+	    List<Serie> genreResult = new ArrayList<Serie>();
 		
-		if (search != null) {
-			model.put("series", Data.search(search));
+	    // get result for title search
+		if (search != null && search.length() > 0) {
+			titleResult = Data.search(search);
+		}
+		// get result for genre filter
+		if (genre != null && genre.length() > 0) {
+			genreResult = Data.searchGenre(genreFilter);
+		}
+		
+		if (search == null && genre == null) {
+			// no filter
+			model.put("series", Data.getListSeries());
 		} else {
-			if (genre != null) {
-				model.put("series", Data.searchGenre(genreFilter));
-			} else {
-			    model.put("series", Data.getListSeries());
+			if (search.length() > 0 && genre.length() == 0) {
+				// search only on title
+				model.put("series", titleResult);
+			}
+			if (search.length() == 0 && genre.length() > 0) {
+				// filter only on genre
+				model.put("series", genreResult);
+			}
+			if (search.length() > 0 && genre.length() > 0) {
+				// filter on both title and genre
+				titleResult.retainAll(genreResult);
+				model.put("series", titleResult);
 			}
 		}
 

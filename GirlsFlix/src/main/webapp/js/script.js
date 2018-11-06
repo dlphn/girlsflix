@@ -2,23 +2,24 @@
 // at page load time
 $(function(){
 	
+	function filter() {
+		var searchInput = $('#searchInput').val();
+		var selectGenre = $("#selectGenre").val().replace(/&/g, 'and');
+		if (searchInput.length > 0 || selectGenre.length > 0) {
+			window.location.href = '/GirlsFlix/series?search=' + searchInput + '&genre=' + selectGenre;
+		} else {
+			window.location.href = '/GirlsFlix/series';
+		}
+	}
+	
 	$('button[data-role="search"]').click(function() {
     	event.preventDefault();
-    	if ($('#searchInput').val().length > 0) {
-            window.location.href = '/GirlsFlix/series?search=' + $('#searchInput').val();
-    	} else {
-            window.location.href = '/GirlsFlix/series';
-    	}
+    	filter();
     });
 	
 	$('select[id="selectGenre"]').change(function() {
     	event.preventDefault();
-    	if ($("#selectGenre").val().length > 0) {
-    		var encoded = $("#selectGenre").val().replace(/&/g, 'and');
-            window.location.href = '/GirlsFlix/series?genre=' + encoded;
-    	} else {
-            window.location.href = '/GirlsFlix/series';
-    	}
+    	filter();
     });
     
 });
