@@ -25,7 +25,6 @@ public class ThrowNotificationProcess implements Runnable{
 	 * @param serie 	Series to notify
 	 */
 	public void run() {
-		System.out.println("throw notification process launched for the serie : " + serie.getTitle());
 		Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
 		if (period.getDays() <= Config.nbDaysNotifBeforeDiff && !serie.isNextEpisodeHasBeenNotified()) {
 			System.out.println("episode incoming for the serie " + serie.getTitle());

@@ -16,7 +16,6 @@ public class ThrowNotificationToEnjoyer implements Runnable {
 	
 	public void run() {
 		UserService.notifyNextEpisodeOnAirSoon(enjoyerToNotify, serieNotified);
-		System.out.println("je vais déclencher la notification dans UserService pour la série " + serieNotified.getTitle() + " car l'enjoyer " + enjoyerToNotify.getLogin() + " a mis cette série dans ses favoris");
 	}
 
 }

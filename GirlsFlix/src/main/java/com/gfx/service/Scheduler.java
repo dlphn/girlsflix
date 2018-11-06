@@ -8,11 +8,15 @@ import java.util.TimerTask;
 
 import com.gfx.Config;
 
-public class Scheduler implements Runnable{
+public class Scheduler extends Thread{
 	private static int count = 0;
 	private SerieService serieService;
 	private SerieFactory serieFactory;
 	private boolean firstTimerIteration = true;
+	
+	public Scheduler() {
+		this.start();
+	}
 	
 	public void run() {
 		serieService = new SerieService();
@@ -33,8 +37,6 @@ public class Scheduler implements Runnable{
 			count++;
 			System.out.println("itération du scheduler : " + count);
 			if(firstTimerIteration) {
-				//creation of the series, seasons, and episodes objects stores in the database
-				serieFactory.initData();
 				//execution of the notification process
 				SerieService.launchGlobalNotificationProcess();
 				firstTimerIteration = false;
