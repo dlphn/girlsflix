@@ -12,9 +12,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
+import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
+import com.gfx.domain.series.Serie;
 import com.gfx.Config;
 import com.gfx.Keys;
 
@@ -292,5 +294,19 @@ public class SerieService {
 		}
 		return documents;
 	}
+	
+	
+	
+	public synchronized static void launchGlobalNotificationProcess() {
+		List<Serie> listSerie = Data.getListSeries();
+		for (Serie s: listSerie) {
+			if(s.getDateNextEpisodeOnAir() != null) {
+				Thread thread = new Thread(new ThrowNotificationProcess (s));
+				thread.start();
+			}
+		}
+
+	}
+	
 	
 }

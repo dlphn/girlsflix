@@ -23,7 +23,7 @@ public class Serie {
 	private int nbSeasonNEOA;
 	private LocalDate dateNextEpisodeOnAir;
 	private boolean nextEpisodeHasBeenNotified = false;
-	
+		
 	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating) {
 		super();
 		this.id = id;
@@ -96,6 +96,11 @@ public class Serie {
 		this.seasons = seasons;
 	}
 	
+	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, List<Season> seasons, double rating) {
+		this(id, title, serieGenres, summary, creationDate, image,seasons);
+		this.rating = rating;
+	}
+
 	
 	public String info() {
 		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + ".\n its ID is: " + this.id + "\n";
@@ -103,6 +108,22 @@ public class Serie {
 	
 	public void addSeason(Season season) {
 		seasons.add(season);
+	}
+	
+	public void updateAllAttributes(String title, List<String> serieType, String summary, LocalDate creationDate, String picture, List<Season> seasons, double rating, int newEpisode, int newSeason, LocalDate newDate) {
+		if(!this.title.equals(title)) this.title = title;
+		this.serieGenres = serieType;
+		if(!this.summary.equals(summary)) this.summary = summary;
+		this.creationDate = creationDate;
+		if(!this.image.equals(picture)) this.image = picture;
+		this.seasons = seasons;
+		if(this.rating != rating) this.rating = rating;
+		if(this.nextEpisodeOnAir != newEpisode) {
+			this.nextEpisodeOnAir = newEpisode;
+			this.nextEpisodeHasBeenNotified = false;
+		}
+		if(this.nbSeasonNEOA != newSeason) this.nbSeasonNEOA = newSeason;
+		this.dateNextEpisodeOnAir = newDate;
 	}
 
 	
@@ -219,7 +240,7 @@ public class Serie {
 		return nextEpisodeHasBeenNotified;
 	}
 
-	public void setNextEpisodeHasBeenNotified(boolean nextEpisodeHasBeenNotified) {
+	public synchronized void setNextEpisodeHasBeenNotified(boolean nextEpisodeHasBeenNotified) {
 		this.nextEpisodeHasBeenNotified = nextEpisodeHasBeenNotified;
 	}
 }

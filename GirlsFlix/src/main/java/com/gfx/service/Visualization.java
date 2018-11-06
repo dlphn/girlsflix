@@ -1,8 +1,11 @@
 package com.gfx.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -12,8 +15,8 @@ import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 
 @Service
-public class Visualization {
-	//J'ai modifié cet attribut en static
+public class Visualization{
+	
 	protected static List<Serie> listSeries;
 	
 	public Visualization() {}
@@ -21,6 +24,7 @@ public class Visualization {
 	public Visualization(List<Serie> list) {
 		this.listSeries = list;
 	}
+	
 	
 	public void showSeries() {
 		try {

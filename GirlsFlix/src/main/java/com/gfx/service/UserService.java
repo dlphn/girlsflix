@@ -65,27 +65,7 @@ public class UserService {
 		UserDB.update(enjoyer);
 		// update series in MongoDB
 	}
-	
-	
-	/**
-	 * If a new episode of the series will be on air soon (3 days or less currently) and has not been notified,
-	 * send a notification to all enjoyers following this series. Browse the list of enjoyer to notify and
-	 * start one thread per enjoyer. Each thread will take care of processing the notification process for the enjoyer.
-	 * Called on a regular basis.
-	 * 
-	 * @param serie 	Series to notify
-	 */
-	public static void notifyNextEpisodeOnAirSoon(Serie serie) {
-		Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
-		if (period.getDays() <= Config.nbDaysNotifBeforeDiff && !serie.isNextEpisodeHasBeenNotified()) {
-			for (Enjoyer enjoyer: serie.getEnjoyersToNotify()) {
-				Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyer, serie));
-				throwNotif.start();
-			}
-			serie.setNextEpisodeHasBeenNotified(true);
-		}
-		
-	}
+
 	
 
 	/**
