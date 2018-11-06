@@ -23,6 +23,7 @@ public class Scheduler extends Thread{
 		serieFactory = new SerieFactory();
 		Timer timer = new Timer();
 		Date initDate = convertLocalDateTimeToDate(Config.initDateScheduler);
+		//launch the timer at the date initDate and excute the method run of the ReccurentTask class every Config.internalForScheduler milliseconds
 		timer.scheduleAtFixedRate(new ReccurentTask(), initDate, Config.intervalForScheduler);
 	}
 	
@@ -42,7 +43,6 @@ public class Scheduler extends Thread{
 				firstTimerIteration = false;
 			}
 			else {
-				System.out.println("hello");
 				//call to the API and update of the Database, take a lot of time
 				serieService.init();
 				//update of the series, seasons, and episodes objects

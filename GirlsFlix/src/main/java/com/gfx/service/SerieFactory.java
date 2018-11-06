@@ -91,6 +91,10 @@ public class SerieFactory {
 		Data.setListSeries(seriesList);
 	}
 	
+	/**
+	 * Fetch Data from MongoDB, create the object Serie if it doesn't exists or update the object with new values of
+	 * attributes
+	 */
 	public void updateData() {
 		SerieDB.connect();
         
