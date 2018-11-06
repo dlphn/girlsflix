@@ -127,15 +127,16 @@ public class UserDB {
 		connect();
 		try {
 			String query = "UPDATE users SET";
-			query += " pseudo= '"+ updatedUser.getPseudo()+"'";
-			if (updatedUser.getPassword() != null) query += ", password='" + updatedUser.getPassword()+"'" ;
-			if (updatedUser.getFirstName() != null) query += ", firstname='" + updatedUser.getFirstName() +"'";
-			if (updatedUser.getLastName() != null) query += ", lastname='" + updatedUser.getLastName()+"'" ;
-			if (updatedUser.getGender() != null) query += ", gender='" + updatedUser.getGender().toString()+"'" ;
-			if (updatedUser.getAffinities() != null) query += ", affinities='" + updatedUser.getAffinities() +"'";
-			if (updatedUser.getFavorites() != null) query += ", favorites='" + updatedUser.getFavorites().toString()+"'";
-			if (updatedUser.getNotifications() != null) query += ", notifications='" + updatedUser.getNotifications()+"'";
-			query += " WHERE login='" + updatedUser.getLogin()+"'";
+			//On utilise des \ au lieu de ' pour éviter les cas comme Grey's Anatomy
+			query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
+			if (updatedUser.getPassword() != null) query += ", password=\"" + updatedUser.getPassword() + "\"";
+			if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
+			if (updatedUser.getLastName() != null) query += ", lastname=\"" + updatedUser.getLastName() + "\"";
+			if (updatedUser.getGender() != null) query += ", gender=\"" + updatedUser.getGender().toString() + "\"";
+			if (updatedUser.getAffinities() != null) query += ", affinities=\"" + updatedUser.getAffinities() + "\"";
+			if (updatedUser.getFavorites() != null) query += ", favorites=\"" + updatedUser.getFavorites().toString() + "\"";
+			if (updatedUser.getNotifications() != null) query += ", notifications=\"" + updatedUser.getNotifications() + "\"";
+			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
 			System.out.println(query);
 			preparedStatement = connect
 			        .prepareStatement(query);

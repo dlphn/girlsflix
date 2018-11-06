@@ -46,8 +46,8 @@ public class MainTest {
 		List<String> aff = Arrays.asList("Comédie", "Horreur", "Policier", "Mystère");
 		Jihane2.setAffinities(aff);
 		
-		Serie serie = new Serie("GirlsFlix.tv");
-		serie.setId(42);
+		Serie serie = new Serie("Grey's Anatomy");
+		serie.setId(421);
 		serie.setNbSeasonNEOA(2);
 		serie.setNextEpisodeOnAir(3);
 		serie.setDateNextEpisodeOnAir(LocalDate.now());
@@ -55,12 +55,12 @@ public class MainTest {
 		System.out.println("***** series ******" +series);
 		series.add(serie);
 		Data.setListSeries(series);
-		UserService.addToFavorites(Jihane2, 42);
+		UserService.addToFavorites(Jihane2, 421);
 		UserService.notifyNextEpisodeOnAirSoon(Jihane2, serie);
 		UserDB.update(Jihane2);
-		System.out.println("Jihane2 modified Affinities" + Jihane2.toString());*/
+		System.out.println("Jihane2 modified Affinities" + Jihane2.toString());
 		
-/*
+
 		System.out.println("login not used ? " + UserDB.checkLoginNotUsed("testhjk3@test.com"));
         User newUser = new Enjoyer("Sandra@test.com", "test23R", "pwd", "Charli", "Chapli", Gender.MALE);
         if(UserDB.checkLoginNotUsed(newUser.getLogin())) {
