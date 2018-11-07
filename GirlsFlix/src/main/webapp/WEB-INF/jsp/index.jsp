@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fragments" tagdir="/WEB-INF/tags/fragments" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -18,8 +19,11 @@
 		<div class="main">
 			<div class="container">
 				<center>
-					<h1>Welcome to GirlsFlix</h1>
+					<h1>Bienvenue sur GirlsFlix !</h1>
 				</center>
+				<sec:authorize access="isAuthenticated()">
+					<h2>Recommandé pour vous</h2>
+				</sec:authorize>
 				<div class="card-columns">
 					<c:forEach var="item" items="${columns}">
 		               	<div class="card">
@@ -27,9 +31,9 @@
 								<img class="card-img-top" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(item.getImage())}" alt="${fn:escapeXml(item.getTitle())}"/>
 								<div class="card-body">
 									<h5>${fn:escapeXml(item.getTitle())}</h5>
-									<c:if test="${not empty loggedIn}">
-										<p>Ajouter aux favoris</p>
-									</c:if>
+									<c:forEach var="genre" items="${item.getSerieGenres()}">
+										<span class="badge badge-secondary">${fn:escapeXml(genre)}</span>
+									</c:forEach>
 								</div>
 							</a>
 		               </div>

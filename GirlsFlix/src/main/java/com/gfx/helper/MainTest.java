@@ -137,8 +137,17 @@ public class MainTest {
 		for (Serie s : result) {
 			System.out.println(s.toString());
 		}*/
+		
+		/**
+		 * Test for recommendations
+		 */
+		new SerieFactory();
+		List<Serie> result = Data.pickNRandomSameGenre(2, "Documentary");
+		for (Serie s : result) {
+			System.out.println(s.toString());
+		}
     
-    
+		
     
 		/**
 		 * Test for the notifications

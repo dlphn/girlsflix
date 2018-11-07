@@ -31,9 +31,19 @@ public class IndexController {
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
-		model.put("columns", Data.pickNRandom(9));
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			List<String> affinities = user.getAffinities();
+			List<Serie> recommendations = new ArrayList<Serie>();
+			// TODO issue with affinities because of added white spaces
+			for (String affinity : affinities) {
+				recommendations.addAll(Data.pickNRandomSameGenre(3, affinity));
+			}
+			model.put("columns", recommendations);
+		} else {
+			model.put("columns", Data.pickNRandom(9));
+		}
 		System.out.println(UserService.currentUserLogin());
-
         return "index";
     }
 	
