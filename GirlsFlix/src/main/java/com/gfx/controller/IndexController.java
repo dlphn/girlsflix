@@ -39,10 +39,9 @@ public class IndexController {
 			for (String affinity : affinities) {
 				recommendations.addAll(Data.pickNRandomSameGenre(3, affinity));
 			}
-			model.put("columns", recommendations);
-		} else {
-			model.put("columns", Data.pickNRandom(9));
+			model.put("recommendations", recommendations);
 		}
+		model.put("columns", Data.pickNRandom(9));
 		System.out.println(UserService.currentUserLogin());
         return "index";
     }

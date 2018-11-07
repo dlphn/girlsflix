@@ -23,6 +23,22 @@
 				</center>
 				<sec:authorize access="isAuthenticated()">
 					<h2>Recommandé pour vous</h2>
+					<div class="card-columns">
+						<c:forEach var="item" items="${recommendations}">
+			               	<div class="card">
+								<a href="serie/${item.getId()}">
+									<img class="card-img-top" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(item.getImage())}" alt="${fn:escapeXml(item.getTitle())}"/>
+									<div class="card-body">
+										<h5>${fn:escapeXml(item.getTitle())}</h5>
+										<c:forEach var="genre" items="${item.getSerieGenres()}">
+											<span class="badge badge-secondary">${fn:escapeXml(genre)}</span>
+										</c:forEach>
+									</div>
+								</a>
+			               </div>
+		           		</c:forEach>
+		           	</div>
+		           	<h2>Séries populaires</h2>
 				</sec:authorize>
 				<div class="card-columns">
 					<c:forEach var="item" items="${columns}">
