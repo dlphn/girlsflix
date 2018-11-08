@@ -40,6 +40,9 @@ public class IndexController {
 				recommendations.addAll(Data.pickNRandomSameGenre(3, affinity));
 			}
 			model.put("recommendations", recommendations);
+			if (recommendations.size() == 0) {
+				model.put("recommendationsMsg", "Indiquez vos préférences dans votre profil pour recevoir des recommandations :)");
+			}
 		}
 		model.put("columns", Data.pickNRandom(9));
 		System.out.println(UserService.currentUserLogin());

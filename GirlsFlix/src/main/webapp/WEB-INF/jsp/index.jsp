@@ -38,6 +38,9 @@
 			               </div>
 		           		</c:forEach>
 		           	</div>
+		           	<div>
+		           		<p>${recommendationsMsg}</p><br/>
+		           	</div>
 		           	<h2>Séries populaires</h2>
 				</sec:authorize>
 				<div class="card-columns">

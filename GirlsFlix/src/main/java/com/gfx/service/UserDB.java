@@ -187,7 +187,9 @@ public class UserDB {
 	            String notificationsStr = notifications_modif.replace("]", "");
 	            if (notificationsStr != null) {
 	            	notifStrList = notificationsStr.split(",");
-	            	for(String notif : notifStrList) notifications.add(notif);
+	            	for(String notif : notifStrList) {
+	            		notifications.add(notif.trim());
+	            	}
 	            }
 	            
 	            String affinitiesDB = resultSet.getString("affinities");
@@ -195,7 +197,9 @@ public class UserDB {
 	            String affinitiesStr = affinities_modif.replace("]", "");
 	            if (affinitiesStr != null) {
 	            	affStrList = affinitiesStr.split(",");
-	            	for(String aff : affStrList) affinities.add(aff);
+	            	for(String aff : affStrList) {
+	            		affinities.add(aff.trim());
+	            	}
 	            }
 	            
 	            Enjoyer user = new Enjoyer(login, pseudo, password, firstname, lastname, gender, affinities, favorites, notifications);
