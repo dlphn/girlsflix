@@ -71,6 +71,7 @@ public class SerieDB {
 		// and replaceOne was the only working solution
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static void updateEnjoyers(Serie serie) {
 		MongoCollection<Document> collection = database.getCollection("series");
 		Document newDocument = new Document();
@@ -78,18 +79,15 @@ public class SerieDB {
 		for (Enjoyer enjoyer : serie.getEnjoyersToNotify()) {
 			JSONObject obj = new JSONObject();
 			obj.put("user", enjoyer.getLogin());
+			//TODO enjoyer.getHasBeenNotified()
 			obj.put("hasBeenNotified", false);
 			enjoyers.add(obj);
 		}
 		newDocument.append("$set", new Document().append("enjoyersToNotify", enjoyers));
 		UpdateOptions options = new UpdateOptions().upsert(true);
-		System.out.println(newDocument);
 		collection.updateOne(
 				Filters.eq("id", serie.getId()), 
 				newDocument, 
 				options);
-		// replaceOne deprecated but updateOne was raising Exception :
-		// "java.lang.IllegalArtgumentException : Invalid BSON field name id"
-		// and replaceOne was the only working solution
 	}
 }

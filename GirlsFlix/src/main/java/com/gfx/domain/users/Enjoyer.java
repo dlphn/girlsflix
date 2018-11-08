@@ -97,16 +97,15 @@ public class Enjoyer extends User{
 		this.notifications = notifications;
 	}
 	
-	/*@Override
-	public String toString() {
+	public String display() {
 		String result = "";
-		result += super.toString();
+		result += super.display();
 		result += "Gender : " + this.gender.toString() + "\n";
 		result += "Affinities : " + this.affinities.toString() + "\n";
 		result += "Favorites : " + this.favorites + "\n";
 		result += "Notifications : " + this.notifications + "\n";
 		return result;
-	}*/
+	}
 	
 	
 	/**

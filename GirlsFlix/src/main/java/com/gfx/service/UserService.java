@@ -1,7 +1,5 @@
 package com.gfx.service;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.Config;
 
 @Service
 public class UserService {
@@ -56,7 +53,6 @@ public class UserService {
 		// TODO add an object with the enjoyer and a boolean False
 		s.getEnjoyersToNotify().add(enjoyer);
 		UserDB.update(enjoyer);
-		// update series in MongoDB
 		SerieDB.updateEnjoyers(s);
 	}
 	
@@ -66,7 +62,6 @@ public class UserService {
 		// TODO add the object with the enjoyer and the boolean
 		s.getEnjoyersToNotify().remove(enjoyer);
 		UserDB.update(enjoyer);
-		// update series in MongoDB
 		SerieDB.updateEnjoyers(s);
 	}
 
