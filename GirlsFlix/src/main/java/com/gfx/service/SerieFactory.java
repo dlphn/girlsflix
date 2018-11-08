@@ -56,7 +56,11 @@ public class SerieFactory {
     			
     			int serieId = Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString());
 				List<Season> seasons = getSeasons(serieId);
+				
+				JSONArray enjoyersToNotify = (JSONArray) jsnObj.get("enjoyersToNotify");
+				System.out.println(enjoyersToNotify);
     			
+				//TODO Serie constructor with enjoyersToNotify
     			Serie serie = new Serie(
     					serieId, //id
     					jsnObj.get("title") != null ? jsnObj.get("title").toString() : "", //title
