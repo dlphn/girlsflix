@@ -295,6 +295,7 @@ public class SerieService {
 		return documents;
 	}
 	
+	
 	/**
 	 * this method is called by the Scheduler on a regular basis.
 	 * for each Serie, launch a Thread if it has a date for the next episode on air not null

@@ -39,6 +39,12 @@ public class Serie {
 		this.title = name;
 	}
 	
+	public Serie(int id, List<Enjoyer> enjoyersToNotify) {
+		// TODO for testing - to be removed
+		this.id = id;
+		this.enjoyersToNotify = enjoyersToNotify;
+	}
+	
 	public Serie(int id, String title, LocalDate creationDate, String summary) {
 		super();
 		this.id = id;

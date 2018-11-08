@@ -31,7 +31,7 @@ public class MainTest {
 		System.out.println("Hello world!");
 		// System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
-		UserDB.connect();
+		// UserDB.connect();
 		//test
 		/*Enjoyer Jihane = UserDB.getUser("loginé");
 		System.out.println(Jihane.toString());
@@ -145,7 +145,18 @@ public class MainTest {
 			System.out.println(s.toString());
 		}*/
     
-    
+		/*
+		 * Test mongo update
+		 */
+		SerieDB.connect();
+		Enjoyer e1 = new Enjoyer("enjoyer1");
+		Enjoyer e2 = new Enjoyer("enjoyer2");
+		List<Enjoyer> enjoyers = new ArrayList<Enjoyer>();
+		enjoyers.add(e1);
+		enjoyers.add(e2);
+		Serie s = new Serie(60735, enjoyers); // Flash
+		System.out.println(s.getEnjoyersToNotify());
+		SerieDB.updateEnjoyers(s);
     
 		/**
 		 * Test for the notifications
@@ -252,8 +263,8 @@ public class MainTest {
 		}*/
 		/** end Test for the scheduler**/
 
-		Thread scheduler = new Thread(new Scheduler());
-		scheduler.start();
+//		Thread scheduler = new Thread(new Scheduler());
+//		scheduler.start();
 		
 		
 	}

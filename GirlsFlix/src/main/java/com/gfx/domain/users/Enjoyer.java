@@ -97,7 +97,7 @@ public class Enjoyer extends User{
 		this.notifications = notifications;
 	}
 	
-	@Override
+	/*@Override
 	public String toString() {
 		String result = "";
 		result += super.toString();
@@ -106,7 +106,7 @@ public class Enjoyer extends User{
 		result += "Favorites : " + this.favorites + "\n";
 		result += "Notifications : " + this.notifications + "\n";
 		return result;
-	}
+	}*/
 	
 	
 	/**

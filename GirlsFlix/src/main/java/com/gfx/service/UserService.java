@@ -53,17 +53,21 @@ public class UserService {
 	public static void addToFavorites(Enjoyer enjoyer, int id) {
 		enjoyer.addToFavorites(id);
 		Serie s = Data.getById(id);
+		// TODO add an object with the enjoyer and a boolean False
 		s.getEnjoyersToNotify().add(enjoyer);
 		UserDB.update(enjoyer);
 		// update series in MongoDB
+		SerieDB.updateEnjoyers(s);
 	}
 	
 	public static void removeFromFavorites(Enjoyer enjoyer, int id) {
 		enjoyer.removeFromFavorites(id);
 		Serie s = Data.getById(id);
+		// TODO add the object with the enjoyer and the boolean
 		s.getEnjoyersToNotify().remove(enjoyer);
 		UserDB.update(enjoyer);
 		// update series in MongoDB
+		SerieDB.updateEnjoyers(s);
 	}
 
 	
