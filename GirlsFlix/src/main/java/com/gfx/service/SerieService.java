@@ -295,19 +295,24 @@ public class SerieService {
 		return documents;
 	}
 	
+	
 	/**
 	 * this method is called by the Scheduler on a regular basis.
 	 * for each Serie, launch a Thread if it has a date for the next episode on air not null
 	 */
 	
 	public synchronized static void launchGlobalNotificationProcess() {
+		int count = 0;
 		List<Serie> listSerie = Data.getListSeries();
 		for (Serie s: listSerie) {
+			count ++;
+			System.out.println(count + "vs " + Data.getListSeries().size());
 			if(s.getDateNextEpisodeOnAir() != null) {
 				Thread thread = new Thread(new ThrowNotificationProcess (s));
 				thread.start();
 			}
 		}
+		System.out.print("fin du process launchGlobalNotificationProcess");
 
 	}
 	

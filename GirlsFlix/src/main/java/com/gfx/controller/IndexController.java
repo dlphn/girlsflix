@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import java.lang.Thread;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -15,11 +14,9 @@ import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.service.Scheduler;
 import com.gfx.service.SerieFactory;
 import com.gfx.service.UserDB;
 import com.gfx.service.UserService;
-import com.gfx.service.Scheduler;
 
  
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -31,7 +28,6 @@ class ResourceNotFoundException extends RuntimeException {
 public class IndexController {
 	@Inject
 	SerieFactory serieFactory = new SerieFactory();
-	Scheduler scheduler = new Scheduler();
 	String message = "Welcome!";
 	
 	

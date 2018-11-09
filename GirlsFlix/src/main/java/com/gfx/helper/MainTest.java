@@ -9,7 +9,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 
 import org.bson.Document;
@@ -31,7 +33,7 @@ public class MainTest {
 		System.out.println("Hello world!");
 		// System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
-		UserDB.connect();
+		// UserDB.connect();
 		//test
 		/*Enjoyer Jihane = UserDB.getUser("loginé");
 		System.out.println(Jihane.toString());
@@ -145,7 +147,18 @@ public class MainTest {
 			System.out.println(s.toString());
 		}*/
     
-    
+		/*
+		 * Test mongo update
+		 */
+		/*SerieDB.connect();
+		Enjoyer e1 = new Enjoyer("enjoyer1");
+		Enjoyer e2 = new Enjoyer("enjoyer2");
+		Map<String, Boolean> enjoyers = new HashMap<String, Boolean>();
+		enjoyers.put(e1.getLogin(), false);
+		enjoyers.put(e2.getLogin(), true);
+		Serie s = new Serie(60735, enjoyers); // Flash
+		System.out.println(s.getEnjoyersToNotify());
+		SerieDB.updateEnjoyers(s);*/
     
 		/**
 		 * Test for the notifications
@@ -251,9 +264,9 @@ public class MainTest {
 			System.out.println(notif);
 		}*/
 		/** end Test for the scheduler**/
-
-		Thread scheduler = new Thread(new Scheduler());
-		scheduler.start();
+		
+		//Scheduler scheduler = new Scheduler(new SerieFactory());
+		//scheduler.start();
 		
 		
 	}
@@ -261,7 +274,6 @@ public class MainTest {
 	public static void instanciateSerie(Serie s, int id, LocalDate date, int nbEpisode, int nbSaison) {
 		s.setId(id);
 		s.setDateNextEpisodeOnAir(date);
-		s.setNextEpisodeHasBeenNotified(false);
 		s.setNextEpisodeOnAir(nbEpisode);
 		s.setNbSeasonNEOA(nbSaison);
 	}

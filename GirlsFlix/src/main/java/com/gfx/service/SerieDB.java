@@ -2,10 +2,15 @@ package com.gfx.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bson.Document;
+import org.json.simple.JSONObject;
 
 import com.gfx.Keys;
+import com.gfx.domain.series.Serie;
+import com.gfx.domain.users.Enjoyer;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -58,6 +63,7 @@ public class SerieDB {
 	    collection.insertMany(documents);	
 	}
 	
+	//TODO use a set so that enjoyersToNotify is not erased
 	@SuppressWarnings("deprecation")
 	public static void upsert(String col, Document doc) {
 		MongoCollection<Document> collection = database.getCollection(col);
@@ -66,5 +72,16 @@ public class SerieDB {
 		// replaceOne deprecated but updateOne was raising Exception :
 		// "java.lang.IllegalArtgumentException : Invalid BSON field name id"
 		// and replaceOne was the only working solution
+	}
+	
+	public static void updateEnjoyers(Serie serie) {
+		MongoCollection<Document> collection = database.getCollection("series");
+		Document newDocument = new Document();
+		newDocument.append("$set", new Document().append("enjoyersToNotify", serie.getEnjoyersToNotify()));
+		UpdateOptions options = new UpdateOptions().upsert(true);
+		collection.updateOne(
+				Filters.eq("id", serie.getId()), 
+				newDocument, 
+				options);
 	}
 }
