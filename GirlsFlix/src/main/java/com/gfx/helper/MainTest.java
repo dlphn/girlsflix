@@ -252,8 +252,8 @@ public class MainTest {
 		}*/
 		/** end Test for the scheduler**/
 		
-		Scheduler scheduler = new Scheduler(new SerieFactory());
-		scheduler.start();
+		//Scheduler scheduler = new Scheduler(new SerieFactory());
+		//scheduler.start();
 		
 		
 	}
