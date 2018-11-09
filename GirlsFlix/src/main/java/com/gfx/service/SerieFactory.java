@@ -105,7 +105,7 @@ public class SerieFactory {
 					// the object was already created so we take back the object in Data thanks to the Id and we update its attributes
 					serie = Data.getById(serieId);
 					System.out.println("id de la série : " + serieId);
-					serie.updateAllAttributes(title, serieType, summary, creationDate, image, rating, seasons, newEpisode, newSeason, newDate);
+					serie.updateAllAttributes(title, serieType, summary, creationDate, image, rating, seasons, enjoyersToNotify, newEpisode, newSeason, newDate);
 					//serieList.add(serie);
 				}
 

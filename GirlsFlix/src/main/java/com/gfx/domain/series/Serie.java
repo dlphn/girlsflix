@@ -138,14 +138,15 @@ public class Serie {
 		seasons.add(season);
 	}
 	
-	public void updateAllAttributes(String title, List<String> serieType, String summary, LocalDate creationDate, String picture, double rating, List<Season> seasons, int newEpisode, int newSeason, LocalDate newDate) {
+	public void updateAllAttributes(String title, List<String> serieType, String summary, LocalDate creationDate, String picture, double rating, List<Season> seasons, Map<String, Boolean> enjoyersToNotify, int newEpisode, int newSeason, LocalDate newDate) {
 		this.title = title;
 		this.serieGenres = serieType;
 		this.summary = summary;
 		this.creationDate = creationDate;
 		this.image = picture;
-		this.seasons = seasons;
 		this.rating = rating;
+		this.seasons = seasons;
+		this.enjoyersToNotify = enjoyersToNotify;
 		this.nextEpisodeOnAir = newEpisode;
 		this.nbSeasonNEOA = newSeason;
 		this.dateNextEpisodeOnAir = newDate;
@@ -262,8 +263,6 @@ public class Serie {
 	}
 	
 	
-	
-	//TODO move those functions in a service
 	
 	public Boolean isEnjoyerNotified(String login) {
 		return this.enjoyersToNotify.get(login);

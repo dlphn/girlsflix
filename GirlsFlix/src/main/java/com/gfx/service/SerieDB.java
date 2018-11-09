@@ -63,6 +63,7 @@ public class SerieDB {
 	    collection.insertMany(documents);	
 	}
 	
+	//TODO use a set so that enjoyersToNotify is not erased
 	@SuppressWarnings("deprecation")
 	public static void upsert(String col, Document doc) {
 		MongoCollection<Document> collection = database.getCollection(col);
