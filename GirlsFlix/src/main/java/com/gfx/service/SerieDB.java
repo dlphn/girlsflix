@@ -2,6 +2,8 @@ package com.gfx.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bson.Document;
 import org.json.simple.JSONObject;
@@ -71,19 +73,18 @@ public class SerieDB {
 		// and replaceOne was the only working solution
 	}
 	
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	public static void updateEnjoyers(Serie serie) {
 		MongoCollection<Document> collection = database.getCollection("series");
 		Document newDocument = new Document();
-		List<JSONObject> enjoyers = new ArrayList<JSONObject>();
-		for (Enjoyer enjoyer : serie.getEnjoyersToNotify()) {
+		/*List<JSONObject> enjoyers = new ArrayList<JSONObject>();
+		for (Entry<String, Boolean> enjoyer : serie.getEnjoyersToNotify().entrySet()) {
 			JSONObject obj = new JSONObject();
-			obj.put("user", enjoyer.getLogin());
-			//TODO enjoyer.getHasBeenNotified()
-			obj.put("hasBeenNotified", false);
+			obj.put("user", enjoyer.getKey());
+			obj.put("hasBeenNotified", enjoyer.getValue());
 			enjoyers.add(obj);
-		}
-		newDocument.append("$set", new Document().append("enjoyersToNotify", enjoyers));
+		}*/
+		newDocument.append("$set", new Document().append("enjoyersToNotify", serie.getEnjoyersToNotify()));
 		UpdateOptions options = new UpdateOptions().upsert(true);
 		collection.updateOne(
 				Filters.eq("id", serie.getId()), 

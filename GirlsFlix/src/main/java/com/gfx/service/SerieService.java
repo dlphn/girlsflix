@@ -302,13 +302,17 @@ public class SerieService {
 	 */
 	
 	public synchronized static void launchGlobalNotificationProcess() {
+		int count = 0;
 		List<Serie> listSerie = Data.getListSeries();
 		for (Serie s: listSerie) {
+			count ++;
+			System.out.println(count + "vs " + Data.getListSeries().size());
 			if(s.getDateNextEpisodeOnAir() != null) {
 				Thread thread = new Thread(new ThrowNotificationProcess (s));
 				thread.start();
 			}
 		}
+		System.out.print("fin du process launchGlobalNotificationProcess");
 
 	}
 	

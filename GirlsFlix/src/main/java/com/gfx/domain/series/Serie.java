@@ -3,6 +3,7 @@ package com.gfx.domain.series;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.gfx.domain.users.Enjoyer;
 
@@ -16,11 +17,10 @@ public class Serie {
 	private boolean allowed = true;
 	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
-	private List<Enjoyer> enjoyersToNotify = new ArrayList<Enjoyer>();
+	private Map<String, Boolean> enjoyersToNotify;
 	private int nextEpisodeOnAir;
 	private int nbSeasonNEOA;
 	private LocalDate dateNextEpisodeOnAir;
-	private boolean nextEpisodeHasBeenNotified = false;
 		
 	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating) {
 		super();
@@ -39,7 +39,7 @@ public class Serie {
 		this.title = name;
 	}
 	
-	public Serie(int id, List<Enjoyer> enjoyersToNotify) {
+	public Serie(int id, Map<String, Boolean> enjoyersToNotify) {
 		// TODO for testing - to be removed
 		this.id = id;
 		this.enjoyersToNotify = enjoyersToNotify;
@@ -125,18 +125,15 @@ public class Serie {
 	}
 	
 	public void updateAllAttributes(String title, List<String> serieType, String summary, LocalDate creationDate, String picture, List<Season> seasons, double rating, int newEpisode, int newSeason, LocalDate newDate) {
-		if(!this.title.equals(title)) this.title = title;
+		this.title = title;
 		this.serieGenres = serieType;
-		if(!this.summary.equals(summary)) this.summary = summary;
+		this.summary = summary;
 		this.creationDate = creationDate;
-		if(!this.image.equals(picture)) this.image = picture;
+		this.image = picture;
 		this.seasons = seasons;
-		if(this.rating != rating) this.rating = rating;
-		if(this.nextEpisodeOnAir != newEpisode) {
-			this.nextEpisodeOnAir = newEpisode;
-			this.nextEpisodeHasBeenNotified = false;
-		}
-		if(this.nbSeasonNEOA != newSeason) this.nbSeasonNEOA = newSeason;
+		this.rating = rating;
+		this.nextEpisodeOnAir = newEpisode;
+		this.nbSeasonNEOA = newSeason;
 		this.dateNextEpisodeOnAir = newDate;
 	}
 
@@ -218,12 +215,26 @@ public class Serie {
 		this.seasons = seasons;
 	}
 
-	public List<Enjoyer> getEnjoyersToNotify() {
+	public Map<String,Boolean> getEnjoyersToNotify() {
 		return enjoyersToNotify;
 	}
 
-	public void setEnjoyersToNotify(List<Enjoyer> enjoyersToNotify) {
+	public void setEnjoyersToNotify(Map<String, Boolean> enjoyersToNotify) {
 		this.enjoyersToNotify = enjoyersToNotify;
+	}
+	
+	public Boolean isEnjoyerNotified(String login) {
+		return this.enjoyersToNotify.get(login);
+	}
+	
+	public void setEnjoyerAsNotified(String login) {
+		this.enjoyersToNotify.remove(login);
+		this.enjoyersToNotify.put(login, true);
+	}
+	
+	public void setEnjoyerAsNotNotified(String login) {
+		this.enjoyersToNotify.remove(login);
+		this.enjoyersToNotify.put(login, false);
 	}
   
 	public int getNextEpisodeOnAir() {
@@ -250,11 +261,4 @@ public class Serie {
 		this.dateNextEpisodeOnAir = dateNextEpisodeOnAir;
 	}
 
-	public boolean isNextEpisodeHasBeenNotified() {
-		return nextEpisodeHasBeenNotified;
-	}
-
-	public synchronized void setNextEpisodeHasBeenNotified(boolean nextEpisodeHasBeenNotified) {
-		this.nextEpisodeHasBeenNotified = nextEpisodeHasBeenNotified;
-	}
 }
