@@ -33,31 +33,32 @@ public class SerieFactory {
 	}
 	
 	/**
-	 * Fetch data from MongoDB, create the Series/Seasons/Episodes objects and save in Data's seriesList or update the object's attribute if it already exists in Data
+	 * Fetch data from MongoDB, create the Series/Seasons/Episodes objects and 
+	 * save in Data's seriesList or update the object's attribute if it already exists in Data
 	 */
 	public void initData() {
-		// TODO weird
 		SerieDB.connect();
         
         JSONParser parser = new JSONParser();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    	//List<Serie> seriesList =  Data.getListSeries();
-        
-        List<Document> documents = SerieDB.find("series");
         
         List<Serie> serieList = new ArrayList<Serie>();
-        if(Data.getListSeries() != null) {
+        if (Data.getListSeries() != null) {
         	serieList = Data.getListSeries();
-        }
-        else {
+        } else {
         	Data.setListSeries(serieList);
         }
+
+        List<Document> documents = SerieDB.find("series");
+        
         
     	for (Document doc : documents) {
 			try {
 				JSONObject jsnObj = (JSONObject) parser.parse(doc.toJson());
+				Serie serie = null;
 				
-				int serieId = Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString());
+				int serieId = jsnObj.get("id") != null ? Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()) : null;
+				
 				String title = jsnObj.get("title") != null ? jsnObj.get("title").toString() : "";
 	
 				JSONArray genres = (JSONArray) jsnObj.get("serieType");
@@ -68,56 +69,56 @@ public class SerieFactory {
 				
 				String summary = jsnObj.get("summary") != null ? jsnObj.get("summary").toString() : "";
 				LocalDate creationDate = jsnObj.get("date") != null ? LocalDate.parse((CharSequence) jsnObj.get("date"), formatter) : null;
-				String picture = jsnObj.get("imageLink") != null ? jsnObj.get("imageLink").toString() : "";
+				String image = jsnObj.get("imageLink") != null ? jsnObj.get("imageLink").toString() : "";
+				Double rating = jsnObj.get("rating") != null ? Double.parseDouble(jsnObj.get("rating").toString()) : null;
+				
 				List<Season> seasons = getSeasons(serieId);
 				
-				JSONArray enjoyersToNotify = (JSONArray) jsnObj.get("enjoyersToNotify");
-				System.out.println(enjoyersToNotify);
-    			
-				//TODO Serie constructor with enjoyersToNotify
-    			Serie serie = new Serie(
-    					serieId, //id
-    					jsnObj.get("title") != null ? jsnObj.get("title").toString() : "", //title
-    					serieType,//serieGenres
-    					jsnObj.get("summary") != null ? jsnObj.get("summary").toString() : "", //summary
-    					jsnObj.get("date") != null ? LocalDate.parse((CharSequence) jsnObj.get("date"), formatter) : null, //date
-						jsnObj.get("imageLink") != null ? jsnObj.get("imageLink").toString() : "", //image
-    					seasons,
-    					jsnObj.get("rating") != null ? Double.parseDouble(jsnObj.get("rating").toString()) : null
+				@SuppressWarnings("unchecked")
+				Map<String, Boolean> enjoyersToNotify = (Map<String, Boolean>) jsnObj.get("enjoyersToNotify");
+				
+				int newEpisode = jsnObj.get("newEpisodeNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newEpisodeNb")).get("$numberLong").toString()) : 0;
+				int newSeason = jsnObj.get("newSeasonNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newSeasonNb")).get("$numberLong").toString()) : 0;
+				LocalDate newDate = jsnObj.get("newDate") != null ? LocalDate.parse((CharSequence) jsnObj.get("newDate"), formatter) : null;
+				
+//				try {
+//    				newEpisode = jsnObj.get("newEpisodeNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newEpisodeNb")).get("$numberLong").toString()) : null;
+//    				newSeason = jsnObj.get("newSeasonNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newSeasonNb")).get("$numberLong").toString()) : null;
+//    				newDate = jsnObj.get("newDate") != null ? LocalDate.parse((CharSequence) jsnObj.get("newDate"), formatter) : null;
+// 
+//    			}
+//    			catch(NullPointerException e) {
+//    				newEpisode = 0;
+//    				newSeason = 0;
+//    				newDate = null;
+//    			}
+				
+				if (Data.getById(serieId) == null) {
+					System.out.println("la série n'était pas déjà créée");
+					// the object was not created so we create it
+	    			serie = new Serie(
+	    					serieId,
+	    					title,
+	    					serieType,
+	    					summary,
+	    					creationDate,
+							image,
+	    					rating,
+	    					seasons,
+	    					enjoyersToNotify
     					);
-
-				double rating = jsnObj.get("rating") != null ? Double.parseDouble(jsnObj.get("rating").toString()) : null;
-				
-				int newEpisode;
-				int newSeason;
-				LocalDate newDate;
-				
-				try {
-    				newEpisode = jsnObj.get("newEpisodeNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newEpisodeNb")).get("$numberLong").toString()) : null;
-    				newSeason = jsnObj.get("newSeasonNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newSeasonNb")).get("$numberLong").toString()) : null;
-    				newDate = jsnObj.get("newDate") != null ? LocalDate.parse((CharSequence) jsnObj.get("newDate"), formatter) : null;
- 
-    			}
-    			catch(NullPointerException e) {
-    				newEpisode = 0;
-    				newSeason = 0;
-    				newDate = null;
-    			}
-				
-				if(Data.getById(serieId) == null) {
-					System.out.println("la série n'était pas déjà créée");// the object was not created so we create it
-					
-					serie = new Serie(serieId, title, serieType, summary, creationDate, picture, seasons, rating);
 					serie.setNextEpisodeOnAir(newEpisode);
     				serie.setNbSeasonNEOA(newSeason);
     				serie.setDateNextEpisodeOnAir(newDate);
+    				System.out.println(serie.info());
     				serieList.add(serie);
 				}
-				else { // the object was already created so we take back the object in Data thanks to the Id and we update its attributes
+				else { 
+					// the object was already created so we take back the object in Data thanks to the Id and we update its attributes
 					serie = Data.getById(serieId);
 					System.out.println("id de la série : " + serieId);
-					serie.updateAllAttributes(title, serieType, summary, creationDate, picture, seasons, rating, newEpisode, newSeason, newDate);
-					serieList.add(serie);
+					serie.updateAllAttributes(title, serieType, summary, creationDate, image, rating, seasons, newEpisode, newSeason, newDate);
+					//serieList.add(serie);
 				}
 
 			} catch (ParseException e) {

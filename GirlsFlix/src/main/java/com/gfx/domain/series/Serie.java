@@ -21,18 +21,6 @@ public class Serie {
 	private int nextEpisodeOnAir;
 	private int nbSeasonNEOA;
 	private LocalDate dateNextEpisodeOnAir;
-		
-	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.serieGenres = serieGenres;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = rating;
-	}
 	
 
 	public Serie(String name) {
@@ -87,7 +75,7 @@ public class Serie {
 		this.rating = 0;
 	}
  	
-	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, List<Season> seasons) {
+	/*public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, List<Season> seasons) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -98,13 +86,39 @@ public class Serie {
 		this.allowed = true;
 		this.rating = 0;
 		this.seasons = seasons;
-	}
+	}*/
+ 	
 	
-	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, List<Season> seasons, double rating) {
-		this(id, title, serieGenres, summary, creationDate, image,seasons);
+	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.serieGenres = serieGenres;
+		this.summary = summary;
+		this.creationDate = creationDate;
+		this.image = image;
+		this.allowed = true;
 		this.rating = rating;
 	}
-
+	
+	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating, List<Season> seasons) {
+		this(id, title, serieGenres, summary, creationDate, image, rating);
+		this.seasons = seasons;
+	}
+	
+	public Serie(
+			int id, 
+			String title, 
+			List<String> serieGenres, 
+			String summary, 
+			LocalDate creationDate, 
+			String image, 
+			double rating, 
+			List<Season> seasons, 
+			Map<String, Boolean> enjoyersToNotify) {
+		this(id, title, serieGenres, summary, creationDate, image, rating, seasons);
+		this.enjoyersToNotify = enjoyersToNotify;
+	}
 	
 	public String info() {
 		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + ".\n its ID is: " + this.id + "\n";
@@ -124,7 +138,7 @@ public class Serie {
 		seasons.add(season);
 	}
 	
-	public void updateAllAttributes(String title, List<String> serieType, String summary, LocalDate creationDate, String picture, List<Season> seasons, double rating, int newEpisode, int newSeason, LocalDate newDate) {
+	public void updateAllAttributes(String title, List<String> serieType, String summary, LocalDate creationDate, String picture, double rating, List<Season> seasons, int newEpisode, int newSeason, LocalDate newDate) {
 		this.title = title;
 		this.serieGenres = serieType;
 		this.summary = summary;
