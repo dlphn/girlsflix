@@ -18,7 +18,7 @@ public class Scheduler {
 			//call to the API and update of the Database, take a lot of time
 			serieService.init();
 			//update of the series, seasons, and episodes objects
-			serieFactory.initData();
+			serieFactory = new SerieFactory("update");
 			//execution of the notification process
 			SerieService.launchGlobalNotificationProcess();
 		}

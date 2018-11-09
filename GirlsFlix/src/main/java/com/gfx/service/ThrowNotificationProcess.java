@@ -3,11 +3,9 @@ package com.gfx.service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.gfx.Config;
 import com.gfx.domain.series.Serie;
-import com.gfx.domain.users.Enjoyer;
 
 public class ThrowNotificationProcess implements Runnable{
 	

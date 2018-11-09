@@ -60,8 +60,6 @@ public class UserService {
 			enjoyerToNotify.put(enjoyer.getLogin(), false);
 			s.setEnjoyersToNotify(enjoyerToNotify);
 		}
-		Serie s2 = s;
-		System.out.println("enjoyer : " + enjoyer.getLogin() + ": " + s2.getEnjoyersToNotify().get(enjoyer.getLogin()));
 		UserDB.update(enjoyer);
 		SerieDB.updateEnjoyers(s);
 	}
@@ -69,9 +67,7 @@ public class UserService {
 	public static void removeFromFavorites(Enjoyer enjoyer, int id) {
 		enjoyer.removeFromFavorites(id);
 		Serie s = Data.getById(id);
-		if(s.getEnjoyersToNotify() == null) {
-			System.out.println("bizarre....");
-		} else {
+		if(s.getEnjoyersToNotify() != null) {
 			s.getEnjoyersToNotify().remove(enjoyer.getLogin());
 		}
 		UserDB.update(enjoyer);

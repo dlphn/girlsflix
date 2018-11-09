@@ -1,17 +1,13 @@
 package com.gfx.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.TimerTask;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 
 @Service

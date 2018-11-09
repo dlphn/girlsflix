@@ -2,15 +2,11 @@ package com.gfx.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bson.Document;
-import org.json.simple.JSONObject;
 
 import com.gfx.Keys;
 import com.gfx.domain.series.Serie;
-import com.gfx.domain.users.Enjoyer;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;

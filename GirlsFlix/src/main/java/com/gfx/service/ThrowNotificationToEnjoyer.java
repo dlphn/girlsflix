@@ -2,7 +2,6 @@ package com.gfx.service;
 
 
 import com.gfx.domain.series.Serie;
-import com.gfx.domain.users.Enjoyer;
 
 public class ThrowNotificationToEnjoyer implements Runnable {
 	
