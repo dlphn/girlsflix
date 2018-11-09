@@ -2,7 +2,9 @@ package com.gfx.service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -53,7 +55,16 @@ public class UserService {
 	public static void addToFavorites(Enjoyer enjoyer, int id) {
 		enjoyer.addToFavorites(id);
 		Serie s = Data.getById(id);
-		s.getEnjoyersToNotify().add(enjoyer);
+		if(s.getEnjoyersToNotify() != null) {
+			s.getEnjoyersToNotify().put(enjoyer.getLogin(), false);
+		}
+		else {
+			Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
+			enjoyerToNotify.put(enjoyer.getLogin(), false);
+			s.setEnjoyersToNotify(enjoyerToNotify);
+		}
+		Serie s2 = s;
+		System.out.println("enjoyer : " + enjoyer.getLogin() + ": " + s2.getEnjoyersToNotify().get(enjoyer.getLogin()));
 		UserDB.update(enjoyer);
 		// update series in MongoDB
 	}
@@ -61,7 +72,8 @@ public class UserService {
 	public static void removeFromFavorites(Enjoyer enjoyer, int id) {
 		enjoyer.removeFromFavorites(id);
 		Serie s = Data.getById(id);
-		s.getEnjoyersToNotify().remove(enjoyer);
+		if(s.getEnjoyersToNotify() == null) System.out.println("bizarre....");
+		s.getEnjoyersToNotify().remove(enjoyer.getLogin());
 		UserDB.update(enjoyer);
 		// update series in MongoDB
 	}
@@ -75,7 +87,7 @@ public class UserService {
 	 * @param enjoyer	The enjoyer to notify
 	 * @param serie		The series with a new episode coming soon
 	 */
-	public static synchronized void notifyNextEpisodeOnAirSoon(Enjoyer enjoyer, Serie serie) {
+	public static synchronized void notifyNextEpisodeOnAirSoon(String loginEnjoyer, Serie serie) {
 		//Notification notification = new Notification(this, s.getId(), s.getTitle(), s.getNbSeasonNEOA(), s.getNextEpisodeOnAir(), s.getDateNextEpisodeOnAir());
 //		String notification = "L'épisode " + serie.getNextEpisodeOnAir()
 //				+ " de la saison " + serie.getNbSeasonNEOA() 
@@ -84,6 +96,7 @@ public class UserService {
 		String notification = serie.getTitle() + " : "
 				+ "S" + serie.getNbSeasonNEOA()  + "E" + serie.getNextEpisodeOnAir()
 				+ " diffusé le " + serie.getDateNextEpisodeOnAir() + " !";
+		Enjoyer enjoyer = UserDB.getUser(loginEnjoyer);
 		enjoyer.getNotifications().add(notification);
 		UserDB.update(enjoyer);
 	}

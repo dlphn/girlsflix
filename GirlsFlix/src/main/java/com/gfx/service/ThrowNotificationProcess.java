@@ -2,6 +2,8 @@ package com.gfx.service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.gfx.Config;
 import com.gfx.domain.series.Serie;
@@ -25,13 +27,15 @@ public class ThrowNotificationProcess implements Runnable{
 	 */
 	public void run() {
 		Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
-		if (period.getDays() <= Config.nbDaysNotifBeforeDiff && !serie.isNextEpisodeHasBeenNotified()) {
-			System.out.println("episode incoming for the serie " + serie.getTitle());
-			for (Enjoyer enjoyer: serie.getEnjoyersToNotify()) {
-				Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyer, serie));
-				throwNotif.start();
+		if(period.getDays() <= Config.nbDaysNotifBeforeDiff && period.getDays() >= 0) {
+			System.out.println("episode incoming for the serie : " + serie.getTitle());
+			for(Entry<String, Boolean> loginEnjoyer: serie.getEnjoyersToNotify().entrySet()){
+				if(!loginEnjoyer.getValue()) {
+					Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(loginEnjoyer.getKey(), serie));
+					throwNotif.start();
+					serie.setEnjoyerAsNotified(loginEnjoyer.getKey());
+				}
 			}
-			serie.setNextEpisodeHasBeenNotified(true);
 		}
 	}
 

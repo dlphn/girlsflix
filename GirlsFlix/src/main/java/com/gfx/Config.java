@@ -11,5 +11,5 @@ public class Config {
 	public static final int nbDaysNotifBeforeDiff = 3;
 	public static final LocalDateTime initDateScheduler = LocalDateTime.now();
 	//public static final LocalDateTime initDateScheduler = LocalDateTime.of(2018, Month.NOVEMBER, 5, 22, 36, 00);
-	public static final long intervalForScheduler = 15 * 60 * 10000; // #min * #sec/min * #ms/sec
+	public static final long intervalForScheduler = 1 * 30 * 10000; // #min * #sec/min * #ms/sec
 }

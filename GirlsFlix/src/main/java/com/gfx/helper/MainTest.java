@@ -251,8 +251,8 @@ public class MainTest {
 			System.out.println(notif);
 		}*/
 		/** end Test for the scheduler**/
-
-		Thread scheduler = new Thread(new Scheduler());
+		
+		Scheduler scheduler = new Scheduler(new SerieFactory());
 		scheduler.start();
 		
 		
@@ -261,7 +261,6 @@ public class MainTest {
 	public static void instanciateSerie(Serie s, int id, LocalDate date, int nbEpisode, int nbSaison) {
 		s.setId(id);
 		s.setDateNextEpisodeOnAir(date);
-		s.setNextEpisodeHasBeenNotified(false);
 		s.setNextEpisodeOnAir(nbEpisode);
 		s.setNbSeasonNEOA(nbSaison);
 	}
