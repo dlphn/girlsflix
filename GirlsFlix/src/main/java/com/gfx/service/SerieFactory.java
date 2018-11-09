@@ -81,18 +81,6 @@ public class SerieFactory {
 				int newSeason = jsnObj.get("newSeasonNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newSeasonNb")).get("$numberLong").toString()) : 0;
 				LocalDate newDate = jsnObj.get("newDate") != null ? LocalDate.parse((CharSequence) jsnObj.get("newDate"), formatter) : null;
 				
-//				try {
-//    				newEpisode = jsnObj.get("newEpisodeNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newEpisodeNb")).get("$numberLong").toString()) : null;
-//    				newSeason = jsnObj.get("newSeasonNb") != null ? Integer.parseInt(((JSONObject) jsnObj.get("newSeasonNb")).get("$numberLong").toString()) : null;
-//    				newDate = jsnObj.get("newDate") != null ? LocalDate.parse((CharSequence) jsnObj.get("newDate"), formatter) : null;
-// 
-//    			}
-//    			catch(NullPointerException e) {
-//    				newEpisode = 0;
-//    				newSeason = 0;
-//    				newDate = null;
-//    			}
-				
 				if (Data.getById(serieId) == null) {
 					System.out.println("la série n'était pas déjà créée");
 					// the object was not created so we create it

@@ -1,7 +1,5 @@
 package com.gfx.service;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,8 +69,11 @@ public class UserService {
 	public static void removeFromFavorites(Enjoyer enjoyer, int id) {
 		enjoyer.removeFromFavorites(id);
 		Serie s = Data.getById(id);
-		if(s.getEnjoyersToNotify() == null) System.out.println("bizarre....");
-		s.getEnjoyersToNotify().remove(enjoyer.getLogin());
+		if(s.getEnjoyersToNotify() == null) {
+			System.out.println("bizarre....");
+		} else {
+			s.getEnjoyersToNotify().remove(enjoyer.getLogin());
+		}
 		UserDB.update(enjoyer);
 		SerieDB.updateEnjoyers(s);
 	}
@@ -87,11 +88,6 @@ public class UserService {
 	 * @param serie		The series with a new episode coming soon
 	 */
 	public static synchronized void notifyNextEpisodeOnAirSoon(String loginEnjoyer, Serie serie) {
-		//Notification notification = new Notification(this, s.getId(), s.getTitle(), s.getNbSeasonNEOA(), s.getNextEpisodeOnAir(), s.getDateNextEpisodeOnAir());
-//		String notification = "L'épisode " + serie.getNextEpisodeOnAir()
-//				+ " de la saison " + serie.getNbSeasonNEOA() 
-//				+ " de la série " + serie.getTitle() 
-//				+ " sera diffusé le " + serie.getDateNextEpisodeOnAir() + ".";
 		String notification = serie.getTitle() + " : "
 				+ "S" + serie.getNbSeasonNEOA()  + "E" + serie.getNextEpisodeOnAir()
 				+ " diffusé le " + serie.getDateNextEpisodeOnAir() + " !";

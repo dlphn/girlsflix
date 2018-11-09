@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.gfx.domain.users.Enjoyer;
+import com.gfx.service.SerieDB;
 
 public class Serie {
 	private int id;
@@ -236,20 +236,6 @@ public class Serie {
 	public void setEnjoyersToNotify(Map<String, Boolean> enjoyersToNotify) {
 		this.enjoyersToNotify = enjoyersToNotify;
 	}
-	
-	public Boolean isEnjoyerNotified(String login) {
-		return this.enjoyersToNotify.get(login);
-	}
-	
-	public void setEnjoyerAsNotified(String login) {
-		this.enjoyersToNotify.remove(login);
-		this.enjoyersToNotify.put(login, true);
-	}
-	
-	public void setEnjoyerAsNotNotified(String login) {
-		this.enjoyersToNotify.remove(login);
-		this.enjoyersToNotify.put(login, false);
-	}
   
 	public int getNextEpisodeOnAir() {
 		return nextEpisodeOnAir;
@@ -273,6 +259,26 @@ public class Serie {
 
 	public void setDateNextEpisodeOnAir(LocalDate dateNextEpisodeOnAir) {
 		this.dateNextEpisodeOnAir = dateNextEpisodeOnAir;
+	}
+	
+	
+	
+	//TODO move those functions in a service
+	
+	public Boolean isEnjoyerNotified(String login) {
+		return this.enjoyersToNotify.get(login);
+	}
+	
+	public void setEnjoyerAsNotified(String login) {
+		//this.enjoyersToNotify.remove(login);
+		this.enjoyersToNotify.put(login, true);
+		SerieDB.updateEnjoyers(this);
+	}
+	
+	public void setEnjoyerAsNotNotified(String login) {
+		//this.enjoyersToNotify.remove(login);
+		this.enjoyersToNotify.put(login, false);
+		SerieDB.updateEnjoyers(this);
 	}
 
 }

@@ -150,7 +150,7 @@ public class MainTest {
 		/*
 		 * Test mongo update
 		 */
-		SerieDB.connect();
+		/*SerieDB.connect();
 		Enjoyer e1 = new Enjoyer("enjoyer1");
 		Enjoyer e2 = new Enjoyer("enjoyer2");
 		Map<String, Boolean> enjoyers = new HashMap<String, Boolean>();
@@ -158,7 +158,7 @@ public class MainTest {
 		enjoyers.put(e2.getLogin(), true);
 		Serie s = new Serie(60735, enjoyers); // Flash
 		System.out.println(s.getEnjoyersToNotify());
-		SerieDB.updateEnjoyers(s);
+		SerieDB.updateEnjoyers(s);*/
     
 		/**
 		 * Test for the notifications
