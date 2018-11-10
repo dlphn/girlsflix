@@ -16,7 +16,7 @@
 		<div class="col-md-8">
 			<h3>${fn:escapeXml(serie.getTitle())} <span class="small-info creation-date">(${fn:escapeXml(serie.getCreationDate())})</span></h3>
 			<c:forEach var="genre" items="${serie.getSerieGenres()}">
-				<span class="badge badge-secondary">${fn:escapeXml(genre)}</span>
+				<span class="badge badge-light">${fn:escapeXml(genre)}</span>
 			</c:forEach>
 			<p>${fn:escapeXml(serie.getSummary())}</p>
 			<sec:authorize access="isAuthenticated()">

@@ -51,6 +51,7 @@ public class UserService {
 	
 	
 	public static void addToFavorites(Enjoyer enjoyer, int id) {
+		System.out.println(enjoyer.isEnabled());
 		if(enjoyer.isEnabled()) {
 			enjoyer.addToFavorites(id);
 			Serie s = Data.getById(id);

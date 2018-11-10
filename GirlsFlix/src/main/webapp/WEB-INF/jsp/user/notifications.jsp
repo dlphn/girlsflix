@@ -21,6 +21,7 @@
 		<div class="main">
 			<div class="container">
 				<h2>Notifications</h2>
+				<p>${message}</p>
 				<c:forEach var="notification" items="${notifications}" varStatus="loop">
 		    		<div class="alert alert-primary" role="alert">
 						${notification}

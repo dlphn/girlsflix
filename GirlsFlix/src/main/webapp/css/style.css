@@ -83,6 +83,17 @@ a:hover, a.nav-link:hover {
     margin: auto;
 }
 
+.form-control {
+	padding: 20px 25px;
+	border-radius: 0;
+	border: 2px solid rgba(0,0,0,.1) !important;
+}
+
+.form-control:focus {
+    border-color: rgba(0,0,0,0.6) !important;
+    box-shadow: 0 0;
+}
+
 fieldset {
 	padding-left: 15px;
 	padding-right: 15px;
@@ -97,4 +108,8 @@ fieldset {
 	margin-bottom: 73px;
 }
 
+
+.badge-light {
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
 

@@ -33,6 +33,8 @@
 					  	<label for="username" class="sr-only">Login</label>
 				    	<input type="text" class="form-control" id="username" name="username" placeholder="Login"
 				    		required autofocus>
+		    		</div>
+		    		<div class="form-group row">
 					  	<label for="password" class="sr-only">Mot de passe</label>
 				    	<input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
 					</div>

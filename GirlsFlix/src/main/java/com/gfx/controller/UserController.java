@@ -25,9 +25,13 @@ public class UserController {
 		}
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 		List<Serie> favoritesSeries = new ArrayList<Serie>();
-		for(int fav:user.getFavorites()) {		
-			favoritesSeries.add(Data.getById(fav));}
+		for (int fav:user.getFavorites()) {		
+			favoritesSeries.add(Data.getById(fav));
+		}
 		model.addAttribute("favorites", favoritesSeries);
+		if (favoritesSeries.size() == 0) {
+			model.put("message", "Vous n'avez pas encore de favoris.");
+		}
 		return "user/favorites";
 	}
 	
@@ -40,15 +44,18 @@ public class UserController {
 
 	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
 	public String showNotifications(ModelMap model) {
-		if (UserService.currentUserLogin() == null) {
-			return "user/login";
-		}
-		
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			model.put("notifications", user.getNotifications());
+			List<String> notifications = user.getNotifications();
+			System.out.println(notifications.size());
+			System.out.println(notifications);
+			if (notifications.size() > 0 && notifications.get(0).length() > 0) {
+				model.put("notifications", notifications);	
+			} else {
+				model.put("message", "Vous n'avez aucune notification non lue.");
+			}
 		} else {
-			model.put("notifications", new ArrayList<String>());
+			return "user/login";
 		}
 		return "user/notifications";
 	}
