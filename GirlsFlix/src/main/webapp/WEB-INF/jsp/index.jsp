@@ -18,9 +18,7 @@
 		<fragments:header />
 		<div class="main">
 			<div class="container">
-				<center>
-					<h1>Bienvenue sur <img src="lib/GirlsFlix2.png" alt="GirlsFlix" class="big-logo"/> !</h1>
-				</center>
+				<h1>Bienvenue sur <img src="lib/GirlsFlix2.png" alt="GirlsFlix" class="big-logo"/> !</h1>
 				<sec:authorize access="isAuthenticated()">
 					<h2>Recommandé pour vous</h2>
 					<div class="card-columns">
