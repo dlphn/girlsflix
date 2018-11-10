@@ -14,7 +14,7 @@ import com.gfx.service.UserDB;
 
 @Controller
 public class RegistrationController {
-
+	
 	@GetMapping("/register")
 		public ModelAndView loadRegisterPage() {
 	    ModelAndView mav = new ModelAndView("user/register", "command", new Enjoyer());
@@ -31,6 +31,7 @@ public class RegistrationController {
 		model.addAttribute("lastName", user.getLastName());
 		model.addAttribute("gender", user.getGender());
 		model.addAttribute("affinities", user.getAffinities());
+		model.addAttribute("password", user.getPassword());
 		Boolean notUsed = UserDB.checkLoginNotUsed(user.getLogin());
 		if (notUsed) {
 			if (UserDB.insertOne(user)) {

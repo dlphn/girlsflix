@@ -21,10 +21,16 @@ import com.gfx.service.UserService;
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 }
 
 @Controller
 public class IndexController {
+	@SuppressWarnings("unused")
 	@Inject
     private SerieFactory serieFactory = new SerieFactory();
 	String message = "Welcome!";
@@ -118,10 +124,6 @@ public class IndexController {
 	public String addFavoriteSerie (@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 		UserService.addToFavorites(user, id);
-		//model.put("message", user.getFavorites().contains(id) ? "La série a bien été ajoutée à vos favoris !" : "Oups, pourriez-vous rééssayer ?");
-		//model.put("isFavorite", user.getFavorites().contains(id));
-		//Serie serie = Data.getById(id);
-		// model.put("serie", serie);
 		return "redirect:/serie/" + id;
 	}
 	
@@ -129,10 +131,6 @@ public class IndexController {
 	public String removeFavoriteSerie(@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 		UserService.removeFromFavorites(user, id);
-		//model.put("message", user.getFavorites().contains(id) ? "Oups, pourriez-vous rééssayer ?" : "La série ne fait plus partie de vos favoris.");
-		//model.put("isFavorite", user.getFavorites().contains(id));
-		//Serie serie = Data.getById(id);
-		//model.put("serie", serie);
 		return "redirect:/serie/" + id;
 	}
 	

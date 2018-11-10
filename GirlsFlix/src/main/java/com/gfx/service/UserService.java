@@ -51,19 +51,23 @@ public class UserService {
 	
 	
 	public static void addToFavorites(Enjoyer enjoyer, int id) {
-		enjoyer.addToFavorites(id);
-		Serie s = Data.getById(id);
-		s.getEnjoyersToNotify().add(enjoyer);
-		UserDB.update(enjoyer);
-		// update series in MongoDB
+		if(enjoyer.isEnabled()) {
+			enjoyer.addToFavorites(id);
+			Serie s = Data.getById(id);
+			s.getEnjoyersToNotify().add(enjoyer);
+			UserDB.update(enjoyer);
+			// update series in MongoDB
+		}
 	}
 	
 	public static void removeFromFavorites(Enjoyer enjoyer, int id) {
-		enjoyer.removeFromFavorites(id);
-		Serie s = Data.getById(id);
-		s.getEnjoyersToNotify().remove(enjoyer);
-		UserDB.update(enjoyer);
-		// update series in MongoDB
+		if(enjoyer.isEnabled()) {
+			enjoyer.removeFromFavorites(id);
+			Serie s = Data.getById(id);
+			s.getEnjoyersToNotify().remove(enjoyer);
+			UserDB.update(enjoyer);
+			// update series in MongoDB
+		}
 	}
 	
 	
