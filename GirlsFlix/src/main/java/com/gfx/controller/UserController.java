@@ -86,8 +86,6 @@ public class UserController {
 		}
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			// TODO Les préférences ne sont pas rendues correctement à cause d'espaces avant les valeurs
-			System.out.println(user.toString());
 		    model.put("user", user);
 		} else {
 		    model.put("user", new Enjoyer());

@@ -39,7 +39,7 @@ public class Episode {
 		this.rating = rating;
 	}
 
-	public String toString() {
+	public String display() {
 		return "Episode "+ this.episodeNb + " " + this.name + " from Serie " + this.serieId + " Season " + this.seasonNb + "\n";
 	}
 

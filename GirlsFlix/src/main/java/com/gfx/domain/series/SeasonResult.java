@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.bson.Document;
 
+/**
+ * Used in SerieService to handle results with series, seasons and list of seasons id for different series
+ */
 public class SeasonResult {
 	protected List<Document> seriesDocs;
 	protected List<Document> seasonsDocs;

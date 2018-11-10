@@ -33,9 +33,6 @@ class ResourceNotFoundException extends RuntimeException {
 public class IndexController {
 	@Inject
 	SerieFactory serieFactory = new SerieFactory();
-	String message = "Welcome!";
-	
-	
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
@@ -59,8 +56,7 @@ public class IndexController {
 	@RequestMapping(value = "/series", method = RequestMethod.GET)
 	public String Search(ModelMap model, 
 			@RequestParam(value = "search", required = false) String search,
-			@RequestParam(value = "genre", required = false) String genre
-	) {
+			@RequestParam(value = "genre", required = false) String genre) {
 		
 		// render the filter values
 		model.put("genres", Genre.getGenres());

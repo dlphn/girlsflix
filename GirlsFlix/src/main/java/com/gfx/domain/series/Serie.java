@@ -27,70 +27,7 @@ public class Serie {
 		this.title = name;
 	}
 	
-	public Serie(int id, Map<String, Boolean> enjoyersToNotify) {
-		// TODO for testing - to be removed
-		this.id = id;
-		this.enjoyersToNotify = enjoyersToNotify;
-	}
-	
-	public Serie(int id, String title, LocalDate creationDate, String summary) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.creationDate = creationDate;
-		this.summary = summary;
-		this.allowed = true;
-		this.rating = 0;
-	}
-	
-	public Serie(String title, LocalDate creationDate, String summary) {
-		super();
-		this.title = title;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.allowed = true;
-		this.rating = 0;
-	}
-	
-	public Serie(int id, String title, String summary, LocalDate creationDate, String image) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = 0;
-	}
-	
- 	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.serieGenres = serieGenres;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = 0;
-	}
- 	
-	/*public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, List<Season> seasons) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.serieGenres = serieGenres;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = 0;
-		this.seasons = seasons;
-	}*/
- 	
-	
 	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.serieGenres = serieGenres;
@@ -147,8 +84,9 @@ public class Serie {
 		this.rating = rating;
 		this.seasons = seasons;
 		this.enjoyersToNotify = enjoyersToNotify;
-		if(this.nextEpisodeOnAir != newEpisode) {
-			for(String loginEnjoyer: this.enjoyersToNotify.keySet()) {
+		if (this.nextEpisodeOnAir != newEpisode) {
+			// if the next episode on air has changed, we need to reset enjoyersToNotify
+			for (String loginEnjoyer: this.enjoyersToNotify.keySet()) {
 				this.enjoyersToNotify.remove(loginEnjoyer);
 				this.enjoyersToNotify.put(loginEnjoyer, false);
 			}
@@ -157,6 +95,20 @@ public class Serie {
 		this.nextEpisodeOnAir = newEpisode;
 		this.nbSeasonNEOA = newSeason;
 		this.dateNextEpisodeOnAir = newDate;
+	}
+	
+	public Boolean isEnjoyerNotified(String login) {
+		return this.enjoyersToNotify.get(login);
+	}
+	
+	public void setEnjoyerAsNotified(String login) {
+		this.enjoyersToNotify.put(login, true);
+		SerieDB.updateEnjoyers(this);
+	}
+	
+	public void setEnjoyerAsNotNotified(String login) {
+		this.enjoyersToNotify.put(login, false);
+		SerieDB.updateEnjoyers(this);
 	}
 
 	
@@ -267,24 +219,6 @@ public class Serie {
 
 	public void setDateNextEpisodeOnAir(LocalDate dateNextEpisodeOnAir) {
 		this.dateNextEpisodeOnAir = dateNextEpisodeOnAir;
-	}
-	
-	
-	
-	public Boolean isEnjoyerNotified(String login) {
-		return this.enjoyersToNotify.get(login);
-	}
-	
-	public void setEnjoyerAsNotified(String login) {
-		//this.enjoyersToNotify.remove(login);
-		this.enjoyersToNotify.put(login, true);
-		SerieDB.updateEnjoyers(this);
-	}
-	
-	public void setEnjoyerAsNotNotified(String login) {
-		//this.enjoyersToNotify.remove(login);
-		this.enjoyersToNotify.put(login, false);
-		SerieDB.updateEnjoyers(this);
 	}
 
 }
