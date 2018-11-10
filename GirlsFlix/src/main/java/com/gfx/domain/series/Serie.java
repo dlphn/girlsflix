@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.gfx.service.SerieDB;
 
@@ -147,6 +149,11 @@ public class Serie {
 		this.rating = rating;
 		this.seasons = seasons;
 		this.enjoyersToNotify = enjoyersToNotify;
+		if(this.nextEpisodeOnAir != newEpisode) {
+			for(String loginEnjoyer: this.enjoyersToNotify.keySet()) {
+				setEnjoyerAsNotNotified(loginEnjoyer);
+			}
+		}
 		this.nextEpisodeOnAir = newEpisode;
 		this.nbSeasonNEOA = newSeason;
 		this.dateNextEpisodeOnAir = newDate;
