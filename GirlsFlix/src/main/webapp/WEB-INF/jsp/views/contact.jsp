@@ -8,7 +8,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
-		<title>GirlsFlix Contact</title>
+		<title>GirlsFlix - A propos</title>
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
@@ -20,12 +20,23 @@
 		
 		<div class="main">
 			<div class="container">
-				<h1>Nous contacter</h1>
+				<h1>A propos</h1>
+				
+				<h2>GirlsFlix, kézako ?</h2>
+				<p>
+					GirlsFlix vous permet d'ajouter vos séries préférées en favoris et de ne jamais rater un nouvel épisode !
+				</p>
+				
+				<h2>Qui est derrière tout ça ?</h2>
 				<ul>
-					<li>Jihane Bennis</li>
-					<li>Sophie Dambricourt</li>
-					<li>Delphine Shi</li>
+					<li>Jihane Bennis - <a href="mailto:jihane.bennis@student.ecp.fr">jihane.bennis@student.ecp.fr</a></li>
+					<li>Sophie Dambricourt - <a href="mailto:sophie.dambricourt@student.ecp.fr">sophie.dambricourt@student.ecp.fr</a></li>
+					<li>Delphine Shi - <a href="mailto:delphine.shi@student.ecp.fr">delphine.shi@student.ecp.fr</a></li>
 				</ul>
+				<p>Nous sommes 3 étudiantes de l'Ecole CentraleSupélec et avons développé ce projet dans le cadre du cours de Programmation Orientée Objet Avancée.</p>
+				
+				<h2>API</h2>
+				<p>Nous utilisons l'API <a href="https://developers.themoviedb.org/3/getting-started/introduction">The Movie Database API</a></p>
 			</div>
 		</div>
 		
