@@ -151,8 +151,10 @@ public class Serie {
 		this.enjoyersToNotify = enjoyersToNotify;
 		if(this.nextEpisodeOnAir != newEpisode) {
 			for(String loginEnjoyer: this.enjoyersToNotify.keySet()) {
-				setEnjoyerAsNotNotified(loginEnjoyer);
+				this.enjoyersToNotify.remove(loginEnjoyer);
+				this.enjoyersToNotify.put(loginEnjoyer, false);
 			}
+			SerieDB.updateEnjoyers(this);
 		}
 		this.nextEpisodeOnAir = newEpisode;
 		this.nbSeasonNEOA = newSeason;
