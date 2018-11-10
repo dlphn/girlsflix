@@ -19,7 +19,10 @@
 					<a class="nav-link" href="/GirlsFlix/favoris">Mes favoris</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/GirlsFlix/notifications">Notifications</a>
+					<a class="nav-link" href="/GirlsFlix/notifications">
+				
+            <span class="badge badge-danger">${user.getNotifications().size()}</span>
+          </i>Notifications</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/GirlsFlix/profil">Mon profil</a>
