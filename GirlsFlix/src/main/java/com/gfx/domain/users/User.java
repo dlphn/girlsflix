@@ -86,7 +86,7 @@ public abstract class User {
 		this.login = login;
 	}
 	
-	public String toString() {
+	public String display() {
 		String result = "";
 		result += "Login : " + this.login + "\n";
 		result += "Pseudo : " + this.pseudo + "\n";

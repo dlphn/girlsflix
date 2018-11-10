@@ -6,6 +6,7 @@ import java.util.List;
 import org.bson.Document;
 
 import com.gfx.Keys;
+import com.gfx.domain.series.Serie;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -58,13 +59,22 @@ public class SerieDB {
 	    collection.insertMany(documents);	
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static void upsert(String col, Document doc) {
 		MongoCollection<Document> collection = database.getCollection(col);
+		Document newDocument = new Document();
+		newDocument.append("$set", doc);
 		UpdateOptions options = new UpdateOptions().upsert(true);
-		collection.replaceOne(Filters.eq("id", doc.get("id")), doc, options);
-		// replaceOne deprecated but updateOne was raising Exception :
-		// "java.lang.IllegalArtgumentException : Invalid BSON field name id"
-		// and replaceOne was the only working solution
+		collection.updateOne(Filters.eq("id", doc.get("id")), newDocument, options);
+	}
+	
+	public static void updateEnjoyers(Serie serie) {
+		MongoCollection<Document> collection = database.getCollection("series");
+		Document newDocument = new Document();
+		newDocument.append("$set", new Document().append("enjoyersToNotify", serie.getEnjoyersToNotify()));
+		UpdateOptions options = new UpdateOptions().upsert(true);
+		collection.updateOne(
+				Filters.eq("id", serie.getId()), 
+				newDocument, 
+				options);
 	}
 }

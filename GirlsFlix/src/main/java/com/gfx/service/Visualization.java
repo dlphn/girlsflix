@@ -8,12 +8,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
 
 @Service
-public class Visualization {
-	//J'ai modifié cet attribut en static
+public class Visualization{
+	
 	protected static List<Serie> listSeries;
 	
 	public Visualization() {}
@@ -21,6 +20,7 @@ public class Visualization {
 	public Visualization(List<Serie> list) {
 		this.listSeries = list;
 	}
+	
 	
 	public void showSeries() {
 		try {

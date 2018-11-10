@@ -34,6 +34,9 @@ public class Data {
 	public static List<Serie> pickNRandom(int n) {
 	    List<Serie> copy = new ArrayList<Serie>(seriesList);
 	    Collections.shuffle(copy);
+	    if (copy.size() < n) {
+	    	n = copy.size();
+	    }
 	    return copy.subList(0, n);
 	}
 	

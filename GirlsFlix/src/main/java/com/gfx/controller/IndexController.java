@@ -17,6 +17,7 @@ import com.gfx.domain.users.Enjoyer;
 import com.gfx.service.SerieFactory;
 import com.gfx.service.UserDB;
 import com.gfx.service.UserService;
+
  
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
@@ -30,10 +31,11 @@ class ResourceNotFoundException extends RuntimeException {
 
 @Controller
 public class IndexController {
-	@SuppressWarnings("unused")
 	@Inject
-    private SerieFactory serieFactory = new SerieFactory();
+	SerieFactory serieFactory = new SerieFactory();
 	String message = "Welcome!";
+	
+	
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
@@ -41,7 +43,6 @@ public class IndexController {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 			List<String> affinities = user.getAffinities();
 			List<Serie> recommendations = new ArrayList<Serie>();
-			// TODO issue with affinities because of added white spaces
 			for (String affinity : affinities) {
 				recommendations.addAll(Data.pickNRandomSameGenre(3, affinity));
 			}
