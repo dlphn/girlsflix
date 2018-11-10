@@ -52,9 +52,9 @@ public class Keys {
 - MySQL 8.0.13 - download [latest](https://dev.mysql.com/downloads/mysql/)
 
 ### Start MySQL server
-Make sure that your MySQL is running.
+:warning: Make sure that your MySQL is running.
 
-####Initiate database
+#### Initiate database
 ```sql
 CREATE USER '${mysql_user}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${mysql_password}';
 
@@ -112,15 +112,6 @@ Right Click on `Project -> Run As -> Maven Build...`
 Right Click on `Project -> Run As -> Run on Server`
 
 
-### Start server from console (not working)
-Use maven and tomcat to install and run the web app.
-
-```bash
-cd GirlsFlix
-mvn clean install
-mvn tomcat7:run
-```
-
 You can then go to [localhost:8080/GirlsFlix](http://localhost:8080/GirlsFlix) and voilà! :tada:
 
 ## Project structure
@@ -135,7 +126,34 @@ Technology stack:
 - [Bootstrap](https://getbootstrap.com/)
 - [jQuery](http://jquery.com/)
 
-[project folder tree]
+### Project structure
+
+```
+src
+└─ main
+   ├─ java								// nos classes java
+   |  └─ com
+   |     └─ gfx							// com.gfx notre package de base
+   |        ├─ controller				// nos controllers
+   |        ├─ domain					// classes qui définissent notre domaine
+   |        |  ├─ series				// classes qui définissent les séries
+   |        |  └─ users					// classes qui définissent les utilisateurs
+   |        ├─ helper					// classes utilitaires
+   |        ├─ service					// les services
+   |        ├─ Config.java				// configation générale
+   |        ├─ Keys.java				// clés et mots de passe
+   |        ├─ SpringConfig.java		// la configation de spring
+   |        └─ SpringSecurity.java	// les profils d'éxécution
+   └─ webapp								// les fichiers qui vont à la racine de l'application web
+      ├─ css
+      ├─ js
+      └─ WEB-INF
+         ├─ jsp							// les templates jsp
+         ├─ tags							// les tag files (morceaux de template)
+         ├─ dispatcher-servlet.xml	// configuration web de spring
+         └─ web.xml						// configuration web d'une application
+pom.xml									// fichier de configuration de maven
+```
 
 ### Spring MVC
 

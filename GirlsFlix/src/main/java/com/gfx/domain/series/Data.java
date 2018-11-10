@@ -41,6 +41,27 @@ public class Data {
 	}
 	
 	/**
+	 * Send a number of random series with a specific genre
+	 * 
+	 * @param n		the number of random series to return
+	 * @param genre	the genre to filter on
+	 * @return		the list of random series
+	 */
+	public static List<Serie> pickNRandomSameGenre(int n, String genre) {
+		List<Serie> groupByGenre = new ArrayList<Serie>();
+		for (Serie serie : seriesList) {
+			if (serie.getSerieGenres().contains(genre)) {
+				groupByGenre.add(serie);
+			}
+		}
+	    Collections.shuffle(groupByGenre);
+	    if (n > groupByGenre.size()) {
+	    	n = groupByGenre.size();
+	    }
+	    return groupByGenre.subList(0, n);
+	}
+	
+	/**
 	 * Runs through the whole list of series to return the series which title contains the search query (case insensitive)
 	 * 
 	 * @param query		the user search request
