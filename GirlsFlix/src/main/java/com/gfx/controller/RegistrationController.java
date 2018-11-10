@@ -23,7 +23,7 @@ public class RegistrationController {
 	    return mav;
 	}
 	
-	@RequestMapping( "/register")
+	@RequestMapping("/register")
 		public String addUser(ModelMap model, @ModelAttribute("user") Enjoyer user) throws LoginExistsException {
 		model.addAttribute("login", user.getLogin());
 		model.addAttribute("pseudo", user.getPseudo());

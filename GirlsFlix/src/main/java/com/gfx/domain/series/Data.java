@@ -20,6 +20,7 @@ public class Data {
 		seriesList = series;
 	}
 	
+	// TODO remove
 	public void showSeries() {
 		try {
 			System.out.println("The series available are : ");
