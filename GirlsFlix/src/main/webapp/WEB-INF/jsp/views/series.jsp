@@ -57,7 +57,7 @@
 						</c:forEach>
 					</ul>
 				</div>
-				<nav id="pagination">
+				<!-- <nav id="pagination">
 					<ul class="pagination justify-content-center">
 				    	<li class="page-item disabled">
 				      		<a class="page-link" href="#" aria-label="Previous">
@@ -75,7 +75,7 @@
 						    </a>
 					    </li>
 				  </ul>
-				</nav>
+				</nav> -->
 			</div>
 		</div>
 		
