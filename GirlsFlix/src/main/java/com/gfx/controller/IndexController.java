@@ -31,7 +31,6 @@ class ResourceNotFoundException extends RuntimeException {
 
 @Controller
 public class IndexController {
-	@SuppressWarnings("unused")
 	@Inject
 	SerieFactory serieFactory = new SerieFactory();
 	String message = "Welcome!";
@@ -44,7 +43,6 @@ public class IndexController {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 			List<String> affinities = user.getAffinities();
 			List<Serie> recommendations = new ArrayList<Serie>();
-			// TODO issue with affinities because of added white spaces
 			for (String affinity : affinities) {
 				recommendations.addAll(Data.pickNRandomSameGenre(3, affinity));
 			}
