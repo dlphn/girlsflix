@@ -9,6 +9,9 @@
 
 > GirlsFlix is a web app that allows you to search for TV series and add your favorites so you never miss any new episode.
 
+
+<div style="text-align:center"><img src="./GirlsFlix.png" alt="drawing" width="200"/></div>
+
 ## Description
 It is a Java school project developed by 3 students from CentraleSupélec : Jihane, Sophie, and Delphine as part of the POOA Module.
 
