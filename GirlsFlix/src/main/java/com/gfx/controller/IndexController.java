@@ -37,9 +37,21 @@ public class IndexController {
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			List<String> affinities = user.getAffinities();
+			List<Serie> recommendations = new ArrayList<Serie>();
+			// TODO issue with affinities because of added white spaces
+			for (String affinity : affinities) {
+				recommendations.addAll(Data.pickNRandomSameGenre(3, affinity));
+			}
+			model.put("recommendations", recommendations);
+			if (recommendations.size() == 0) {
+				model.put("recommendationsMsg", "Indiquez vos préférences dans votre profil pour recevoir des recommandations :)");
+			}
+		}
 		model.put("columns", Data.pickNRandom(9));
 		System.out.println(UserService.currentUserLogin());
-
         return "index";
     }
 	
@@ -141,54 +153,5 @@ public class IndexController {
 	@RequestMapping("/contact")
 	public String showContact() {
 		return "views/contact";
-	}
-	
-	@RequestMapping("/favoris")
-	public String showFavorites(ModelMap model) {
-		if (UserService.currentUserLogin() == null) {
-			return "user/login";
-		}
-		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-		List<Serie> favoritesSeries = new ArrayList<Serie>();
-		for(int fav:user.getFavorites()) {		
-			favoritesSeries.add(Data.getById(fav));}
-		model.addAttribute("favorites", favoritesSeries);
-		return "user/favorites";
-	}
-	
-	@RequestMapping("/favoris/remove/{id}")
-	public String removeFavorite(@PathVariable("id") int id, ModelMap model) {
-		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-		UserService.removeFromFavorites(user, id);
-		return "redirect:/favoris";
-	}
-
-	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
-	public String showNotifications(ModelMap model) {
-		if (UserService.currentUserLogin() == null) {
-			return "user/login";
-		}
-		
-		if (UserService.currentUserLogin() != null) {
-			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			model.put("notifications", user.getNotifications());
-		} else {
-			model.put("notifications", new ArrayList<String>());
-		}
-		return "user/notifications";
-	}
-	
-	@RequestMapping(value = "/notifications/remove", method = RequestMethod.GET)
-	public String removeNotification(ModelMap model, 
-			@RequestParam(value = "index", required = false) String removeId
-	) {
-		if (UserService.currentUserLogin() != null) {
-			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			
-			if (removeId != null) {
-				UserService.deleteNotification(user, Integer.parseInt(removeId));
-			}
-		}
-		return "redirect:/notifications";
 	}
 }

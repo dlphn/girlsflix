@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -123,7 +122,7 @@ public class UserDB {
 		}
 	}
 	
-	public static void update(Enjoyer updatedUser) {
+	public static Boolean update(Enjoyer updatedUser) {
 		connect();
 		try {
 			String query = "UPDATE users SET";
@@ -142,9 +141,11 @@ public class UserDB {
 			preparedStatement = connect
 			        .prepareStatement(query);
             preparedStatement.executeUpdate();
+            return true;
 		} catch (SQLException e) {
 			System.out.println("la requête n'a pas marché.");
 			e.printStackTrace();
+			return false;
 		} finally {
 			close();
 		}
@@ -186,7 +187,9 @@ public class UserDB {
 	            String notificationsStr = notifications_modif.replace("]", "");
 	            if (notificationsStr != null) {
 	            	notifStrList = notificationsStr.split(",");
-	            	for(String notif : notifStrList) notifications.add(notif);
+	            	for(String notif : notifStrList) {
+	            		notifications.add(notif.trim());
+	            	}
 	            }
 	            
 	            String affinitiesDB = resultSet.getString("affinities");
@@ -194,7 +197,9 @@ public class UserDB {
 	            String affinitiesStr = affinities_modif.replace("]", "");
 	            if (affinitiesStr != null) {
 	            	affStrList = affinitiesStr.split(",");
-	            	for(String aff : affStrList) affinities.add(aff);
+	            	for(String aff : affStrList) {
+	            		affinities.add(aff.trim());
+	            	}
 	            }
 	            
 	            Enjoyer user = new Enjoyer(login, pseudo, password, firstname, lastname, gender, affinities, favorites, notifications);
@@ -209,63 +214,6 @@ public class UserDB {
 		return null;
 	}
 	
-	public static Enjoyer checkPwd(String login, String pwd) {
-		connect();
-		String query = "SELECT pseudo, firstname, lastname, gender, favorites, notifications, affinities FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
-		try {
-			statement = connect.createStatement();
-	        resultSet = statement.executeQuery(query);
-	        if (resultSet.next()) {
-	        	
-	        	List<Integer> favorites = new ArrayList<Integer>();
-	        	String[] notifStrList = new String[0];
-	        	List<String> notifications = new ArrayList<String>();
-	        	String[] affStrList = new String[0];
-	        	List<String> affinities = new ArrayList<String>();
-	            String pseudo = resultSet.getString("pseudo");
-	            String firstname = resultSet.getString("firstname");
-	            String lastname = resultSet.getString("lastname");
-	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
-	          
-	            String favoritesDB = resultSet.getString("favorites");
-	            String favoritesStr = favoritesDB.replace("[", "").replace("]", "").replace(" ", "");  // Traitement du String pour enlever les [] et espaces
-	            if (favoritesStr != null) {
-	            	String [] favStrList = favoritesStr.split(",");
-	            	for(String fav : favStrList) {
-	            		try {// On traite le cas où une exception est levée lors de la conversion en Integer
-	            			int favInt = Integer.valueOf(fav);
-	            			favorites.add(favInt);
-	            		}catch(NumberFormatException e) {
-	            			System.out.println("L'utilisateur" + login +" n'a actuellement aucune série favorite ");
-	            		}
-	            	}	
-	            }
-	            String notificationsDB = resultSet.getString("notifications");
-	            String notifications_modif = notificationsDB.replace("[", "");
-	            String notificationsStr = notifications_modif.replace("]", "");
-	            if (notificationsStr != null) {
-	            	notifStrList = notificationsStr.split(",");
-	            	for(String notif : notifStrList) notifications.add(notif);
-	            }
-	            
-	            String affinitiesDB = resultSet.getString("affinities");
-	            String affinities_modif = affinitiesDB.replace("[", "");
-	            String affinitiesStr = affinities_modif.replace("]", "");
-	            if (affinitiesStr != null) {
-	            	affStrList = affinitiesStr.split(",");
-	            	for(String aff : affStrList) affinities.add(aff);
-	            }
-	            Enjoyer user = new Enjoyer(login, pseudo, pwd, firstname, lastname, gender, affinities, favorites, notifications);
-	            return user;
-	        }
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		return null;
-	}
 	
 	/**
 	 * Check if the login does not already exist in the database.

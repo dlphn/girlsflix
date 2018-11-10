@@ -20,8 +20,6 @@ public class RegistrationController {
 	    ModelAndView mav = new ModelAndView("user/register", "command", new Enjoyer());
 	    mav.addObject("user", new Enjoyer());
  	    mav.addObject("genres", Genre.getGenres());
-	    @SuppressWarnings("unused")
-		String message = "";
 	    return mav;
 	}
 	
