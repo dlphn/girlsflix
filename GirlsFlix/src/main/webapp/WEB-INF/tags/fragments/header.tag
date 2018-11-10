@@ -19,9 +19,11 @@
 					<a class="nav-link" href="/GirlsFlix/favoris">Mes favoris</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/GirlsFlix/notifications">
-				
-            <span class="badge badge-danger">${user.getNotifications().size()}</span>
+					<a class="nav-link" href="/GirlsFlix/notifications">	
+             <c:if test="${user.getNotifications().size()>1}">
+            <span class="badge badge-danger">
+           
+            ${user.getNotifications().size()-1}</c:if></span>
           </i>Notifications</a>
 				</li>
 				<li class="nav-item">

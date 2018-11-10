@@ -12,7 +12,7 @@ public class Enjoyer extends User{
 	private boolean enabled;
 	private List<String> affinities = new ArrayList<String>();
 	private List<Integer> favorites = new ArrayList<Integer>();
-	private List<String> notifications = new ArrayList<String>();
+	private List<String> notifications = new ArrayList<String>(0);
 	
 	public Enjoyer() {
 		super();
