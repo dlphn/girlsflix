@@ -2,7 +2,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm" id="menu">
-	<a class="navbar-brand" href="/GirlsFlix">GirlsFlix</a>
+	<a class="navbar-brand" href="/GirlsFlix"><img src="/GirlsFlix/lib/GirlsFlix.png" alt="GirlsFlix" height="50px"/></a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>

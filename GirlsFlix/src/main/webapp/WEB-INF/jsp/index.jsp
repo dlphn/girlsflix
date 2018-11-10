@@ -19,7 +19,7 @@
 		<div class="main">
 			<div class="container">
 				<center>
-					<h1>Bienvenue sur GirlsFlix !</h1>
+					<h1>Bienvenue sur <img src="lib/GirlsFlix2.png" alt="GirlsFlix" class="big-logo"/> !</h1>
 				</center>
 				<sec:authorize access="isAuthenticated()">
 					<h2>Recommandé pour vous</h2>

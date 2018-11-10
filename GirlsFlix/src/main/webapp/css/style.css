@@ -30,7 +30,7 @@ li {
 	list-style-type: none;
 }
 
-h1, h2 {
+h2 {
 	margin-bottom: 30px;
 }
 
@@ -58,4 +58,9 @@ fieldset {
 
 .mandatory-field {
 	color: red;
+}
+
+.big-logo {
+	height: 110px;
+	margin-bottom: 73px;
 }
