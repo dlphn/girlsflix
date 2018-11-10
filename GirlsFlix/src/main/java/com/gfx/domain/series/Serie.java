@@ -1,11 +1,14 @@
 package com.gfx.domain.series;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.gfx.Config;
 import com.gfx.service.SerieDB;
+
 
 public class Serie {
 	private int id;
@@ -69,6 +72,14 @@ public class Serie {
 		result += "Genres : " + this.serieGenres.toString() + "\n";
 		result += "Rating : " + this.rating + "\n";
 		return result;
+	}
+	
+	public Boolean isSoon() {
+		Period period = Period.between(LocalDate.now(), this.getDateNextEpisodeOnAir());
+		if (period.getDays() <= Config.nbDaysNotifBeforeDiff) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void addSeason(Season season) {

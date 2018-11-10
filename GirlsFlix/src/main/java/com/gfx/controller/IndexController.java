@@ -111,8 +111,12 @@ public class IndexController {
         	if (UserService.currentUserLogin() != null) {
         		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
             	model.put("isFavorite", user.getFavorites().contains(Integer.parseInt(id)));
+            	
         	}
             model.put("serie", serie);
+            System.out.println("Next episode on air "+serie.getDateNextEpisodeOnAir());
+            model.put("isSoon", serie.isSoon());
+            System.out.println("isSoon" + serie.isSoon());
             return "views/serie";
         }
     }
