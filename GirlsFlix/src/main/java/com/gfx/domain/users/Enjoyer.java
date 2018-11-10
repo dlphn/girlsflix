@@ -107,8 +107,7 @@ public class Enjoyer extends User{
 		this.enabled = enabled;
 	}
 
-	@Override
-	public String display() {
+	public String displayDetails() {
 		String result = "";
 		result += super.display();
 		result += "Gender : " + this.gender.toString() + "\n";

@@ -151,7 +151,7 @@ public class UserDB {
 	
 	public static Enjoyer getUser(String login) {
 		connect();
-		String query = "SELECT pseudo, password, firstname, lastname, gender, favorites, notifications, affinities FROM users WHERE login='" + login + "'";
+		String query = "SELECT pseudo, password, firstname, lastname, gender, favorites, notifications, affinities, enabled FROM users WHERE login='" + login + "'";
 		try {
 			statement = connect.createStatement();
 	        resultSet = statement.executeQuery(query);
@@ -195,8 +195,10 @@ public class UserDB {
 	            	affStrList = affinitiesStr.split(",");
 	            	for(String aff : affStrList) affinities.add(aff);
 	            }
+	            Boolean enabled = resultSet.getInt("enabled") == 1 ? true : false;
 	            
 	            Enjoyer user = new Enjoyer(login, pseudo, password, firstname, lastname, gender, affinities, favorites, notifications);
+	            user.setEnabled(enabled);
 	            return user;
 	        }
 		} catch (SQLException e) {
