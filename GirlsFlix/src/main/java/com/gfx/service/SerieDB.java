@@ -59,15 +59,12 @@ public class SerieDB {
 	    collection.insertMany(documents);	
 	}
 	
-	//TODO use a set so that enjoyersToNotify is not erased
-	@SuppressWarnings("deprecation")
 	public static void upsert(String col, Document doc) {
 		MongoCollection<Document> collection = database.getCollection(col);
+		Document newDocument = new Document();
+		newDocument.append("$set", doc);
 		UpdateOptions options = new UpdateOptions().upsert(true);
-		collection.replaceOne(Filters.eq("id", doc.get("id")), doc, options);
-		// replaceOne deprecated but updateOne was raising Exception :
-		// "java.lang.IllegalArtgumentException : Invalid BSON field name id"
-		// and replaceOne was the only working solution
+		collection.updateOne(Filters.eq("id", doc.get("id")), newDocument, options);
 	}
 	
 	public static void updateEnjoyers(Serie serie) {

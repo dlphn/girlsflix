@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class Enjoyer extends User{
 
 	private Gender gender;
+	private boolean enabled;
 	private List<String> affinities = new ArrayList<String>();
 	private List<Integer> favorites = new ArrayList<Integer>();
 	private List<String> notifications = new ArrayList<String>();
@@ -18,6 +19,7 @@ public class Enjoyer extends User{
 		this.affinities=null;
 		this.notifications=null;
 		this.favorites=null;
+		this.enabled = true;
 	}
 	
 	public Enjoyer(String login) {
@@ -97,7 +99,15 @@ public class Enjoyer extends User{
 		this.notifications = notifications;
 	}
 	
-	public String display() {
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String displayDetails() {
 		String result = "";
 		result += super.display();
 		result += "Gender : " + this.gender.toString() + "\n";
@@ -122,13 +132,11 @@ public class Enjoyer extends User{
 
 	
 	public void addToFavorites(Integer id) {
-		if(favorites.contains(id)==false) {
-		favorites.add(id);}
+		if(favorites.contains(id)== false && enabled) favorites.add(id);
 	}
 	
 	public void removeFromFavorites(Integer id) {
-		if(favorites.contains(id)==true) {
-		favorites.remove(id);}
+		if(favorites.contains(id)==true && enabled) favorites.remove(id);
 	}
 	
 	public void removeFromNotifications(int index) {

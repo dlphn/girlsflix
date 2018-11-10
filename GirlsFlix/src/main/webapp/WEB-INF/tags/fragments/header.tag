@@ -21,6 +21,9 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/GirlsFlix/notifications">Notifications</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/GirlsFlix/profil">Mon profil</a>
+				</li>
 			</sec:authorize>
 		</ul>
 		<span class="navbar-text">

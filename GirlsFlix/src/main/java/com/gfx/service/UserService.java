@@ -50,31 +50,35 @@ public class UserService {
 	
 	
 	public static void addToFavorites(Enjoyer enjoyer, int id) {
-		enjoyer.addToFavorites(id);
-		Serie s = Data.getById(id);
-		if(s.getEnjoyersToNotify() != null) {
-			s.getEnjoyersToNotify().put(enjoyer.getLogin(), false);
-		}
-		else {
-			Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
-			enjoyerToNotify.put(enjoyer.getLogin(), false);
-			s.setEnjoyersToNotify(enjoyerToNotify);
-		}
-		UserDB.update(enjoyer);
-		SerieDB.updateEnjoyers(s);
+	    if (enjoyer.isEnabled()) {
+	    	enjoyer.addToFavorites(id);
+	    	Serie s = Data.getById(id);
+	    	if (s.getEnjoyersToNotify() != null) {
+	    		s.getEnjoyersToNotify().put(enjoyer.getLogin(), false);
+	    	} else {
+		        Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
+		        enjoyerToNotify.put(enjoyer.getLogin(), false);
+		        s.setEnjoyersToNotify(enjoyerToNotify);
+	    	}
+	    	UserDB.update(enjoyer);
+		    SerieDB.updateEnjoyers(s);
+	    }
 	}
 	
 	public static void removeFromFavorites(Enjoyer enjoyer, int id) {
-		enjoyer.removeFromFavorites(id);
-		Serie s = Data.getById(id);
-		if(s.getEnjoyersToNotify() != null) {
-			s.getEnjoyersToNotify().remove(enjoyer.getLogin());
+		if (enjoyer.isEnabled()) {
+			enjoyer.removeFromFavorites(id);
+			Serie s = Data.getById(id);
+			if (s.getEnjoyersToNotify() != null) {
+				s.getEnjoyersToNotify().remove(enjoyer.getLogin());
+			} else {
+		        Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
+		        s.setEnjoyersToNotify(enjoyerToNotify);
+		    }
+			UserDB.update(enjoyer);
+			SerieDB.updateEnjoyers(s);
 		}
-		UserDB.update(enjoyer);
-		SerieDB.updateEnjoyers(s);
 	}
-
-	
 
 	/**
 	 * Adds a notification to the Enjoyer's notifications list for the next episode on air of 
