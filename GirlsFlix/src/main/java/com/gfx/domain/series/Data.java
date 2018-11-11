@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Stores Serie instances.
+ * Methods to interact with the list of series.
+ */
 @Component
 public class Data {
 	private static List<Serie> seriesList;
@@ -20,21 +24,44 @@ public class Data {
 		seriesList = series;
 	}
 	
-	public void showSeries() {
-		try {
-			System.out.println("The series available are : ");
-			for (Serie s : seriesList){
-				System.out.println(s.info());
-				//System.out.println("\n\n");
-			} 
-		} catch (NullPointerException e) {
-			System.out.println("size is :   No Series for the moment.");}
+	public static Serie getById(int searchedId) {
+		Serie searched = null;
+		for (Serie serie : seriesList) {
+			if(serie.getId() == searchedId) {
+				 searched = serie;
+			}
+		}
+		return searched;
 	}
 	
-	public static List<Serie> pickNRandom(int n) {
-	    List<Serie> copy = new ArrayList<Serie>(seriesList);
-	    Collections.shuffle(copy);
-	    return copy.subList(0, n);
+	public static List<Serie> pickNRandom(int numberOfSeries) {
+	    List<Serie> copyOfSeries = new ArrayList<Serie>(seriesList);
+	    Collections.shuffle(copyOfSeries);
+	    if (copyOfSeries.size() < numberOfSeries) {
+	    	numberOfSeries = copyOfSeries.size();
+	    }
+	    return copyOfSeries.subList(0, numberOfSeries);
+	}
+	
+	/**
+	 * Send a number of random series with a specific genre
+	 * 
+	 * @param numberOfSeries		the number of random series to return
+	 * @param genre	the genre to filter on
+	 * @return		the list of random series
+	 */
+	public static List<Serie> pickNRandomSameGenre(int numberOfSeries, String genre) {
+		List<Serie> groupByGenre = new ArrayList<Serie>();
+		for (Serie serie : seriesList) {
+			if (serie.getSerieGenres().contains(genre)) {
+				groupByGenre.add(serie);
+			}
+		}
+	    Collections.shuffle(groupByGenre);
+	    if (numberOfSeries > groupByGenre.size()) {
+	    	numberOfSeries = groupByGenre.size();
+	    }
+	    return groupByGenre.subList(0, numberOfSeries);
 	}
 	
 	/**
@@ -61,15 +88,5 @@ public class Data {
 			     .filter(item -> item.getSerieGenres().contains(query))
 			     .collect(Collectors.toList());
 		return result;
-	}
-	
-	public static Serie getById(int id) {
-		Serie searched = null;
-		for (Serie s : seriesList) {
-			if(s.getId() == id) {
-				 searched = s;
-			}
-		}
-		return searched;
 	}
 }

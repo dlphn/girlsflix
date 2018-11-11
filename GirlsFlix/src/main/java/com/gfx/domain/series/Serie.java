@@ -4,11 +4,16 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import com.gfx.domain.users.Enjoyer;
-import com.gfx.service.ThrowNotificationToEnjoyer;
-import com.gfx.helper.Config;
+import com.gfx.Config;
+import com.gfx.service.SerieDB;
 
+
+/**
+ * Serie Object with its Getters and Setters
+ *The attributes are Private. We can only manipulate them through the getters and setters.
+ */
 public class Serie {
 	private int id;
 	private String title;
@@ -16,17 +21,15 @@ public class Serie {
 	private String summary;
 	private LocalDate creationDate;
 	private double rating;
-	private boolean allowed;
+	private boolean allowed = true;
 	private String image;
 	private List<Season> seasons = new ArrayList<Season>();
-	private List<Enjoyer> enjoyersToNotify = new ArrayList<Enjoyer>();
+	private Map<String, Boolean> enjoyersToNotify;
 	private int nextEpisodeOnAir;
 	private int nbSeasonNEOA;
 	private LocalDate dateNextEpisodeOnAir;
-	private boolean nextEpisodeHasBeenNotified = false;
 	
-	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating) {
-		super();
+	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, double rating, List<Season> seasons) {
 		this.id = id;
 		this.title = title;
 		this.serieGenres = serieGenres;
@@ -35,99 +38,73 @@ public class Serie {
 		this.image = image;
 		this.allowed = true;
 		this.rating = rating;
-	}
-	
-
-	public Serie(String name) {
-		this.title = name;
-	}
-	
-	public Serie(int id, String title, LocalDate creationDate, String summary) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.creationDate = creationDate;
-		this.summary = summary;
-		this.allowed = true;
-		this.rating = 0;
-	}
-	
-	public Serie(String title, LocalDate creationDate, String summary) {
-		super();
-		this.title = title;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.allowed = true;
-		this.rating = 0;
-	}
-	
-	public Serie(int id, String title, String summary, LocalDate creationDate, String image) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = 0;
-	}
-	
- 	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.serieGenres = serieGenres;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = 0;
-	}
- 	
-	public Serie(int id, String title, List<String> serieGenres, String summary, LocalDate creationDate, String image, List<Season> seasons) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.serieGenres = serieGenres;
-		this.summary = summary;
-		this.creationDate = creationDate;
-		this.image = image;
-		this.allowed = true;
-		this.rating = 0;
 		this.seasons = seasons;
 	}
 	
-	
-	public String info() {
-		return "this Series is called "+ this.title + " and was first on air the " + this.creationDate + ".\n its ID is: " + this.id + "\n";
+	public Serie(
+			int id, 
+			String title, 
+			List<String> serieGenres, 
+			String summary, 
+			LocalDate creationDate, 
+			String image, 
+			double rating, 
+			List<Season> seasons, 
+			Map<String, Boolean> enjoyersToNotify) {
+		this(id, title, serieGenres, summary, creationDate, image, rating, seasons);
+		this.enjoyersToNotify = enjoyersToNotify;
 	}
 	
-	public void addSeason(Season season) {
-		seasons.add(season);
+	public Boolean isSoon() {
+		if (this.getDateNextEpisodeOnAir() != null) {
+			Period period = Period.between(LocalDate.now(), this.getDateNextEpisodeOnAir());
+			if (period.getDays() <= Config.notifyXDaysBefore) {
+				return true;
+			}
+			return false;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
-	 * this method is called on a regular basis. it checks if the episode will be on air
-	 * in 3 days exactly or if it will be on air in less than 3 days but hasn't been 
-	 * notified to the enjoyers. If the conditions are filled we browse the list of 
-	 * enjoyers we need to notify and we create one thread per enjoyer and each thread 
-	 * will take care of processing the notification process for the enjoyer.
+	 * Updates object attributes with values retrieved from database
 	 */
-	public void notifyNextEpisodeOnAirSoon() {
-		Period period = Period.between(LocalDate.now(),dateNextEpisodeOnAir);
-		if(period.getDays() <= Config.getNbdaysnotifbeforediff() && !nextEpisodeHasBeenNotified) {
-			for(Enjoyer enjoyer: enjoyersToNotify) {
-				Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyer, this));
-				throwNotif.start();
+	public void updateAllAttributes(String title, List<String> serieType, String summary, LocalDate creationDate, String picture, double rating, List<Season> seasons, Map<String, Boolean> enjoyersToNotify, int newEpisode, int newSeason, LocalDate newDate) {
+		this.title = title;
+		this.serieGenres = serieType;
+		this.summary = summary;
+		this.creationDate = creationDate;
+		this.image = picture;
+		this.rating = rating;
+		this.seasons = seasons;
+		this.enjoyersToNotify = enjoyersToNotify;
+		if (this.nextEpisodeOnAir != newEpisode) {
+			// if the next episode on air has changed, we need to reset enjoyersToNotify
+			for (String loginEnjoyer : this.enjoyersToNotify.keySet()) {
+				this.enjoyersToNotify.put(loginEnjoyer, false);
 			}
-			nextEpisodeHasBeenNotified = true;
+			SerieDB.updateEnjoyers(this);
 		}
-		
+		this.nextEpisodeOnAir = newEpisode;
+		this.nbSeasonNEOA = newSeason;
+		this.dateNextEpisodeOnAir = newDate;
 	}
 	
-	/*******************/
-	/*Getters & Setters*/
-	/*******************/
+	public void setEnjoyerAsNotified(String login) {
+		this.enjoyersToNotify.put(login, true);
+		SerieDB.updateEnjoyers(this);
+	}
+	
+	public void setEnjoyerAsNotNotified(String login) {
+		this.enjoyersToNotify.put(login, false);
+		SerieDB.updateEnjoyers(this);
+	}
+
+	
+	/**
+	 * Getters and Setters
+	 */
 
 	public int getId() {
 		return id;
@@ -202,11 +179,11 @@ public class Serie {
 		this.seasons = seasons;
 	}
 
-	public List<Enjoyer> getEnjoyersToNotify() {
+	public Map<String,Boolean> getEnjoyersToNotify() {
 		return enjoyersToNotify;
 	}
 
-	public void setEnjoyersToNotify(List<Enjoyer> enjoyersToNotify) {
+	public void setEnjoyersToNotify(Map<String, Boolean> enjoyersToNotify) {
 		this.enjoyersToNotify = enjoyersToNotify;
 	}
   
@@ -234,11 +211,4 @@ public class Serie {
 		this.dateNextEpisodeOnAir = dateNextEpisodeOnAir;
 	}
 
-	public boolean isNextEpisodeHasBeenNotified() {
-		return nextEpisodeHasBeenNotified;
-	}
-
-	public void setNextEpisodeHasBeenNotified(boolean nextEpisodeHasBeenNotified) {
-		this.nextEpisodeHasBeenNotified = nextEpisodeHasBeenNotified;
-	}
 }

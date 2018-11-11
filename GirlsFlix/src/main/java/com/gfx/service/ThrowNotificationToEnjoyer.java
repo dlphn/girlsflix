@@ -2,20 +2,23 @@ package com.gfx.service;
 
 
 import com.gfx.domain.series.Serie;
-import com.gfx.domain.users.Enjoyer;
 
+/**
+ * Runnable lauched in ThrowNotificationsProcess for a serie S.
+ * Adds notification to the user enjoyerToNotify if he/she weren't already notified for the serie S.
+ */
 public class ThrowNotificationToEnjoyer implements Runnable {
 	
-	private Enjoyer enjoyerToNotify;
+	private	String enjoyerToNotify;
 	private Serie serieNotified;
 	
-	public ThrowNotificationToEnjoyer (Enjoyer enjoyerToNotify, Serie serieNotified) {
+	public ThrowNotificationToEnjoyer(String enjoyerToNotify, Serie serieNotified) {
 		this.enjoyerToNotify = enjoyerToNotify;
 		this.serieNotified = serieNotified;
 	}
 	
 	public void run() {
-		enjoyerToNotify.notifyNextEpisodeOnAirSoon(serieNotified);
+		UserService.notifyNextEpisodeOnAirSoon(enjoyerToNotify, serieNotified);
 	}
 
 }

@@ -5,7 +5,8 @@ import java.util.List;
 
 import org.bson.Document;
 
-import com.gfx.helper.Keys;
+import com.gfx.Keys;
+import com.gfx.domain.series.Serie;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -13,26 +14,19 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Filters;
 
+/**
+ * Methods to interact with the MongoDB that stores series
+ */
 public class SerieDB {
-	private static MongoDatabase database;
 	private static MongoClient mongoClient;
+	private static MongoDatabase database;
 	
 	
 	public static void connect() {
-		Keys keys = new Keys();
 		if (mongoClient == null) {
-		    mongoClient = MongoClients.create("mongodb+srv://" + keys.getMongoUser() + ":" + keys.getMongoPwd() + "@" + keys.getMongoHost() + "/");
+		    mongoClient = MongoClients.create("mongodb+srv://" + Keys.mongoUser + ":" + Keys.mongoPwd + "@" + Keys.mongoHost + "/");
 		}
-		MongoDatabase db = mongoClient.getDatabase(keys.getMongoDb());
-		database = db;
-	}
-	
-	public static void connect(String dbName) {
-		Keys keys = new Keys();
-		if (mongoClient == null) {
-		    mongoClient = MongoClients.create("mongodb+srv://" + keys.getMongoUser() + ":" + keys.getMongoPwd() + "@" + keys.getMongoHost() + "/");
-		}
-		MongoDatabase db = mongoClient.getDatabase(dbName);
+		MongoDatabase db = mongoClient.getDatabase(Keys.mongoDb);
 		database = db;
 	}
 	
@@ -50,23 +44,28 @@ public class SerieDB {
 		return result;
 	}
 	
-	public static void insertOne(String col, Document doc) {
-	    MongoCollection<Document> collection = database.getCollection(col);
-	    collection.insertOne(doc);	
-	}
-	
-	public static void insertMany(String col, List<Document> documents) {
-		MongoCollection<Document> collection = database.getCollection(col);
-	    collection.insertMany(documents);	
-	}
-	
-	@SuppressWarnings("deprecation")
 	public static void upsert(String col, Document doc) {
 		MongoCollection<Document> collection = database.getCollection(col);
+		Document newDocument = new Document();
+		newDocument.append("$set", doc);
 		UpdateOptions options = new UpdateOptions().upsert(true);
-		collection.replaceOne(Filters.eq("id", doc.get("id")), doc, options);
-		// replaceOne deprecated but updateOne was raising Exception :
-		// "java.lang.IllegalArtgumentException : Invalid BSON field name id"
-		// and replaceOne was the only working solution
+		collection.updateOne(Filters.eq("id", doc.get("id")), newDocument, options);
+	}
+	
+	/**
+	 * Updates the attribute enjoyersToNotify in the mongo database
+	 * 
+	 * @param serie
+	 */
+	public static void updateEnjoyers(Serie serie) {
+		MongoCollection<Document> collection = database.getCollection("series");
+		Document newDocument = new Document();
+		newDocument.append("$set", new Document().append("enjoyersToNotify", serie.getEnjoyersToNotify()));
+		UpdateOptions options = new UpdateOptions().upsert(true);
+		collection.updateOne(
+			Filters.eq("id", serie.getId()), 
+			newDocument, 
+			options
+		);
 	}
 }

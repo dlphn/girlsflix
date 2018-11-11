@@ -9,7 +9,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
-		<title>GirlsFlix - Inscription</title>
+		<title>GirlsFlix - Mon profil</title>
 		
 		<link rel="icon" type="image/png" href="/GirlsFlix/lib/favicon.png">
 		
@@ -22,18 +22,17 @@
 		
 		<div class="main">
 			<div class="container">
-				<h2>Créez-vous un compte GirlsFlix</h2>
-				<a href="/GirlsFlix/login">Déjà un compte ?</a>
+				<h2>Mon profil</h2>
 				<p> ${message} </p>
 				<form:form method="POST" modelAttribute="user">
 					<div class="row">
-					    <form:label path="login" for="inputLogin" class="col-sm-3 col-form-label">Login <span class="mandatory-field">*</span></form:label>
+					    <form:label path="login" for="inputLogin" class="col-sm-3 col-form-label">Login</form:label>
 					    <div class="col-sm-9">
-					      	<form:input class="form-control" id="inputLogin" path="login" required="required"/>
+					      	<form:input class="form-control form-control-plaintext" id="inputLogin" path="login" required="required"/>
 					    </div>
 				    </div>
 				    <div class="row">
-					    <form:label path="pseudo" for="inputPseudo" class="col-sm-3 col-form-label">Pseudo <span class="mandatory-field">*</span></form:label>
+					    <form:label path="pseudo" for="inputPseudo" class="col-sm-3 col-form-label">Pseudo</form:label>
 					    <div class="col-sm-9">
 					      	<form:input class="form-control" id="inputPseudo" path="pseudo" required="required"/>
 					    </div>
@@ -48,15 +47,6 @@
 					    <form:label path="lastName" for="inputLastName" class="col-sm-3 col-form-label">Nom</form:label>
 					    <div class="col-sm-9">
 					      	<form:input class="form-control" id="inputLastName" path="lastName"/>
-					    </div>
-				    </div>
-				    <div class="row">
-					    <form:label path="password" for="inputPassword" class="col-sm-3 col-form-label">Mot de passe <span class="mandatory-field">*</span></form:label>
-					    <div class="col-sm-9">
-					      	<form:password class="form-control" id="inputPassword" path="password" required="required"/>
-					      	<small id="passwordHelpBlock" class="form-text text-muted">
-							  Votre mot de passe doit contenir entre 8 et 20 caractères.
-							</small>
 					    </div>
 				    </div>
 				    <fieldset class="row">
@@ -87,7 +77,7 @@
 				  	</div>
 					<div class="row">
 						<div class="col-sm-3">
-							<button type="submit" class="btn btn-lg btn-primary btn-block">S'inscrire</button>
+							<button type="submit" class="btn btn-lg btn-primary btn-block">Modifier</button>
 						</div>
 					</div>
 				</form:form>

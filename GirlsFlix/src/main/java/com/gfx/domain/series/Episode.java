@@ -2,6 +2,10 @@ package com.gfx.domain.series;
 
 import java.time.LocalDate;
 
+/**
+ * Episode Object with its Getters and Setters
+ *The attributes are Private. We can only manipulate them through the getters and setters.
+ */
 public class Episode {
 	
 	private int episodeId;
@@ -28,24 +32,10 @@ public class Episode {
 		this.serieId = serieId;
 		this.image = image;
 	}
-
-	public Episode(int episodeId, int episodeNb, String name, String summary, LocalDate releaseDate, int rating) {
-		super();
-		this.episodeId = episodeId;
-		this.episodeNb = episodeNb;
-		this.name = name;
-		this.summary = summary;
-		this.releaseDate = releaseDate;
-		this.rating = rating;
-	}
-
-	public String toString() {
-		return "Episode "+ this.episodeNb + " " + this.name + " from Serie " + this.serieId + " Season " + this.seasonNb + "\n";
-	}
-
-	/*******************/
-	/*Getters & Setters*/
-	/*******************/
+	
+	/**
+	 * Getters & Setters
+	 */
 
 	public int getEpisodeId() {
 		return episodeId;

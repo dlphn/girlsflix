@@ -1,47 +1,31 @@
 package com.gfx.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.gfx.domain.users.Enjoyer;
-import com.gfx.domain.users.User;
-import com.gfx.helper.LoginExistsException;
-import com.gfx.service.UserDB;
 
 @Controller
 public class LoginController {
 
+	/**
+	 * This function is based on the view user/login in WEB-INF folder.
+	 * The parameters login & password are sent to SpringSecurity Authentication Bean, 
+	 * enabling the creation of a new session for the user.
+	 * @param error
+	 * @return Login page if there is an error, Home Page when the user logs in.
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {
-	    ModelAndView mav = new ModelAndView("user/login");
-	    mav.addObject("user", new Enjoyer());
-	    return mav;
-	}
-	
-	@RequestMapping( "/login")
-	public String connectUser(ModelMap model, @ModelAttribute("user") Enjoyer user) throws LoginExistsException {
-		UserDB.connect();
-		String msg = "";
-		Boolean connectionAllowed = false;
-		model.addAttribute("login", user.getLogin());
-		model.addAttribute("password", user.getPassword());
-		if(!UserDB.checkLoginNotUsed(user.getLogin())) {
-			user =(Enjoyer) UserDB.checkPwd(user.getLogin(), user.getPassword());//Si le compte existe on instancie l'objet user
-			connectionAllowed = true;
+	public ModelAndView login(
+		@RequestParam(value = "error", required = false) String error) {
+
+		ModelAndView model = new ModelAndView();
+		if (error != null) {
+			model.addObject("error", "Le login et/ou mot de passe sont invalides.");
 		}
-		if(connectionAllowed) {
-			msg = "Connexion réussie";
-			return "views/welcome";}
-		else {
-			msg = "Le login et/ou Mot de passe sont invalides.";
-			return "user/login";}
-	
+		model.setViewName("user/login");
+
+		return model;
 	}
 }

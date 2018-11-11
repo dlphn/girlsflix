@@ -9,11 +9,12 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
-		<title>GirlsFlix - Connexion</title>
+		<title>GirlsFlix - Mes favoris</title>
 		
 		<link rel="icon" type="image/png" href="/GirlsFlix/lib/favicon.png">
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 		<link rel="stylesheet" href="/GirlsFlix/css/style.css" />
 	</head>
 	<body>
@@ -22,32 +23,18 @@
 		
 		<div class="main">
 			<div class="container">
-				<h2>Se connecter</h2>
-				<c:if test="${not empty error}">
-					<div class="error">${error}</div>
-				</c:if>
-				<c:if test="${not empty msg}">
-					<div class="msg">${msg}</div>
-				</c:if>
-				<c:url value="/login" var="loginUrl"/>
-				<form action="${loginUrl}" method="post" class="form-signin">
-					<div class="form-group row">
-					  	<label for="username" class="sr-only">Login</label>
-				    	<input type="text" class="form-control" id="username" name="username" placeholder="Login"
-				    		required autofocus>
-		    		</div>
-		    		<div class="form-group row">
-					  	<label for="password" class="sr-only">Mot de passe</label>
-				    	<input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+				<h2>Mes favoris</h2>
+				<p>${message}</p>
+				<c:forEach var="favorite" items="${favorites}">
+				  	<div class="alert alert-warning" role="alert">
+	                	<a href="serie/${favorite.getId()}">
+					  		${favorite.getTitle()}
+					  		<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="location.href='/GirlsFlix/favoris/remove/${favorite.getId()}'">
+                            	<span aria-hidden="true"><i class="fas fa-trash-alt"></i></span>
+					  		</button>
+					  	</a>
 					</div>
-					<input type="hidden"
-						name="${_csrf.parameterName}"
-						value="${_csrf.token}"/>
-					<button type="submit" class="btn btn-lg btn-primary btn-block">Se connecter</button>
-				</form>
-				<p class="text-center">
-					<a href="/GirlsFlix/register">Pas encore de compte ?</a>
-				</p>
+				</c:forEach>
 			</div>
 		</div>
 		

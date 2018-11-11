@@ -4,22 +4,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.Document;
-
 import org.apache.http.client.ClientProtocolException;
-import org.json.simple.*;
+import org.bson.Document;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
+import com.gfx.Config;
+import com.gfx.Keys;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
-import com.gfx.helper.Config;
-import com.gfx.helper.Keys;
 
+/**
+ * API calls to tmdb to get series information
+ * Save information in MongoDB
+ */
 @Service
 public class SerieService {
+	
 	public SerieService() {
 		if (Genre.getGenres() == null) {
 			initGenres();
@@ -27,15 +32,12 @@ public class SerieService {
 	}
 	
 	/**
-	 * Initiates/updates the series genres.
+	 * Initiate/update the series genres.
 	 */
 	public void initGenres() {
-		Keys apiKey = new Keys();
-		Config config = new Config();
-		
 		ConnectionWS connection = new ConnectionWS();
 		try {
-			String url = config.getApiUrl() + "genre/tv/list?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang();
+			String url = Config.apiUrl + "genre/tv/list?api_key=" + Keys.apiKey + "&language=" + Config.lang;
 			String response = connection.connect(url);
 			List<JSONObject> genres = buildGenresList(response);
 			Genre.setGenres(genres);
@@ -70,16 +72,13 @@ public class SerieService {
 	}
 
 	/**
-	 * Initiates/updates the database collections series, seasons and episodes.
+	 * Initiate/update the database collections: series, seasons and episodes.
 	 */
 	public void init() {
-		Keys apiKey = new Keys();
-		Config config = new Config();
-		
 		ConnectionWS connection = new ConnectionWS();
 		try {
 			// GET popular series
-			String url = config.getApiUrlFull() + "popular?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang() + "&page=1";
+			String url = Config.apiFull + "popular?api_key=" + Keys.apiKey + "&language=" + Config.lang + "&page=1";
 			String response = connection.connect(url);
 			
 			// Series and Seasons
@@ -98,10 +97,8 @@ public class SerieService {
 			add("episodes", episodes);
 			System.out.println("Episodes saved");
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			System.out.println("Database all set!");
@@ -109,7 +106,7 @@ public class SerieService {
 	}
 	
 	/**
-	 * Adds the documents to the MongoDB collection.
+	 * Add the documents to the MongoDB collection.
 	 * 
 	 * @param collection	MongoDB collection where the documents are to be added
 	 * @param documents
@@ -122,10 +119,10 @@ public class SerieService {
 	}
 	
 	/**
-	 * Builds the list of Series Ids from the response received from the API.
+	 * Build the list of Series Ids from the response received from the API.
 	 * 
 	 * @param series	the String result from the API
-	 * @return the ids of the series retrieved
+	 * @return 			the ids of the series retrieved
 	 */
 	private List<Integer> buildSeriesIdsList(String series) {
 		JSONParser parser = new JSONParser();
@@ -140,37 +137,32 @@ public class SerieService {
                 }
             }
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return seriesIds;
 	}
 	
 	/**
-	 * Fetches the series' details to get infos and seasons of the series retrieved.
+	 * Fetch the series' details to get info and seasons of the series retrieved.
 	 * 
 	 * @param seriesList	Series ids
-	 * @return the Serie and Season Documents to be added and the seasons/series ids
+	 * @return 				the Serie and Season Documents to be added and the seasons/series ids
 	 */
 	private SeasonResult getSeriesSeasonsDetails(List<Integer> seriesList) {
-		Keys apiKey = new Keys();
-		Config config = new Config();
 		ConnectionWS connection = new ConnectionWS();
 		List<Document> series = new ArrayList<Document>();
 		List<Document> seasons = new ArrayList<Document>();
 		List<SeasonPair> seasonsSeries = new ArrayList<SeasonPair>();
 		for (int id : seriesList) {
 			try {
-				String response = connection.connect(config.getApiUrlFull() + id + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
+				String response = connection.connect(Config.apiFull + id + "?api_key=" + Keys.apiKey + "&language=" + Config.lang);
 				SeasonResult res = buildSeriesSeasonsList(response, id);
 				series.addAll(res.getSeriesDocs());
 				seasons.addAll(res.getSeasonsDocs());
 				seasonsSeries.addAll(res.getSeasons());
 			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -179,7 +171,7 @@ public class SerieService {
 	}
 	
 	/**
-	 * Builds the list of Series & Seasons Documents from the response received from the API.
+	 * Build the list of Series & Seasons Documents from the response received from the API.
 	 * 
 	 * @param seasons
 	 * @param serieId
@@ -226,14 +218,12 @@ public class SerieService {
                     		.append("nb", jsnObj.get("season_number"))
                     		.append("episodeCount", jsnObj.get("episode_count"))
                     		.append("imageLink", jsnObj.get("poster_path"))
-                    		//.append("rating", jsnObj.get("vote_average")) //info pas dans l'api courrante
                     		.append("date", jsnObj.get("air_date"))
                     		.append("serieId", serieId);
                     seasonsDocs.add(seasonDoc);
                 }
             }
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		SeasonResult result = new SeasonResult(seriesDocs, seasonsDocs, seasonsIds);
@@ -241,26 +231,22 @@ public class SerieService {
 	}
 	
 	/**
-	 * Fetches the seasons' details to get each added seasons' episodes.
+	 * Fetch the seasons' details to get each added seasons' episodes.
 	 * 
 	 * @param seasonsList	Seasons ids
-	 * @return the Documents to be added
+	 * @return 				the Documents to be added
 	 */
 	private List<Document> getSeasonsDetails(List<SeasonPair> seasonsList) {
-		Keys apiKey = new Keys();
-		Config config = new Config();
 		ConnectionWS connection = new ConnectionWS();
 		List<Document> seasons = new ArrayList<Document>();
 		for (SeasonPair season : seasonsList) {
 			try {
-				String response = connection.connect(config.getApiUrlFull() + season.getTvId() + "/season/" + season.getSeasonNumber() + "?api_key=" + apiKey.getApiKey() + "&language=" + config.getLang());
+				String response = connection.connect(Config.apiFull + season.getTvId() + "/season/" + season.getSeasonNumber() + "?api_key=" + Keys.apiKey + "&language=" + Config.lang);
 				List<Document> res = buildEpisodesList(response, season);
 				seasons.addAll(res);
 			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -268,7 +254,7 @@ public class SerieService {
 	}
 	
 	/**
-	 * Builds the list of Episodes Documents from the response received from the API.
+	 * Build the list of Episodes Documents from the response received from the API.
 	 * 
 	 * @param episodes
 	 * @param season
@@ -297,10 +283,8 @@ public class SerieService {
                 }
             }
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return documents;
 	}
-	
 }

@@ -11,7 +11,7 @@
 	http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 	
 	<context:annotation-config/>
-	<context:component-scan base-package="com.gfx" />
+	<context:component-scan base-package="com.gfx.*" />
 	
 	<mvc:annotation-driven/>
 	<mvc:default-servlet-handler/>
@@ -33,5 +33,27 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
-
+	
+	
+	<bean id="updateSeries" class="com.gfx.service.Scheduler"></bean>
+	
+	<bean id="updateSeriesTask" class="org.springframework.scheduling.support.MethodInvokingRunnable">
+		<property name="targetObject"><ref bean="updateSeries"/> </property>
+		<property name="targetMethod"><value>taskToExecute</value></property>
+	</bean>
+	
+	<bean id="updateSeriesScheduledTask" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">
+		<property name="delay" value="10000"/>
+		<property name="period" value = "30000"/>
+		<property name="runnable" ref="updateSeriesTask"/>
+	</bean>
+	
+	<bean id="timerFactory" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean">
+		<property name="scheduledExecutorTasks">
+			<list>
+				<ref bean="updateSeriesScheduledTask"/>
+			</list>
+		</property>
+	</bean>
+	
 </beans>

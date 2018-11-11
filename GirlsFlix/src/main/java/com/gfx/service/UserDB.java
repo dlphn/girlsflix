@@ -1,12 +1,5 @@
 package com.gfx.service;
 
-import com.gfx.domain.series.TypeSerie;
-import com.gfx.domain.users.Enjoyer;
-
-import com.gfx.domain.users.Gender;
-import com.gfx.domain.users.User;
-import com.gfx.helper.Keys;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,60 +7,42 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.gfx.Keys;
+import com.gfx.domain.users.Enjoyer;
+import com.gfx.domain.users.Gender;
+
+/**
+ * Methods to interact with the MySQL database that stores users
+ */
 @Service
 public class UserDB {
 	private static Connection connect = null;
 	private static Statement statement = null;
 	private static PreparedStatement preparedStatement = null;
+	private static PreparedStatement preparedStatement2 = null;
 	
 	private static ResultSet resultSet = null;
     
 	public static void connect() {
-		Keys keys = new Keys();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e1) {
-			System.out.println("Connexion non reconnue");
-			e1.printStackTrace();
-		}
-		
-		String url = "jdbc:mysql://" + keys.getMysqlHost() + "/" + keys.getMysqlDb() + "?allowPublicKeyRetrieval=true&useSSL=false";
 		if (connect == null) {
 			try {
-				connect = DriverManager.getConnection(url, keys.getMysqlUser(), keys.getMysqlPwd());
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				String url = "jdbc:mysql://" + Keys.mysqlHost + "/" + Keys.mysqlDb;
+				url += "?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+				connect = DriverManager.getConnection(url, Keys.mysqlUser, Keys.mysqlPwd);
+			} catch (ClassNotFoundException e1) {
+				System.out.println("Connexion non reconnue");
+				e1.printStackTrace();
 			} catch(SQLException e) {
 				System.out.println("Impossible de se connecter à la BDD");
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	private static void writeResultSet(ResultSet resultSet) throws SQLException {
-        while (resultSet.next()) {
-        	String[] favorites = new String[0];
-            String login = resultSet.getString("login");
-            String pseudo = resultSet.getString("pseudo");
-            String firstname = resultSet.getString("firstname");
-            String lastname = resultSet.getString("lastname");
-            String gender = resultSet.getString("gender");
-            String favoritesStr = resultSet.getString("favorites");
-            if (favoritesStr != null) {
-            	favorites = resultSet.getString("favorites").split(",");
-            }
-            System.out.println("login: " + login);
-            System.out.println("pseudo: " + pseudo);
-            System.out.println("firstname: " + firstname);
-            System.out.println("lastname: " + lastname);
-            System.out.println("gender: " + gender);
-            System.out.println("favorites: " + Arrays.toString(favorites));
-        }
-    }
 	
 	private static void close() {
         try {
@@ -77,40 +52,43 @@ public class UserDB {
             if (preparedStatement != null) {
             	preparedStatement.close();
             }
+            if (preparedStatement2 != null) {
+            	preparedStatement2.close();
+            }
             if (resultSet != null) {
             	resultSet.close();
             }
         } catch (Exception e) {
-
+        	e.printStackTrace();
         }
     }
 	
-	public static void readDatabase() {
-		String query = "SELECT * FROM users";
+	/**
+	 * Insert user into database after registration
+	 * 
+	 * @param newUser
+	 * @return	true if the insert was successful, false if there was an issue
+	 */
+	public static boolean insertOne(Enjoyer newUser){
+		connect();
 		try {
-			statement = connect.createStatement();
-	        resultSet = statement.executeQuery(query);
-	        writeResultSet(resultSet);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	
-	public static boolean insertOne(User newUser){
-		try {
+			// login, pseudo, password, enabled, firstname, lastname, gender, favorites, notifications, affinities
 			preparedStatement = connect
-			        .prepareStatement("INSERT INTO users values (?, ?, ?, ?, ?, ?, null, null)");
+			        .prepareStatement("INSERT INTO users values (?, ?, ?, 1, ?, ?, ?, '[]', '[]', ?)");
 			preparedStatement.setString(1, newUser.getLogin());
             preparedStatement.setString(2, newUser.getPseudo());
-            preparedStatement.setString(3, newUser.getPassword() != null ? newUser.getPassword() : null);
-            preparedStatement.setString(4, newUser.getFirstName() != null ? newUser.getFirstName() : null);
-            preparedStatement.setString(5, newUser.getLastName() != null ? newUser.getLastName() : null);
+            preparedStatement.setString(3, newUser.getPassword());
+            preparedStatement.setString(4, newUser.getFirstName() != null ? newUser.getFirstName() : "");
+            preparedStatement.setString(5, newUser.getLastName() != null ? newUser.getLastName() : "");
             preparedStatement.setString(6, newUser.getGender() != null ? newUser.getGender().toString() : null);
-            //preparedStatement.setString(7, newUser.getAffinities().toString());
+            preparedStatement.setString(7, newUser.getAffinities() != null ? newUser.getAffinities().toString() : null);
             preparedStatement.executeUpdate();
+            
+            preparedStatement2 = connect
+ 			        .prepareStatement("INSERT INTO user_roles (login, role) VALUES (?, 'ROLE_USER')");
+ 			preparedStatement2.setString(1, newUser.getLogin());
+            preparedStatement2.executeUpdate();
+            
             return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -120,130 +98,94 @@ public class UserDB {
 		}
 	}
 	
-	public static void update(User updatedUser) {
+	public static Boolean update(Enjoyer updatedUser) {
+		connect();
 		try {
 			String query = "UPDATE users SET";
-			query += " pseudo='" + updatedUser.getPseudo() + "'";
-			if (updatedUser.getFirstName() != null) query += ", firstname='" + updatedUser.getFirstName() + "'";
-			if (updatedUser.getLastName() != null) query += ", lastname='" + updatedUser.getLastName() + "'";
-			if (updatedUser.getGender() != null) query += ", gender='" + updatedUser.getGender().toString() + "'";
-			query += " WHERE login='" + updatedUser.getLogin() + "'";
-			System.out.println(query);
+			//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
+			query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
+			if (updatedUser.getPassword() != null) query += ", password=\"" + updatedUser.getPassword() + "\"";
+			if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
+			if (updatedUser.getLastName() != null) query += ", lastname=\"" + updatedUser.getLastName() + "\"";
+			if (updatedUser.getGender() != null) query += ", gender=\"" + updatedUser.getGender().toString() + "\"";
+			if (updatedUser.getAffinities() != null) query += ", affinities=\"" + updatedUser.getAffinities() + "\"";
+			if (updatedUser.getFavorites() != null) query += ", favorites=\"" + updatedUser.getFavorites().toString() + "\"";
+			if (updatedUser.getNotifications() != null) query += ", notifications=\"" + updatedUser.getNotifications() + "\"";
+			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
 			preparedStatement = connect
 			        .prepareStatement(query);
             preparedStatement.executeUpdate();
+            return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("La requête n'a pas marché.");
 			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-
-	public static void updateFav(String login, List<Integer> favorites) {
-		String favStr = favorites.stream()
-      		  .map(String::valueOf)
-      		  .collect(Collectors.joining(","));
-		try {
-			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET favorites=? WHERE login=?");
-            preparedStatement.setString(1, favStr);
-            preparedStatement.setString(2, login);
-            preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		} finally {
 			close();
 		}
 	}
 	
-	public static void updateAffinities(String login, List<TypeSerie> affinities) {
-		String affStr = affinities.stream()
-      		  .map(String::valueOf)
-      		  .collect(Collectors.joining(","));
-		try {
-			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET affinities=? WHERE login=?");
-            preparedStatement.setString(1, affStr);
-            preparedStatement.setString(2, login);
-            preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	
-	public static void updateNotifications(String login, List<String> notifications) {
-		String notifStr = String.join("/", notifications);
-		try {
-			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET notifications=? WHERE login=?");
-            preparedStatement.setString(1, notifStr);
-            preparedStatement.setString(2, login);
-            preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	
-	public static void updatePwd(String login, String newPwd) {
-		try {
-			preparedStatement = connect
-			        .prepareStatement("UPDATE users SET password=? WHERE login=?");
-            preparedStatement.setString(1, newPwd);
-            preparedStatement.setString(2, login);
-            preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	
-	public static User checkPwd(String login, String pwd) {
-		String query = "SELECT pseudo, firstname, lastname, gender, favorites, notifications, affinities FROM users WHERE login='" + login + "' AND password='" + pwd + "'";
+	/**
+	 * Retrieve user ingo from login and return the Enjoyer object
+	 * 
+	 * @param login
+	 * @return	the Enjoyer object for the user
+	 */
+	public static Enjoyer getUser(String login) {
+		connect();
+		String query = "SELECT pseudo, password, firstname, lastname, gender, favorites, notifications, affinities, enabled FROM users WHERE login='" + login + "'";
 		try {
 			statement = connect.createStatement();
 	        resultSet = statement.executeQuery(query);
-	        if (resultSet.next()) {
-	        	String[] favStrList = new String[0];
-	        	List<Integer> favorites = new ArrayList<Integer>();
-	        	String[] notifStrList = new String[0];
-	        	List<String> notifications = new ArrayList<String>();
-	        	String[] affStrList = new String[0];
-	        	List<String> affinities = new ArrayList<String>();
+	        if (resultSet.next()) { //we found a user
 	            String pseudo = resultSet.getString("pseudo");
 	            String firstname = resultSet.getString("firstname");
 	            String lastname = resultSet.getString("lastname");
-	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER"); 
-	            String favoritesStr = resultSet.getString("favorites");
-	            if (favoritesStr != null) {
-	            	favStrList = resultSet.getString("favorites").split(",");
-	            	for(String fav : favStrList) favorites.add(Integer.valueOf(fav));
+	            String password = resultSet.getString("password");
+	            Gender gender = resultSet.getString("gender") != null ? Gender.valueOf(resultSet.getString("gender")) : Gender.valueOf("OTHER");
+	            
+	            // Lists are stored as String in db so we need to process it
+	        	List<Integer> favorites = new ArrayList<Integer>();
+	        	List<String> notifications = new ArrayList<String>();
+	        	List<String> affinities = new ArrayList<String>();
+	        	
+	            String favoritesDB = resultSet.getString("favorites");
+	            // Remove [] and white spaces
+	            String favoritesStr = favoritesDB.replace("[", "").replace("]", "").replaceAll(" ", "");
+	            if (favoritesStr != null && favoritesStr.length() > 0) {
+	            	String[] favStrList = favoritesStr.split(",");
+	            	for (String fav : favStrList) {
+            			int favInt = Integer.valueOf(fav);
+            			favorites.add(favInt);
+	            	}	
 	            }
-	            String notificationsStr = resultSet.getString("notifications");
-	            if (notificationsStr != null) {
-	            	notifStrList = notificationsStr.split("/");
-	            	for(String notif : notifStrList) notifications.add(notif);
+	            
+	            String notificationsDB = resultSet.getString("notifications");
+	            String notificationsStr = notificationsDB.replace("[", "").replace("]", "");
+	            if (notificationsStr != null && notificationsStr.length() > 0) {
+	            	String[] notifStrList = notificationsStr.split(",");
+	            	for (String notif : notifStrList) {
+	            		notifications.add(notif.trim());
+	            	}
 	            }
-	            String affinitiesStr = resultSet.getString("affinities");
-	            if (affinitiesStr != null) {
-	            	affStrList = affinitiesStr.split("/");
-	            	for(String aff : affStrList) affinities.add(aff);
+	            
+	            String affinitiesDB = resultSet.getString("affinities");
+	            String affinitiesStr = affinitiesDB.replace("[", "").replace("]", "");
+	            if (affinitiesStr != null && affinitiesStr.length() > 0) {
+	            	String[] affStrList = affinitiesStr.split(",");
+	            	for (String aff : affStrList) {
+	            		affinities.add(aff.trim());
+	            	}
 	            }
-	            // TODO User constructor with notifications and affinities
-	            User user = new Enjoyer(login, pseudo, pwd, firstname, lastname, gender, favorites);
+	            
+	            Boolean enabled = resultSet.getInt("enabled") == 1 ? true : false;
+	            
+	            Enjoyer user = new Enjoyer(login, pseudo, password, firstname, lastname, gender, affinities, favorites, notifications);
+	            user.setEnabled(enabled);
 	            return user;
 	        }
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Connexion MySQL interrompue");
 			e.printStackTrace();
 		} finally {
 			close();
@@ -251,20 +193,21 @@ public class UserDB {
 		return null;
 	}
 	
+	
 	/**
-	 * Checks if the login does not already exist in the database.
+	 * Check if the login does not already exist in the database.
 	 * 
 	 * @param login
 	 * @return true if the login can be used for an account creation, else false
 	 */
 	public static Boolean checkLoginNotUsed(String login) {
+		connect();
 		String query = "SELECT pseudo FROM users WHERE login='" + login + "'";
 		try {
 			statement = connect.createStatement();
 	        resultSet = statement.executeQuery(query);
 	        return !resultSet.next();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close();

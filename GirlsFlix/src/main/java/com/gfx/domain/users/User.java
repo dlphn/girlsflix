@@ -1,53 +1,43 @@
 package com.gfx.domain.users;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gfx.domain.series.TypeSerie;
-
+/**
+ * User Object with its Getters and Setters
+ * User is the super-class of Enjoyer and Admin
+ */
 public abstract class User {
-	private String login; // [Deprecated][Impossible pour instanciation depuis formulaire]le User ne pourra plus changer son login une fois choisi
+	private String login;
 	private String pseudo;
 	private String password;
 	private String firstName;
 	private String lastName;
-	private Gender gender;
-	private List<TypeSerie> affinities = new ArrayList<TypeSerie>();
 	
 	public User() {
+		this.login = "";
+		this.pseudo = "";
+		this.password = "";
+		this.firstName = "";
+		this.lastName = "";
 	}
 	
-	public User(String login, String pseudo, String password) {
-		super();
-		this.login = login;
-		this.pseudo = pseudo;
-		this.password = password;
-	}
-	
-	public User(String login, String pseudo, String password, String firstName) {
-		super();
-		this.login = login;
-		this.pseudo = pseudo;
-		this.password = password;
-		this.firstName = firstName;
-	}
-	
-	public User(String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
+	public User(String login, String pseudo, String password, String firstName, String lastName) {
 		super();
 		this.login = login;
 		this.pseudo = pseudo;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.gender = gender;
 	}
 	
-	public void login() {
-		
+	/**
+	 * Getters and Setters
+	 */
+
+	public String getLogin() {
+		return login;
 	}
 	
-	public void logout() {
-		
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public String getPseudo() {
@@ -81,41 +71,5 @@ public abstract class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-	public Gender getGender() {
-		return gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-
-	public List<TypeSerie> getAffinities() {
-		return affinities;
-	}
-
-	public void setAffinities(List<TypeSerie> affinities) {
-		this.affinities = affinities;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-	
-	public void setLogin(String login) {
-		this.login = login;
-	}
-	
-	public String toString() {
-		String result = "";
-		result += "Login : " + this.login + "\n";
-		result += "Pseudo : " + this.pseudo + "\n";
-		result += "First Name : " + this.firstName + "\n";
-		result += "Last Name : " + this.lastName + "\n";
-		result += "Gender : " + this.gender.toString() + "\n";
-		result += "Affinities : " + this.affinities.toString() + "\n";
-		return result;
-	}
-
 
 }

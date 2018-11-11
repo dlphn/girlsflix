@@ -1,77 +1,66 @@
 # GirlsFlix
 
-[![Java](https://img.shields.io/badge/java-v10.0.2-blue.svg?style=flat-square)](https://docs.python.org/3/)
-[![MySQL](https://img.shields.io/badge/mysql-v8.0.13-blue.svg?style=flat-square)](https://docs.python.org/3/)
-[![Apache Maven](https://img.shields.io/badge/maven-v3.5.4-blue.svg?style=flat-square)](https://docs.python.org/3/)
-[![Apache Tomcat](https://img.shields.io/badge/tomcat-v9.0.12-blue.svg?style=flat-square)](https://docs.python.org/3/)
+[![Java](https://img.shields.io/badge/java-v10.0.2-blue.svg?style=flat-square)](https://www.oracle.com/technetwork/java/javase/documentation/index.html)
+[![Apache Maven](https://img.shields.io/badge/maven-v3.5.4-blue.svg?style=flat-square)](http://maven.apache.org/)
+[![Apache Tomcat](https://img.shields.io/badge/tomcat-v9.0.12-blue.svg?style=flat-square)](https://tomcat.apache.org/)
 [![API](https://img.shields.io/badge/api_provider-tmdb-orange.svg?style=flat-square)](https://www.themoviedb.org/documentation/api)
 
 
-GirlsFlix is a web app that allows you to search for TV series and add your favorites so you never miss any new episode.
+> GirlsFlix is a web app that allows you to search for TV series and add your favorites so you never miss any new episode.
+
+
+<p align="center"><img src="./images/GirlsFlix.png" alt="GirlsFlix" width="200"/></p>
 
 ## Description
-
 It is a Java school project developed by 3 students from CentraleSupélec : Jihane, Sophie, and Delphine as part of the POOA Module.
 
 ### Features
-
 The GirlsFlix web app allows you to:
 
 - :tv: Browse through TV series
 - :mag: Search for specific series and filter by genre
 - :page_facing_up: Get details about a series
-- :bust_in_silhouette: Log in to your profile
+- :bust_in_silhouette: Log in to your profile and customize it
 - :star2: Add your favorites
-- :mailbox_with_mail: Get a notification when a new episode of one of your favorites series is up
+- :mailbox_with_mail: Get a notification when a new episode of one of your favorites series will be aired soon
 - :gift: Be surprised with a random popular series suggestion
+- :speech_balloon: Get recommendations based on your preferred genres
 
 ## Installation
-
 ### Settings
-
-Add `Keys.java` in `src/main/java/com.gfx.helper` (ignored by Git).
+Add `Keys.java` in `src/main/java/com.gfx` (ignored by Git).
 
 ```java
+package com.gfx;
+
 public class Keys {
-	private final String apiKey = "${tmdb_api_key}";
+	public static final String apiKey = "${tmdb_api_key}";
 	
-	private final String mongoUser = "${mongo_user}";
-	private final String mongoPwd = "${mongo_password}";
-	private final String mongoHost = "${mongo_host}";
-	private final String mongoDb = "girlsflix";
+	public static final String mongoUser = "${mongo_user}";
+	public static final String mongoPwd = "${mongo_password}";
+	public static final String mongoHost = "${mongo_host}";
+	public static final String mongoDb = "${mongo_db}";
 	
-	private final String mysqlUser = "${mysql_user}";
-	private final String mysqlPwd = "${mysql_password}";
-	private final String mysqlHost = "${mysql_host}";
-	private final String mysqlDb = "girlsflix";
-	
-	/***********/
-	/* Getters */
-	/***********/
+	public static final String mysqlUser = "${mysql_user}";
+	public static final String mysqlPwd = "${mysql_password}";
+	public static final String mysqlHost = "${mysql_host}";
+	public static final String mysqlDb = "${mysql_db}";
 }
 ```
 
 ### Dependencies
 
-- Maven 3.5.4
-- Tomcat 9.0.12 - download [latest](https://tomcat.apache.org/download-90.cgi)
 - JDK 10.0.2 - download [latest](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
-- MySQL 8.0.13 - download [latest](https://dev.mysql.com/downloads/mysql/)
+- Maven 3.5.4 - download [latest](https://maven.apache.org/download.cgi)
+- Tomcat 9.0.12 - download [latest](https://tomcat.apache.org/download-90.cgi)
 
-### Start MySQL server
-
-Make sure that your MySQL is running.
-
-Initiate database. [...]
 
 ### Start server on Eclipse
-
 Eclipse IDE for `Java EE` Web Developers (`Photon v4.9.0`) - download [link](http://www.eclipse.org/downloads/packages/).
 
 [Add Apache Tomcat to Eclipse](https://crunchify.com/step-by-step-guide-to-setup-and-install-apache-tomcat-server-in-eclipse-development-environment-ide/)
 
 #### Import project to Eclipse
-
 `File -> Import...`
 
 `Maven -> Existing Maven Projects -> Next`
@@ -81,30 +70,32 @@ Eclipse IDE for `Java EE` Web Developers (`Photon v4.9.0`) - download [link](htt
 Right Click on `Project -> Maven -> Update Maven Project -> Force Update of Snapshots/Releases`
 
 #### Build project
-
 Right Click on `Project -> Run As -> Maven Build...`
 
 `Add Goals`: `clean install`. Click `Apply` and `Run`.
 
 #### Run on server
-
 Right Click on `Project -> Run As -> Run on Server`
 
 
-### Start server from console (not working)
-
-Use maven and tomcat to install and run the web app.
-
-```bash
-cd GirlsFlix
-mvn clean install
-mvn tomcat7:run
-```
-
 You can then go to [localhost:8080/GirlsFlix](http://localhost:8080/GirlsFlix) and voilà! :tada:
 
-## Project structure
+#### Issues you might face while starting the server
 
+##### 1. 'Starting Tomcat v9.0 Server at localhost' has encountered a problem.
+<p align="center"><img src="./images/timeout.png" alt="" width="300"/></p>
+
+If you have a bad internet connection, fetching all the series from the database might take more than 45s so you will want to increase start up time.
+
+Open the Servers view -> double click tomcat -> drop down the timeouts section -> increase Start time
+
+<p align="center"><img src="./images/tomcat.png" alt="" width="400"/></p>
+
+##### 2. Red messages in Console when starting the server.
+This is normal. 
+The text that is in red is being written to the System.err stream, the text in black is written to System.out. Nothing is inherently wrong, that's just how the system is differentiating the output streams. You can configure the display to your liking by :
+right-click in the console > "Preferences" > "Standard Error text" > Choose the color you want, for example black.
+## Project structure
 Technology stack:
 
 - Java
@@ -116,15 +107,47 @@ Technology stack:
 - [Bootstrap](https://getbootstrap.com/)
 - [jQuery](http://jquery.com/)
 
-[project folder tree]
+### Project structure
+
+```
+src
+└─ main
+   ├─ java					// nos classes java
+   |  └─ com
+   |     └─ gfx					// com.gfx notre package de base
+   |        ├─ controller			// nos contrôleurs
+   |        ├─ domain				// classes qui définissent notre domaine
+   |        |  ├─ series			// classes qui définissent les séries
+   |        |  └─ users				// classes qui définissent les utilisateurs
+   |        ├─ service				// les services
+   |        ├─ Config.java			// configuration générale
+   |        ├─ Keys.java			// clés et mots de passe
+   |        ├─ SpringConfig.java		// la configation de spring
+   |        └─ SpringSecurity.java		// les profils d'exécution
+   └─ webapp					// les fichiers qui vont à la racine de l'application web
+      ├─ css
+      ├─ js
+      ├─ lib
+      └─ WEB-INF
+         ├─ jsp					// les templates jsp
+         ├─ tags				// les tag files (morceaux de template)
+         ├─ dispatcher-servlet.xml		// configuration web de spring
+         └─ web.xml				// configuration web d'une application
+pom.xml						// fichier de configuration de maven
+```
+
+### Spring MVC
+
+Spring Framework for web apps.
+
+### Spring Security
+
+Handles authentication and sessions.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
-
 ## Team
-
 - Jihane Bennis | [jihane.bennis@student.ecp.fr](mailto:jihane.bennis@student.ecp.fr)  | [@JihaneBennis](https://github.com/JihaneBennis)
 - Sophie Dambricourt | [sophie.dambricourt@student.ecp.fr](mailto:sophie.dambricourt@student.ecp.fr) | [@SophieKaramazov](https://github.com/SophieKaramazov)
 - Delphine Shi | [delphine.shi@student.ecp.fr](mailto:delphine.shi@student.ecp.fr) | [@dlphn](https://github.com/dlphn)

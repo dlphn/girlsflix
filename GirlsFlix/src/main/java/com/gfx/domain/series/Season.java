@@ -4,9 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Season Object with its Getters and Setters
+ *The attributes are Private. We can only manipulate them through the getters and setters.
+ */
 public class Season {
 	
-	private List<Episode> episodes = new ArrayList<Episode>();
 	private int seasonNb;
 	private String seasonName;
 	private String summary;
@@ -16,27 +19,7 @@ public class Season {
 	private int episodeCount;
 	private int serieId;
 	private String image;
-
-
-	public Season(int seasonNb, String summary, LocalDate releaseDate) {
-		super();
-		this.seasonNb = seasonNb;
-		this.summary = summary;
-		this.releaseDate = releaseDate;
-	}
-	
-	public Season(int seasonId, int seasonNb, String seasonName, String summary, LocalDate releaseDate,
-			int serieId, int episodeCount, String image) {
-		super();
-		this.seasonId = seasonId;
-		this.seasonNb = seasonNb;
-		this.seasonName = seasonName;
-		this.summary = summary;
-		this.releaseDate = releaseDate;
-		this.serieId = serieId;
-		this.episodeCount = episodeCount;
-		this.image = image;
-	}
+	private List<Episode> episodes = new ArrayList<Episode>();
 
 	public Season(int seasonId, int seasonNb, String seasonName, String summary, LocalDate releaseDate,
 			int serieId, int episodeCount, String image, List<Episode> episodes) {
@@ -52,26 +35,10 @@ public class Season {
 		this.episodes = episodes;
 	}
 	
-	public void addEpisode(Episode episode) {
-		this.episodes.add(episode);
-	}
-	
-	public String toString() {
-		return "Season "+ this.seasonNb + " " + this.seasonName + " from Serie " + this.serieId + "\n";
-	}
-	
 
-	/*******************/
-	/*Getters & Setters*/
-	/*******************/
-
-	public List<Episode> getEpisodes() {
-		return episodes;
-	}
-
-	public void setEpisodes(List<Episode> episodes) {
-		this.episodes = episodes;
-	}
+	/**
+	 * Getters & Setters
+	 */
 
 	public int getSeasonNb() {
 		return seasonNb;
@@ -143,6 +110,14 @@ public class Season {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+	
+	public List<Episode> getEpisodes() {
+		return episodes;
+	}
+
+	public void setEpisodes(List<Episode> episodes) {
+		this.episodes = episodes;
 	}
 
 }
