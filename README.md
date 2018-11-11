@@ -115,30 +115,34 @@ src
    ├─ java					// nos classes java
    |  └─ com
    |     └─ gfx					// com.gfx notre package de base
-   |        ├─ controller					// nos contrôleurs
-   |        ├─ domain					// classes qui définissent notre domaine
-   |        |  ├─ series					// classes qui définissent les séries
-   |        |  └─ users						// classes qui définissent les utilisateurs
-   |        ├─ service					// les services
-   |        ├─ Config.java					// configation générale
-   |        ├─ Keys.java					// clés et mots de passe
-   |        ├─ SpringConfig.java					// la configation de spring
-   |        └─ SpringSecurity.java					// les profils d'éxécution
+   |        ├─ controller			// nos contrôleurs
+   |        ├─ domain				// classes qui définissent notre domaine
+   |        |  ├─ series			// classes qui définissent les séries
+   |        |  └─ users				// classes qui définissent les utilisateurs
+   |        ├─ service				// les services
+   |        ├─ Config.java			// configuration générale
+   |        ├─ Keys.java			// clés et mots de passe
+   |        ├─ SpringConfig.java		// la configation de spring
+   |        └─ SpringSecurity.java		// les profils d'exécution
    └─ webapp					// les fichiers qui vont à la racine de l'application web
       ├─ css
       ├─ js
       ├─ lib
       └─ WEB-INF
-         ├─ jsp							// les templates jsp
-         ├─ tags							// les tag files (morceaux de template)
-         ├─ dispatcher-servlet.xml	// configuration web de spring
-         └─ web.xml						// configuration web d'une application
-pom.xml									// fichier de configuration de maven
+         ├─ jsp					// les templates jsp
+         ├─ tags				// les tag files (morceaux de template)
+         ├─ dispatcher-servlet.xml		// configuration web de spring
+         └─ web.xml				// configuration web d'une application
+pom.xml						// fichier de configuration de maven
 ```
 
 ### Spring MVC
 
+Spring Framework for web apps.
+
 ### Spring Security
+
+Handles authentication and sessions.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
