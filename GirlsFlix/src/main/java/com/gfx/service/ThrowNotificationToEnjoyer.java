@@ -3,6 +3,10 @@ package com.gfx.service;
 
 import com.gfx.domain.series.Serie;
 
+/**
+ * Runnable lauched in ThrowNotificationsProcess for a serie S.
+ * Adds notification to the user enjoyerToNotify if he/she weren't already notified for the serie S.
+ */
 public class ThrowNotificationToEnjoyer implements Runnable {
 	
 	private	String enjoyerToNotify;

@@ -104,7 +104,7 @@ public class UserDB {
 		connect();
 		try {
 			String query = "UPDATE users SET";
-			//On utilise des \ au lieu de ' pour éviter les cas comme Grey's Anatomy
+			//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
 			query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
 			if (updatedUser.getPassword() != null) query += ", password=\"" + updatedUser.getPassword() + "\"";
 			if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
@@ -210,7 +210,6 @@ public class UserDB {
 	        resultSet = statement.executeQuery(query);
 	        return !resultSet.next();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close();
