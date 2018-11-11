@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Season Object with its Getters and Setters
+ *The attributes are Private. We can only manipulate them through the getters and setters.
+ */
 public class Season {
 	
 	private int seasonNb;

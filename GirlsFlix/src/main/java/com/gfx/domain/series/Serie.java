@@ -9,6 +9,11 @@ import java.util.Map;
 import com.gfx.Config;
 import com.gfx.service.SerieDB;
 
+
+/**
+ * Serie Object with its Getters and Setters
+ *The attributes are Private. We can only manipulate them through the getters and setters.
+ */
 public class Serie {
 	private int id;
 	private String title;
@@ -63,7 +68,7 @@ public class Serie {
 	}
 	
 	/**
-	 * Update object attributes with values retrieved from database
+	 * Updates object attributes with values retrieved from database
 	 */
 	public void updateAllAttributes(String title, List<String> serieType, String summary, LocalDate creationDate, String picture, double rating, List<Season> seasons, Map<String, Boolean> enjoyersToNotify, int newEpisode, int newSeason, LocalDate newDate) {
 		this.title = title;
