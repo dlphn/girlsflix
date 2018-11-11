@@ -49,10 +49,17 @@ public class IndexController {
 			model.put("user", user);
 			List<String> affinities = user.getAffinities();
 			List<Serie> recommendations = new ArrayList<Serie>();
+			List<Serie> result = new ArrayList<Serie>();
 			for (String affinity : affinities) {
 				recommendations.addAll(Data.pickNRandomSameGenre(3, affinity));
 			}
-			model.put("recommendations", recommendations);
+			//remove duplicates
+			for (Serie serie : recommendations) {
+				if (!result.contains(serie)) {
+					result.add(serie);
+				}
+			}
+			model.put("recommendations", result);
 			if (recommendations.size() == 0) {
 				model.put("recommendationsMsg", "Indiquez vos préférences dans votre profil pour recevoir des recommandations :)");
 			}

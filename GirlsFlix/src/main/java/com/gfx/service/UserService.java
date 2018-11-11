@@ -47,7 +47,7 @@ public class UserService {
 		        enjoyersToNotify.put(enjoyer.getLogin(), false);
 		        s.setEnjoyersToNotify(enjoyersToNotify);
 	    	}
-	    	UserDB.update(enjoyer);
+	    	UserDB.updateFavorites(enjoyer);
 		    SerieDB.updateEnjoyers(s);
 	    }
 	}
@@ -62,7 +62,7 @@ public class UserService {
 		        Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
 		        s.setEnjoyersToNotify(enjoyerToNotify);
 		    }
-			UserDB.update(enjoyer);
+			UserDB.updateFavorites(enjoyer);
 			SerieDB.updateEnjoyers(s);
 		}
 	}
@@ -80,7 +80,7 @@ public class UserService {
 				+ " diffusé le " + serie.getDateNextEpisodeOnAir() + " !";
 		Enjoyer enjoyer = UserDB.getUser(loginEnjoyer);
 		enjoyer.getNotifications().add(notification);
-		UserDB.update(enjoyer);
+		UserDB.updateNotifications(enjoyer);
 		serie.setEnjoyerAsNotified(loginEnjoyer);
 	}
 	
@@ -93,7 +93,7 @@ public class UserService {
 	 */
 	public static void deleteNotification(Enjoyer enjoyer, int index) {
 		enjoyer.removeFromNotifications(index);
-		UserDB.update(enjoyer);
+		UserDB.updateNotifications(enjoyer);
 	}
 	
 }
