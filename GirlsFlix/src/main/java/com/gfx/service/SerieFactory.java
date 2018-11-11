@@ -22,13 +22,13 @@ public class SerieFactory {
 	
 	public SerieFactory() {
 		if (Data.getListSeries() == null) {
-			initData();
+			updateData();
 		}
 	}
 	
 	public SerieFactory(String action) {
 		if (action == "update") {
-			initData();
+			updateData();
 		}
 	}
 	
@@ -36,7 +36,7 @@ public class SerieFactory {
 	 * Fetch data from MongoDB, create the Series/Seasons/Episodes objects and 
 	 * save in Data's seriesList or update the object's attribute if it already exists in Data
 	 */
-	public void initData() {
+	public void updateData() {
 		SerieDB.connect();
         
         JSONParser parser = new JSONParser();
