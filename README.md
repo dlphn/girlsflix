@@ -1,9 +1,8 @@
 # GirlsFlix
 
-[![Java](https://img.shields.io/badge/java-v10.0.2-blue.svg?style=flat-square)](https://docs.python.org/3/)
-[![MySQL](https://img.shields.io/badge/mysql-v8.0.13-blue.svg?style=flat-square)](https://docs.python.org/3/)
-[![Apache Maven](https://img.shields.io/badge/maven-v3.5.4-blue.svg?style=flat-square)](https://docs.python.org/3/)
-[![Apache Tomcat](https://img.shields.io/badge/tomcat-v9.0.12-blue.svg?style=flat-square)](https://docs.python.org/3/)
+[![Java](https://img.shields.io/badge/java-v10.0.2-blue.svg?style=flat-square)](https://www.oracle.com/technetwork/java/javase/documentation/index.html)
+[![Apache Maven](https://img.shields.io/badge/maven-v3.5.4-blue.svg?style=flat-square)](http://maven.apache.org/)
+[![Apache Tomcat](https://img.shields.io/badge/tomcat-v9.0.12-blue.svg?style=flat-square)](https://tomcat.apache.org/)
 [![API](https://img.shields.io/badge/api_provider-tmdb-orange.svg?style=flat-square)](https://www.themoviedb.org/documentation/api)
 
 
@@ -21,10 +20,11 @@ The GirlsFlix web app allows you to:
 - :tv: Browse through TV series
 - :mag: Search for specific series and filter by genre
 - :page_facing_up: Get details about a series
-- :bust_in_silhouette: Log in to your profile
+- :bust_in_silhouette: Log in to your profile and customize it
 - :star2: Add your favorites
-- :mailbox_with_mail: Get a notification when a new episode of one of your favorites series is up
+- :mailbox_with_mail: Get a notification when a new episode of one of your favorites series will be aired soon
 - :gift: Be surprised with a random popular series suggestion
+- :speech_balloon: Get recommendations based on your preferred genres
 
 ## Installation
 ### Settings
@@ -39,12 +39,12 @@ public class Keys {
 	public static final String mongoUser = "${mongo_user}";
 	public static final String mongoPwd = "${mongo_password}";
 	public static final String mongoHost = "${mongo_host}";
-	public static final String mongoDb = "girlsflix";
+	public static final String mongoDb = "${mongo_db}";
 	
 	public static final String mysqlUser = "${mysql_user}";
 	public static final String mysqlPwd = "${mysql_password}";
-	public static final String mysqlHost = "localhost:3306";
-	public static final String mysqlDb = "girlsflix";
+	public static final String mysqlHost = "${mysql_host}";
+	public static final String mysqlDb = "${mysql_db}";
 }
 ```
 
@@ -52,45 +52,7 @@ public class Keys {
 - Maven 3.5.4
 - Tomcat 9.0.12 - download [latest](https://tomcat.apache.org/download-90.cgi)
 - JDK 10.0.2 - download [latest](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
-- MySQL 8.0.13 - download [latest](https://dev.mysql.com/downloads/mysql/)
 
-### Start MySQL server
-:warning: Make sure that your MySQL is running.
-
-#### Initiate database
-```sql
-CREATE USER '${mysql_user}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${mysql_password}';
-
-CREATE DATABASE girlsflix;
-
-GRANT ALL ON girlsflix.* TO '${mysql_user}'@'localhost';
-
-USE girlsflix;
-
-CREATE TABLE users (
-	login VARCHAR(45) NOT NULL,
-	pseudo VARCHAR(45) NOT NULL,
-  	password VARCHAR(45) NOT NULL,
-  	enabled TINYINT NOT NULL DEFAULT 1,
-  	firstname VARCHAR(45) NULL,
-	lastname VARCHAR(45) NULL,
-	gender VARCHAR(45) NULL,
-	favorites VARCHAR(100) NULL,
-	notifications VARCHAR(255) NULL,
-	affinities VARCHAR(255) NULL,
-	PRIMARY KEY (login)
-);
-
-CREATE TABLE user_roles (
-	user_role_id int(11) NOT NULL AUTO_INCREMENT,
-	login varchar(45) NOT NULL,
-	role varchar(45) NOT NULL,
-	PRIMARY KEY (user_role_id),
-	UNIQUE KEY uni_login_role (role, login),
-	KEY fk_login_idx (login),
-	CONSTRAINT fk_login FOREIGN KEY (login) REFERENCES users (login)
-);
-```
 
 ### Start server on Eclipse
 Eclipse IDE for `Java EE` Web Developers (`Photon v4.9.0`) - download [link](http://www.eclipse.org/downloads/packages/).
@@ -150,6 +112,7 @@ src
    └─ webapp								// les fichiers qui vont à la racine de l'application web
       ├─ css
       ├─ js
+      ├─ lib
       └─ WEB-INF
          ├─ jsp							// les templates jsp
          ├─ tags							// les tag files (morceaux de template)
