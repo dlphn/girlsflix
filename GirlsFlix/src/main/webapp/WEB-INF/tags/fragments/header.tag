@@ -21,12 +21,11 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/GirlsFlix/notifications">	
-          <c:if test="${(user.getNotifications().size() > 0) and (user.getNotifications().get(user.getNotifications().size()-1).length() > 0)}"> 
-<%--             <c:if test="${!empty sizeNotif}"> --%>
-            <span class="badge badge-danger">
-            ${user.getNotifications().size()}</span>
-            </c:if>
-            Notifications</a>
+          			<c:if test="${user.getNotifications().size() > 0}">
+			            <span class="badge badge-danger">
+			            ${user.getNotifications().size()}</span>
+		            </c:if>
+            		Notifications</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/GirlsFlix/profil">Mon profil</a>

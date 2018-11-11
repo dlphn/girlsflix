@@ -52,14 +52,11 @@ public class UserController {
 			List<String> notifications = user.getNotifications();
 			model.addAttribute("user", user);
 			if (notifications.size() > 0) {
-		if(notifications.get(notifications.size()-1).length() > 0) {
-				model.put("notifications", notifications);	
-			} 
-	else {
+				model.put("notifications", notifications);
+			} else {
 				model.put("message", "Vous n'avez aucune notification non lue.");
 			}
-		}
-		}else {
+		} else {
 			return "user/login";
 		}
 		return "user/notifications";
