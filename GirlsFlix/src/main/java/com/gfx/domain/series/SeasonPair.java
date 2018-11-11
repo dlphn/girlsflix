@@ -11,6 +11,10 @@ public class SeasonPair {
 		this.tvId = tvId;
 		this.seasonNumber = seasonNumber;
 	}
+	
+	/**
+	 * Getters and Setters
+	 */
 
 	public int getTvId() {
 		return tvId;

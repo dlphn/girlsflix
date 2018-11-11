@@ -9,7 +9,7 @@
 > GirlsFlix is a web app that allows you to search for TV series and add your favorites so you never miss any new episode.
 
 
-<p align="center"><img src="./GirlsFlix.png" alt="drawing" width="200"/></p>
+<p align="center"><img src="./images/GirlsFlix.png" alt="GirlsFlix" width="200"/></p>
 
 ## Description
 It is a Java school project developed by 3 students from CentraleSupélec : Jihane, Sophie, and Delphine as part of the POOA Module.
@@ -78,6 +78,18 @@ Right Click on `Project -> Run As -> Run on Server`
 
 
 You can then go to [localhost:8080/GirlsFlix](http://localhost:8080/GirlsFlix) and voilà! :tada:
+
+#### Issues you might face while starting the server
+
+##### 1. 'Starting Tomcat v9.0 Server at localhost' has encountered a problem.
+<p align="center"><img src="./images/timeout.png" alt="" width="300"/></p>
+
+If you have a bad internet connection, fetching all the series from the database might take more than 45s so you will want to increase start up time.
+
+Open the Servers view -> double click tomcat -> drop down the timeouts section -> increase Start time
+
+<p align="center"><img src="./images/tomcat.png" alt=""/></p>
+
 
 ## Project structure
 Technology stack:

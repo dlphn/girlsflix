@@ -25,7 +25,7 @@ public class ThrowNotificationProcess implements Runnable {
 	public void run() {
 		if (serie.getDateNextEpisodeOnAir() != null) {
 			Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
-			if (period.getDays() <= Config.nbDaysNotifBeforeDiff && period.getDays() >= 0) {
+			if (period.getDays() <= Config.notifyXDaysBefore && period.getDays() >= 0) {
 				if (serie.getEnjoyersToNotify() != null) {
 					for (Entry<String, Boolean> enjoyerToNotify : serie.getEnjoyersToNotify().entrySet()){
 						if (enjoyerToNotify.getValue() == false) {

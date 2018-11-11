@@ -11,7 +11,8 @@ public class LoginController {
 
 	/**
 	 * This function is based on the view user/login in WEB-INF folder.
-	 * The parameters login & Password are sent to SpringSecurity Authentication Bean, enabling the creation of a new session for the user.
+	 * The parameters login & password are sent to SpringSecurity Authentication Bean, 
+	 * enabling the creation of a new session for the user.
 	 * @param error
 	 * @return Login page if there is an error, Home Page when the user logs in.
 	 */

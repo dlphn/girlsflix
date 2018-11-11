@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Store Serie instances.
+ * Methods to interact with the list of series.
+ */
 @Component
 public class Data {
 	private static List<Serie> seriesList;
@@ -20,16 +24,14 @@ public class Data {
 		seriesList = series;
 	}
 	
-	// TODO remove
-	public void showSeries() {
-		try {
-			System.out.println("The series available are : ");
-			for (Serie s : seriesList){
-				System.out.println(s.info());
-				//System.out.println("\n\n");
-			} 
-		} catch (NullPointerException e) {
-			System.out.println("size is :   No Series for the moment.");}
+	public static Serie getById(int id) {
+		Serie searched = null;
+		for (Serie s : seriesList) {
+			if(s.getId() == id) {
+				 searched = s;
+			}
+		}
+		return searched;
 	}
 	
 	public static List<Serie> pickNRandom(int n) {
@@ -86,15 +88,5 @@ public class Data {
 			     .filter(item -> item.getSerieGenres().contains(query))
 			     .collect(Collectors.toList());
 		return result;
-	}
-	
-	public static Serie getById(int id) {
-		Serie searched = null;
-		for (Serie s : seriesList) {
-			if(s.getId() == id) {
-				 searched = s;
-			}
-		}
-		return searched;
 	}
 }

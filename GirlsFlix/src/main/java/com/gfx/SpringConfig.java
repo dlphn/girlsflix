@@ -11,6 +11,9 @@ import com.gfx.Keys;
 @ComponentScan("com.gfx.service")
 public class SpringConfig {
 	
+	/**
+	 * Spring will check credentials in our MySQL database
+	 */
 	@Bean(name = "dataSource")
 	public DriverManagerDataSource dataSource() {
 	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
