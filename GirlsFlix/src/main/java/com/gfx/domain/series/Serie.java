@@ -77,7 +77,7 @@ public class Serie {
 	public Boolean isSoon() {
 		try {
 		Period period = Period.between(LocalDate.now(), this.getDateNextEpisodeOnAir());
-		if (period.getDays() <= Config.nbDaysNotifBeforeDiff) {
+		if (period.getDays() <= Config.notifyXDaysBefore) {
 			return true;
 		}
 		return false;
