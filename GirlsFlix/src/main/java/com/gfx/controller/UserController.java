@@ -19,6 +19,11 @@ import com.gfx.service.UserService;
 public class UserController {
 	
 	
+	/**
+	 * Favorites Page. If the user is connected, we fetch the List from the users DataBase and display it.
+	 * @param model
+	 * @return login Page if the user is not connected. Favorites Page otherwise.
+	 */
 	@RequestMapping("/favoris")
 	public String showFavorites(ModelMap model) {
 		if (UserService.currentUserLogin() == null) {
@@ -30,6 +35,7 @@ public class UserController {
 			favoritesSeries.add(Data.getById(fav));
 		}
 		model.addAttribute("favorites", favoritesSeries);
+		//If the user has no favorite serie, we suggest to add some to his/her list.
 		if (favoritesSeries.size() == 0) {
 			model.put("message", "Vous n'avez pas encore de favoris.");
 		}
@@ -37,6 +43,12 @@ public class UserController {
 		return "user/favorites";
 	}
 	
+	/**
+	 * Processing step for Serie removal from the user's favorites List.
+	 * @param id of the Serie
+	 * @param model
+	 * @return Favorites Page, with the refreshed List of Favorites
+	 */
 	@RequestMapping("/favoris/remove/{id}")
 	public String removeFavorite(@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
@@ -45,6 +57,12 @@ public class UserController {
 		return "redirect:/favoris";
 	}
 
+	/**
+	 * Notifications wall for the connected user. The user can delete read Notifications.
+	 * The Notifications inform the user on the coming episodes of the favorites series.
+	 * @param model
+	 * @return User's notifications Page
+	 */
 	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
 	public String showNotifications(ModelMap model) {
 		if (UserService.currentUserLogin() != null) {
@@ -53,15 +71,24 @@ public class UserController {
 			model.addAttribute("user", user);
 			if (notifications.size() > 0) {
 				model.put("notifications", notifications);
-			} else {
+			} // If there are no unread notifications, we display a message saying so.
+			else {
 				model.put("message", "Vous n'avez aucune notification non lue.");
 			}
 		} else {
+			// If the user is not connected, we redirect him/her to the login page
 			return "user/login";
 		}
 		return "user/notifications";
 	}
 	
+	/**
+	 * Processing step to remove a notification from the Notifications List of the user.
+	 * Refreshing of the web Page, but also of the DabaBase.
+	 * @param model
+	 * @param removeId of the Serie
+	 * @return Notifications Page refreshed
+	 */
 	@RequestMapping(value = "/notifications/remove", method = RequestMethod.GET)
 	public String removeNotification(ModelMap model, 
 			@RequestParam(value = "index", required = false) String removeId
@@ -77,6 +104,14 @@ public class UserController {
 		return "redirect:/notifications";
 	}
 	
+	/**
+	 * Profile Page enables the user to update the information we have, except from his/her login.
+	 * In this step, we get the information the user changes.
+	 * @param model
+	 * @param error
+	 * @param success
+	 * @return Profile Page with the Object Enjoyer corresponding to the connected user.
+	 */
 	@GetMapping("/profil")
 	public String loadProfilePage(ModelMap model,
 			@RequestParam(value = "error", required = false) String error,
@@ -98,6 +133,12 @@ public class UserController {
 	    return "/user/profile";
 	}
 	
+	/**
+	 * This step enables the update of the user's information in the dataBase when everything works fine.
+	 * @param model
+	 * @param user the object Enjoyer fetched from the dataBase
+	 * @return Profile Page with success or failure message.
+	 */
 	@RequestMapping(value = "/profil", method = RequestMethod.POST)
 	public String addUser(ModelMap model, @ModelAttribute("user") Enjoyer user) {
 		model.addAttribute("user", user);
