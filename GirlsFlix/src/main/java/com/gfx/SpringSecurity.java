@@ -22,28 +22,27 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	DataSource dataSource;
-
+	
 	@Bean
 	public static NoOpPasswordEncoder passwordEncoder() {
-	return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
 	}
 	
     @Inject
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { //config globale
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-	        .jdbcAuthentication() //base de données afin de stocker les utilisateurs
-	        .dataSource(dataSource)
+	        .jdbcAuthentication()
+	        .dataSource(dataSource) //check credentials in database
 	        .usersByUsernameQuery("SELECT login, password, enabled FROM users WHERE login=?")
 	        .authoritiesByUsernameQuery("SELECT login, role FROM user_roles WHERE login=?");
 	}
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception { //Configuration des requêtes http
-    	//Encoding UTF-8 pour ne pas avoir de problème d'accents (prénom, affinities..)
+    protected void configure(HttpSecurity http) throws Exception { //Configuration of http requests
+    	//Encoding UTF-8 to avoid accents issues (prénom, affinities..)
     	CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");	
-        filter.setForceEncoding(true);	
-        //Configuration des requêtes http	
+        filter.setForceEncoding(true);
         http
         	.addFilterBefore(filter, CsrfFilter.class)
             .authorizeRequests()

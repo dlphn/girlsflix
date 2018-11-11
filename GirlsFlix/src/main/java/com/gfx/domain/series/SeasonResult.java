@@ -1,6 +1,5 @@
 package com.gfx.domain.series;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -13,17 +12,15 @@ public class SeasonResult {
 	protected List<Document> seasonsDocs;
 	protected List<SeasonPair> seasons;
 	
-	public SeasonResult() {
-	    this.seriesDocs = new ArrayList<Document>();
-	    this.seasonsDocs = new ArrayList<Document>();
-	    this.seasons = new ArrayList<SeasonPair>();
-	}
-	
 	public SeasonResult(List<Document> seriesDocs, List<Document> seasonsDocs, List<SeasonPair> season) {
 	    this.seriesDocs = seriesDocs;
 	    this.seasonsDocs = seasonsDocs;
 	    this.seasons = season;
 	}
+	
+	/**
+	 * Getters and Setters
+	 */
 	
 	public List<Document> getSeriesDocs() {
 		return seriesDocs;

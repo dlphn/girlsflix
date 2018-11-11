@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Enjoyer Object with its Getters and Setters. Sub-class of User
+ *The attributes are Private. We can only manipulate them through the getters and setters.
+ */
 @Component
 public class Enjoyer extends User{
 

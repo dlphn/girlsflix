@@ -1,7 +1,6 @@
 package com.gfx.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;
@@ -14,19 +13,11 @@ import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
 
+/**
+ * Methods to interact with User/Enjoyer instances
+ */
 @Service
 public class UserService {
-	
-
-	public static UserDetails currentUserDetails(){
-	    SecurityContext securityContext = SecurityContextHolder.getContext();
-	    Authentication authentication = securityContext.getAuthentication();
-	    if (authentication != null) {
-	        Object principal = authentication.getPrincipal();
-	        return principal instanceof UserDetails ? (UserDetails) principal : null;
-	    }
-	    return null;
-	}
 	
 	public static String currentUserLogin(){
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -38,17 +29,13 @@ public class UserService {
 	    return null;
 	}
 	
-	public static void updateAffinities(Enjoyer user, List<String> affinities) {
-		user.setAffinities(affinities);
-		UserDB.update(user);
-	}
-	
-	public static void updatePwd(Enjoyer user, String pwd) {
-		user.setPassword(pwd);
-		UserDB.update(user);
-	}
-	
-	
+	/**
+	 * Add the serie id in the user's favorites and add the user's login in the serie's enjoyersToNotify list
+	 * Then update databases
+	 * 
+	 * @param enjoyer
+	 * @param id
+	 */
 	public static void addToFavorites(Enjoyer enjoyer, int id) {
 	    if (enjoyer.isEnabled()) {
 	    	enjoyer.addToFavorites(id);
@@ -56,11 +43,11 @@ public class UserService {
 	    	if (s.getEnjoyersToNotify() != null) {
 	    		s.getEnjoyersToNotify().put(enjoyer.getLogin(), false);
 	    	} else {
-		        Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
-		        enjoyerToNotify.put(enjoyer.getLogin(), false);
-		        s.setEnjoyersToNotify(enjoyerToNotify);
+		        Map<String, Boolean> enjoyersToNotify = new HashMap<String, Boolean>();
+		        enjoyersToNotify.put(enjoyer.getLogin(), false);
+		        s.setEnjoyersToNotify(enjoyersToNotify);
 	    	}
-	    	UserDB.update(enjoyer);
+	    	UserDB.updateFavorites(enjoyer);
 		    SerieDB.updateEnjoyers(s);
 	    }
 	}
@@ -75,13 +62,13 @@ public class UserService {
 		        Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
 		        s.setEnjoyersToNotify(enjoyerToNotify);
 		    }
-			UserDB.update(enjoyer);
+			UserDB.updateFavorites(enjoyer);
 			SerieDB.updateEnjoyers(s);
 		}
 	}
 
 	/**
-	 * Adds a notification to the Enjoyer's notifications list for the next episode on air of 
+	 * Add a notification to the Enjoyer's notifications list for the next episode on air of 
 	 * one of her favorite series
 	 * 
 	 * @param enjoyer	The enjoyer to notify
@@ -93,8 +80,7 @@ public class UserService {
 				+ " diffusé le " + serie.getDateNextEpisodeOnAir() + " !";
 		Enjoyer enjoyer = UserDB.getUser(loginEnjoyer);
 		enjoyer.getNotifications().add(notification);
-		UserDB.update(enjoyer);
-		System.out.println("New notification saved");
+		UserDB.updateNotifications(enjoyer);
 		serie.setEnjoyerAsNotified(loginEnjoyer);
 	}
 	
@@ -107,7 +93,7 @@ public class UserService {
 	 */
 	public static void deleteNotification(Enjoyer enjoyer, int index) {
 		enjoyer.removeFromNotifications(index);
-		UserDB.update(enjoyer);
+		UserDB.updateNotifications(enjoyer);
 	}
 	
 }

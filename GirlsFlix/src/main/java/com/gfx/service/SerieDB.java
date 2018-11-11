@@ -14,6 +14,9 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Filters;
 
+/**
+ * Methods to interact with the MongoDB that stores series
+ */
 public class SerieDB {
 	private static MongoClient mongoClient;
 	private static MongoDatabase database;
@@ -50,7 +53,7 @@ public class SerieDB {
 	}
 	
 	/**
-	 * Update the attribute enjoyersToNotify in the mongo database
+	 * Updates the attribute enjoyersToNotify in the mongo database
 	 * 
 	 * @param serie
 	 */

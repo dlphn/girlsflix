@@ -34,23 +34,24 @@
 		</property>
 	</bean>
 	
-	<bean id="tachePlannifie" class="com.gfx.service.Scheduler"></bean>
 	
-	<bean id="tachePlannifieTask" class="org.springframework.scheduling.support.MethodInvokingRunnable">
-		<property name="targetObject"><ref bean="tachePlannifie"/> </property>
+	<bean id="updateSeries" class="com.gfx.service.Scheduler"></bean>
+	
+	<bean id="updateSeriesTask" class="org.springframework.scheduling.support.MethodInvokingRunnable">
+		<property name="targetObject"><ref bean="updateSeries"/> </property>
 		<property name="targetMethod"><value>taskToExecute</value></property>
 	</bean>
 	
-	<bean id="tachePlannifieScheduledTask" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">
+	<bean id="updateSeriesScheduledTask" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">
 		<property name="delay" value="10000"/>
-		<property name="period" value = "30000"/>
-		<property name="runnable" ref="tachePlannifieTask"/>
+		<property name="period" value = "300000"/>
+		<property name="runnable" ref="updateSeriesTask"/>
 	</bean>
 	
 	<bean id="timerFactory" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean">
 		<property name="scheduledExecutorTasks">
 			<list>
-				<ref bean="tachePlannifieScheduledTask"/>
+				<ref bean="updateSeriesScheduledTask"/>
 			</list>
 		</property>
 	</bean>

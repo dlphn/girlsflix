@@ -1,5 +1,9 @@
 package com.gfx.domain.users;
 
+/**
+ * User Object with its Getters and Setters
+ * User is the super-class of Enjoyer and Admin
+ */
 public abstract class User {
 	private String login;
 	private String pseudo;
