@@ -81,7 +81,7 @@ public class Serie {
 			return true;
 		}
 		return false;
-		}catch(NullPointerException e) {
+		} catch(NullPointerException e) {
 			return false;}
 	}
 	

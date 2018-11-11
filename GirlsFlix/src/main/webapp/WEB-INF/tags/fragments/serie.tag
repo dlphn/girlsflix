@@ -23,6 +23,9 @@
 			<c:forEach var="genre" items="${serie.getSerieGenres()}">
 				<span class="badge badge-light">${fn:escapeXml(genre)}</span>
 			</c:forEach>
+			<c:if test="${isSoon == true}">
+			 <span class="badge badge-secondary">Bientot</span>
+			</c:if>
 			<p>${fn:escapeXml(serie.getSummary())}</p>
 			<sec:authorize access="isAuthenticated()">
 			<p>${message}</p>
