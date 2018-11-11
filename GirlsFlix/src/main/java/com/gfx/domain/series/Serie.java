@@ -75,11 +75,14 @@ public class Serie {
 	}
 	
 	public Boolean isSoon() {
+		try {
 		Period period = Period.between(LocalDate.now(), this.getDateNextEpisodeOnAir());
 		if (period.getDays() <= Config.nbDaysNotifBeforeDiff) {
 			return true;
 		}
 		return false;
+		} catch(NullPointerException e) {
+			return false;}
 	}
 	
 	public void addSeason(Season season) {

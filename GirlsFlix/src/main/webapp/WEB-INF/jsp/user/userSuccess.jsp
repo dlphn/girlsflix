@@ -73,10 +73,9 @@
                         name="${_csrf.parameterName}"
                         value="${_csrf.token}"/>
                     <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-user"></i>Connexion</button>
-                    
-                </form>
-</div>
+                    <i class="fas fa-user"></i>Connexion</button>       
+        	</form>
+		</div>
 
 <fragments:footer />
         

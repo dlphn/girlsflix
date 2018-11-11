@@ -14,7 +14,12 @@
 			<img class="card-img-top" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(serie.getImage())}" alt="${fn:escapeXml(serie.getTitle())}"/>
 		</div>
 		<div class="col-md-8">
-			<h3>${fn:escapeXml(serie.getTitle())} <span class="small-info creation-date">(${fn:escapeXml(serie.getCreationDate())})</span></h3>
+			<h3>${fn:escapeXml(serie.getTitle())} <span class="small-info creation-date">(${fn:escapeXml(serie.getCreationDate())})</span>
+			</h3>
+			<p>  <c:if test="${isSoon == true}">
+             <span class="badge badge-success">Nouvel épisode bientôt</span>
+            </c:if></p>
+			
 			<c:forEach var="genre" items="${serie.getSerieGenres()}">
 				<span class="badge badge-light">${fn:escapeXml(genre)}</span>
 			</c:forEach>
