@@ -1,8 +1,8 @@
 package com.gfx.service;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Serie;
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.Config;
 
 @Service
 public class UserService {
@@ -51,42 +50,35 @@ public class UserService {
 	
 	
 	public static void addToFavorites(Enjoyer enjoyer, int id) {
-		enjoyer.addToFavorites(id);
-		Serie s = Data.getById(id);
-		s.getEnjoyersToNotify().add(enjoyer);
-		UserDB.update(enjoyer);
-		// update series in MongoDB
+	    if (enjoyer.isEnabled()) {
+	    	enjoyer.addToFavorites(id);
+	    	Serie s = Data.getById(id);
+	    	if (s.getEnjoyersToNotify() != null) {
+	    		s.getEnjoyersToNotify().put(enjoyer.getLogin(), false);
+	    	} else {
+		        Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
+		        enjoyerToNotify.put(enjoyer.getLogin(), false);
+		        s.setEnjoyersToNotify(enjoyerToNotify);
+	    	}
+	    	UserDB.update(enjoyer);
+		    SerieDB.updateEnjoyers(s);
+	    }
 	}
 	
 	public static void removeFromFavorites(Enjoyer enjoyer, int id) {
-		enjoyer.removeFromFavorites(id);
-		Serie s = Data.getById(id);
-		s.getEnjoyersToNotify().remove(enjoyer);
-		UserDB.update(enjoyer);
-		// update series in MongoDB
-	}
-	
-	
-	/**
-	 * If a new episode of the series will be on air soon (3 days or less currently) and has not been notified,
-	 * send a notification to all enjoyers following this series. Browse the list of enjoyer to notify and
-	 * start one thread per enjoyer. Each thread will take care of processing the notification process for the enjoyer.
-	 * Called on a regular basis.
-	 * 
-	 * @param serie 	Series to notify
-	 */
-	public static void notifyNextEpisodeOnAirSoon(Serie serie) {
-		Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
-		if (period.getDays() <= Config.nbDaysNotifBeforeDiff && !serie.isNextEpisodeHasBeenNotified()) {
-			for (Enjoyer enjoyer: serie.getEnjoyersToNotify()) {
-				Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyer, serie));
-				throwNotif.start();
-			}
-			serie.setNextEpisodeHasBeenNotified(true);
+		if (enjoyer.isEnabled()) {
+			enjoyer.removeFromFavorites(id);
+			Serie s = Data.getById(id);
+			if (s.getEnjoyersToNotify() != null) {
+				s.getEnjoyersToNotify().remove(enjoyer.getLogin());
+			} else {
+		        Map<String, Boolean> enjoyerToNotify = new HashMap<String, Boolean>();
+		        s.setEnjoyersToNotify(enjoyerToNotify);
+		    }
+			UserDB.update(enjoyer);
+			SerieDB.updateEnjoyers(s);
 		}
-		
 	}
-	
 
 	/**
 	 * Adds a notification to the Enjoyer's notifications list for the next episode on air of 
@@ -95,17 +87,15 @@ public class UserService {
 	 * @param enjoyer	The enjoyer to notify
 	 * @param serie		The series with a new episode coming soon
 	 */
-	public static synchronized void notifyNextEpisodeOnAirSoon(Enjoyer enjoyer, Serie serie) {
-		//Notification notification = new Notification(this, s.getId(), s.getTitle(), s.getNbSeasonNEOA(), s.getNextEpisodeOnAir(), s.getDateNextEpisodeOnAir());
-//		String notification = "L'épisode " + serie.getNextEpisodeOnAir()
-//				+ " de la saison " + serie.getNbSeasonNEOA() 
-//				+ " de la série " + serie.getTitle() 
-//				+ " sera diffusé le " + serie.getDateNextEpisodeOnAir() + ".";
+	public static synchronized void notifyNextEpisodeOnAirSoon(String loginEnjoyer, Serie serie) {
 		String notification = serie.getTitle() + " : "
 				+ "S" + serie.getNbSeasonNEOA()  + "E" + serie.getNextEpisodeOnAir()
 				+ " diffusé le " + serie.getDateNextEpisodeOnAir() + " !";
+		Enjoyer enjoyer = UserDB.getUser(loginEnjoyer);
 		enjoyer.getNotifications().add(notification);
 		UserDB.update(enjoyer);
+		System.out.println("New notification saved");
+		serie.setEnjoyerAsNotified(loginEnjoyer);
 	}
 	
 	

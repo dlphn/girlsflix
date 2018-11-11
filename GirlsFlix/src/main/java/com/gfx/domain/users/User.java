@@ -1,32 +1,18 @@
 package com.gfx.domain.users;
 
 public abstract class User {
-	private String login = null; // [Deprecated][Impossible pour instanciation depuis formulaire]le User ne pourra plus changer son login une fois choisi
-	private String pseudo = null;
-	private String password = null;
-	private String firstName = null;
-	private String lastName = null;
+	private String login;
+	private String pseudo;
+	private String password;
+	private String firstName;
+	private String lastName;
 	
 	public User() {
-	}
-	
-	public User(String login) {
-		this.login = login;
-	}
-	
-	public User(String login, String pseudo, String password) {
-		super();
-		this.login = login;
-		this.pseudo = pseudo;
-		this.password = password;
-	}
-	
-	public User(String login, String pseudo, String password, String firstName) {
-		super();
-		this.login = login;
-		this.pseudo = pseudo;
-		this.password = password;
-		this.firstName = firstName;
+		this.login = "";
+		this.pseudo = "";
+		this.password = "";
+		this.firstName = "";
+		this.lastName = "";
 	}
 	
 	public User(String login, String pseudo, String password, String firstName, String lastName) {
@@ -38,12 +24,16 @@ public abstract class User {
 		this.lastName = lastName;
 	}
 	
-	public void login() {
-		
+	/**
+	 * Getters and Setters
+	 */
+
+	public String getLogin() {
+		return login;
 	}
 	
-	public void logout() {
-		
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public String getPseudo() {
@@ -77,23 +67,5 @@ public abstract class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-	public String getLogin() {
-		return login;
-	}
-	
-	public void setLogin(String login) {
-		this.login = login;
-	}
-	
-	public String toString() {
-		String result = "";
-		result += "Login : " + this.login + "\n";
-		result += "Pseudo : " + this.pseudo + "\n";
-		result += "First Name : " + this.firstName + "\n";
-		result += "Last Name : " + this.lastName + "\n";
-		return result;
-	}
-
 
 }

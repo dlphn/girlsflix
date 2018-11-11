@@ -9,10 +9,12 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
-		<title>GirlsFlix Login</title>
+		<title>GirlsFlix - Connexion</title>
+		
+		<link rel="icon" type="image/png" href="/GirlsFlix/lib/favicon.png">
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="/GirlsFlix/css/style.css" />
 	</head>
 	<body>
 	
@@ -33,6 +35,8 @@
 					  	<label for="username" class="sr-only">Login</label>
 				    	<input type="text" class="form-control" id="username" name="username" placeholder="Login"
 				    		required autofocus>
+		    		</div>
+		    		<div class="form-group row">
 					  	<label for="password" class="sr-only">Mot de passe</label>
 				    	<input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
 					</div>

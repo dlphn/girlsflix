@@ -1,17 +1,25 @@
 package com.gfx.helper;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Timer;
 
 import org.bson.Document;
 
+import com.gfx.Config;
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
-import com.gfx.domain.series.TypeSerie;
 import com.gfx.domain.users.Enjoyer;
 import com.gfx.domain.users.Gender;
 import com.gfx.domain.users.User;
@@ -24,7 +32,7 @@ public class MainTest {
 		System.out.println("Hello world!");
 		// System.out.println(Gender.MALE.toString());
 		/* MySQL USers */
-		UserDB.connect();
+		// UserDB.connect();
 		//test
 		/*Enjoyer Jihane = UserDB.getUser("loginé");
 		System.out.println(Jihane.toString());
@@ -137,8 +145,28 @@ public class MainTest {
 		for (Serie s : result) {
 			System.out.println(s.toString());
 		}*/
+		
+		/**
+		 * Test for recommendations
+		 */
+		/*new SerieFactory();
+		List<Serie> result = Data.pickNRandomSameGenre(2, "Documentary");
+		for (Serie s : result) {
+			System.out.println(s.toString());
+		}*/
     
-    
+		/*
+		 * Test mongo update
+		 */
+		/*SerieDB.connect();
+		Enjoyer e1 = new Enjoyer("enjoyer1");
+		Enjoyer e2 = new Enjoyer("enjoyer2");
+		Map<String, Boolean> enjoyers = new HashMap<String, Boolean>();
+		enjoyers.put(e1.getLogin(), false);
+		enjoyers.put(e2.getLogin(), true);
+		Serie s = new Serie(60735, enjoyers); // Flash
+		System.out.println(s.getEnjoyersToNotify());
+		SerieDB.updateEnjoyers(s);*/
     
 		/**
 		 * Test for the notifications
@@ -186,6 +214,80 @@ public class MainTest {
 		
 		e1.displayAllNotificationsUnread();*/
 		/**End Test for notification*/
+		
+		
+		/**Test for scheduler**/
+		/*Serie s1 = new Serie("Grey's Anatomy");
+		instanciateSerie(s1, 10, LocalDate.of(2018, Month.NOVEMBER, 6), 3, 2);
+		Serie s2 = new Serie("Suits");
+		instanciateSerie(s2, 11, LocalDate.of(2018, Month.NOVEMBER, 8), 8, 9);
+		Serie s3 = new Serie("Blindspot");
+		instanciateSerie(s3, 13, LocalDate.of(2018, Month.DECEMBER, 31), 4, 7);
+		
+		List <Serie> list = new ArrayList<Serie>();
+		list.add(s1);
+		list.add(s2);
+		list.add(s3);
+		Data.setListSeries(list);
+		
+		Enjoyer e1 = new Enjoyer("enjoyer 1");
+		Enjoyer e2 = new Enjoyer("enjoyer 2");
+		
+		UserService.addToFavorites(e1,10);
+		UserService.addToFavorites(e2,10);
+		UserService.addToFavorites(e1, 11);
+		UserService.addToFavorites(e2,13);
 
+		Thread scheduler = new Thread(new Scheduler());
+		scheduler.start();
+		
+		try {
+			Thread.sleep(15000);
+		}
+		catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		
+		Serie s4 = new Serie ("Nina");
+		instanciateSerie(s4, 14, LocalDate.of(2018, Month.NOVEMBER, 7), 4, 11);
+		list.add(s4);
+		Data.setListSeries(list);
+		
+		UserService.addToFavorites(e2, 14);
+		
+		try {
+			Thread.sleep(15000);
+		}
+		catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("notifications de " + e1.getLogin());
+		for (String notif: e1.getNotifications()) {
+			System.out.println(notif);
+		}
+		System.out.println("notifications de " + e2.getLogin());
+		for (String notif: e2.getNotifications()) {
+			System.out.println(notif);
+		}*/
+		/** end Test for the scheduler**/
+		
+		//Scheduler scheduler = new Scheduler(new SerieFactory());
+		//scheduler.start();
+		
+		//Enjoyer userToInsert = new Enjoyer("a", "pseudo", "pwd", "prénom");
+		//UserDB.insertOne(userToInsert);
+		//Enjoyer user = UserDB.getUser("a");
+		//user.displayAllNotificationsUnread();
+		
+		
+	}
+	
+	public static void instanciateSerie(Serie s, int id, LocalDate date, int nbEpisode, int nbSaison) {
+		s.setId(id);
+		s.setDateNextEpisodeOnAir(date);
+		s.setNextEpisodeOnAir(nbEpisode);
+		s.setNbSeasonNEOA(nbSaison);
 	}
 }

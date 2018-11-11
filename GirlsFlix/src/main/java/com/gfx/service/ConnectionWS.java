@@ -15,7 +15,7 @@ public class ConnectionWS {
      * Connects to an external API and returns the result.
      * 
      * @param url	the API url
-     * @return the API response as a String
+     * @return 		the API response as a String
      */
 	public String connect(String url) throws ClientProtocolException, IOException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -29,7 +29,6 @@ public class ConnectionWS {
 			String line;
 			String str = "";
 			while ((line = bufReader.readLine()) != null) {
-				// lines.add(line);
 				str += line;
             }
             return str;

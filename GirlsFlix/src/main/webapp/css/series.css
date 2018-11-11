@@ -7,3 +7,13 @@
 #pagination {
 	margin-top: 20px;
 }
+
+#selectGenre {
+	height: calc(2.25rem + 7px) !important;
+	margin-top: 5px !important;
+}
+
+#selectGenre:focus {
+    border-color: rgba(0,0,0,0.6) !important;
+    box-shadow: 0 0;
+}

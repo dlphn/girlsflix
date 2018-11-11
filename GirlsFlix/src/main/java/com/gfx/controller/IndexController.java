@@ -17,23 +17,40 @@ import com.gfx.domain.users.Enjoyer;
 import com.gfx.service.SerieFactory;
 import com.gfx.service.UserDB;
 import com.gfx.service.UserService;
+
  
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 }
 
 @Controller
 public class IndexController {
 	@Inject
-    private SerieFactory serieFactory = new SerieFactory();
-	String message = "Welcome!";
+	SerieFactory serieFactory = new SerieFactory();
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);
+			List<String> affinities = user.getAffinities();
+			List<Serie> recommendations = new ArrayList<Serie>();
+			for (String affinity : affinities) {
+				recommendations.addAll(Data.pickNRandomSameGenre(3, affinity));
+			}
+			model.put("recommendations", recommendations);
+			if (recommendations.size() == 0) {
+				model.put("recommendationsMsg", "Indiquez vos préférences dans votre profil pour recevoir des recommandations :)");
+			}
+		}
 		model.put("columns", Data.pickNRandom(9));
 		System.out.println(UserService.currentUserLogin());
-
         return "index";
     }
 	
@@ -42,7 +59,10 @@ public class IndexController {
 			@RequestParam(value = "search", required = false) String search,
 			@RequestParam(value = "genre", required = false) String genre
 	) {
-		
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);}
+
 		// render the filter values
 		model.put("genres", Genre.getGenres());
 	    model.put("search", search);
@@ -88,6 +108,9 @@ public class IndexController {
 	
 	@RequestMapping("/serie/{id}")
     public String serie(@PathVariable("id") String id, ModelMap model) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);}
         Serie serie = Data.getById(Integer.parseInt(id));
         if (serie == null) {
             throw new ResourceNotFoundException();
@@ -96,8 +119,12 @@ public class IndexController {
         	if (UserService.currentUserLogin() != null) {
         		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
             	model.put("isFavorite", user.getFavorites().contains(Integer.parseInt(id)));
+            	
         	}
             model.put("serie", serie);
+            System.out.println("Next episode on air "+serie.getDateNextEpisodeOnAir());
+            model.put("isSoon", serie.isSoon());
+            System.out.println("isSoon" + serie.isSoon());
             return "views/serie";
         }
     }
@@ -105,22 +132,16 @@ public class IndexController {
 	@RequestMapping("/serie/{id}/addFav")
 	public String addFavoriteSerie (@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		model.addAttribute("user", user);
 		UserService.addToFavorites(user, id);
-		//model.put("message", user.getFavorites().contains(id) ? "La série a bien été ajoutée à vos favoris !" : "Oups, pourriez-vous rééssayer ?");
-		//model.put("isFavorite", user.getFavorites().contains(id));
-		//Serie serie = Data.getById(id);
-		// model.put("serie", serie);
 		return "redirect:/serie/" + id;
 	}
 	
 	@RequestMapping("/serie/{id}/removeFav")
 	public String removeFavoriteSerie(@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		model.addAttribute("user", user);
 		UserService.removeFromFavorites(user, id);
-		//model.put("message", user.getFavorites().contains(id) ? "Oups, pourriez-vous rééssayer ?" : "La série ne fait plus partie de vos favoris.");
-		//model.put("isFavorite", user.getFavorites().contains(id));
-		//Serie serie = Data.getById(id);
-		//model.put("serie", serie);
 		return "redirect:/serie/" + id;
 	}
 	
@@ -133,6 +154,7 @@ public class IndexController {
         } else {
         	if (UserService.currentUserLogin() != null) {
             	Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+            	model.addAttribute("user", user);
             	model.put("isFavorite", user.getFavorites().contains(serie.getId()));
         	}
             model.put("serie", serie);
@@ -141,56 +163,10 @@ public class IndexController {
     }
 	
 	@RequestMapping("/contact")
-	public String showContact() {
+	public String showContact(ModelMap model) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);}
 		return "views/contact";
-	}
-	
-	@RequestMapping("/favoris")
-	public String showFavorites(ModelMap model) {
-		if (UserService.currentUserLogin() == null) {
-			return "user/login";
-		}
-		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-		List<Serie> favoritesSeries = new ArrayList<Serie>();
-		for(int fav:user.getFavorites()) {		
-			favoritesSeries.add(Data.getById(fav));}
-		model.addAttribute("favorites", favoritesSeries);
-		return "user/favorites";
-	}
-	
-	@RequestMapping("/favoris/remove/{id}")
-	public String removeFavorite(@PathVariable("id") int id, ModelMap model) {
-		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-		UserService.removeFromFavorites(user, id);
-		return "redirect:/favoris";
-	}
-
-	@RequestMapping(value = "/notifications", method = RequestMethod.GET)
-	public String showNotifications(ModelMap model) {
-		if (UserService.currentUserLogin() == null) {
-			return "user/login";
-		}
-		
-		if (UserService.currentUserLogin() != null) {
-			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			model.put("notifications", user.getNotifications());
-		} else {
-			model.put("notifications", new ArrayList<String>());
-		}
-		return "user/notifications";
-	}
-	
-	@RequestMapping(value = "/notifications/remove", method = RequestMethod.GET)
-	public String removeNotification(ModelMap model, 
-			@RequestParam(value = "index", required = false) String removeId
-	) {
-		if (UserService.currentUserLogin() != null) {
-			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			
-			if (removeId != null) {
-				UserService.deleteNotification(user, Integer.parseInt(removeId));
-			}
-		}
-		return "redirect:/notifications";
 	}
 }

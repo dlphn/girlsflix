@@ -8,12 +8,14 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
-		<title>GirlsFlix Series Page</title>
+		<title>GirlsFlix - Séries</title>
+		
+		<link rel="icon" type="image/png" href="/GirlsFlix/lib/favicon.png">
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-		<link rel="stylesheet" href="css/style.css" />
-		<link rel="stylesheet" href="css/series.css" />
+		<link rel="stylesheet" href="/GirlsFlix/css/style.css" />
+		<link rel="stylesheet" href="/GirlsFlix/css/series.css" />
 	</head>
 	<body>
 	
@@ -49,15 +51,19 @@
 					<ul class="list-group">
 						<c:forEach var="item" items="${series}">
 							<a href="serie/${item.getId()}">
-								<li class="list-group-item">
+								<li class="list-group-item ">
 									<img class="list-img" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(item.getImage())}" alt="${fn:escapeXml(item.getTitle())}"/>
 									${fn:escapeXml(item.getTitle())}
-								</li>
+									<c:if test="${item.isSoon() == true}">
+                                         <span class="badge badge-success" style="float:right;">Nouvel épisode bientôt</span>
+                                    </c:if>
+								</li>  
 							</a>
+							 
 						</c:forEach>
 					</ul>
 				</div>
-				<nav id="pagination">
+				<!-- <nav id="pagination">
 					<ul class="pagination justify-content-center">
 				    	<li class="page-item disabled">
 				      		<a class="page-link" href="#" aria-label="Previous">
@@ -75,7 +81,7 @@
 						    </a>
 					    </li>
 				  </ul>
-				</nav>
+				</nav> -->
 			</div>
 		</div>
 		

@@ -20,6 +20,7 @@ public class Data {
 		seriesList = series;
 	}
 	
+	// TODO remove
 	public void showSeries() {
 		try {
 			System.out.println("The series available are : ");
@@ -34,7 +35,31 @@ public class Data {
 	public static List<Serie> pickNRandom(int n) {
 	    List<Serie> copy = new ArrayList<Serie>(seriesList);
 	    Collections.shuffle(copy);
+	    if (copy.size() < n) {
+	    	n = copy.size();
+	    }
 	    return copy.subList(0, n);
+	}
+	
+	/**
+	 * Send a number of random series with a specific genre
+	 * 
+	 * @param n		the number of random series to return
+	 * @param genre	the genre to filter on
+	 * @return		the list of random series
+	 */
+	public static List<Serie> pickNRandomSameGenre(int n, String genre) {
+		List<Serie> groupByGenre = new ArrayList<Serie>();
+		for (Serie serie : seriesList) {
+			if (serie.getSerieGenres().contains(genre)) {
+				groupByGenre.add(serie);
+			}
+		}
+	    Collections.shuffle(groupByGenre);
+	    if (n > groupByGenre.size()) {
+	    	n = groupByGenre.size();
+	    }
+	    return groupByGenre.subList(0, n);
 	}
 	
 	/**

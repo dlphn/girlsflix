@@ -1,0 +1,36 @@
+
+hr {
+	height: 2px;
+    width: 70px;
+    text-align: center;
+    position: relative;
+    background: #EE4247;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    border: 0;
+}
+
+#about h2 {
+	margin-bottom: 15px;
+}
+
+
+#about .about-text-right hr {
+    margin-left: 0;
+}
+
+#about .about-text-center {
+    text-align: center;
+}
+
+#about .left-img {
+    margin: 0 auto;
+    padding-left: 5%;
+    padding-top: 5%;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}

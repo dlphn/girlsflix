@@ -1,8 +1,9 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm" id="menu">
-	<a class="navbar-brand" href="/GirlsFlix">GirlsFlix</a>
+	<a class="navbar-brand" href="/GirlsFlix"><img src="/GirlsFlix/lib/GirlsFlix.png" alt="GirlsFlix" height="50px"/></a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -19,7 +20,15 @@
 					<a class="nav-link" href="/GirlsFlix/favoris">Mes favoris</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/GirlsFlix/notifications">Notifications</a>
+					<a class="nav-link" href="/GirlsFlix/notifications">	
+          			<c:if test="${user.getNotifications().size() > 0}">
+			            <span class="badge badge-danger">
+			            ${user.getNotifications().size()}</span>
+		            </c:if>
+            		Notifications</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/GirlsFlix/profil">Mon profil</a>
 				</li>
 			</sec:authorize>
 		</ul>
