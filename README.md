@@ -1,4 +1,4 @@
-# GirlsFlix
+# [GirlsFlix](https://github.com/dlphn/girlsflix)
 
 [![Java](https://img.shields.io/badge/java-v10.0.2-blue.svg?style=flat-square)](https://www.oracle.com/technetwork/java/javase/documentation/index.html)
 [![Apache Maven](https://img.shields.io/badge/maven-v3.5.4-blue.svg?style=flat-square)](http://maven.apache.org/)
