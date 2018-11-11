@@ -51,11 +51,15 @@
 					<ul class="list-group">
 						<c:forEach var="item" items="${series}">
 							<a href="serie/${item.getId()}">
-								<li class="list-group-item">
+								<li class="list-group-item ">
 									<img class="list-img" src="https://image.tmdb.org/t/p/w500/${fn:escapeXml(item.getImage())}" alt="${fn:escapeXml(item.getTitle())}"/>
 									${fn:escapeXml(item.getTitle())}
-								</li>
+									<c:if test="${item.isSoon() == true}">
+                                         <span class="badge badge-success" style="float:right;">Nouvel épisode bientôt</span>
+                                    </c:if>
+								</li>  
 							</a>
+							 
 						</c:forEach>
 					</ul>
 				</div>

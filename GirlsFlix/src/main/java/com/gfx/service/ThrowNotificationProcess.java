@@ -31,7 +31,6 @@ public class ThrowNotificationProcess implements Runnable{
 				if(!loginEnjoyer.getValue()) {
 					Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(loginEnjoyer.getKey(), serie));
 					throwNotif.start();
-					serie.setEnjoyerAsNotified(loginEnjoyer.getKey());
 				}
 			}
 		}

@@ -38,6 +38,7 @@ public class IndexController {
     public String index(ModelMap model) {
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);
 			List<String> affinities = user.getAffinities();
 			List<Serie> recommendations = new ArrayList<Serie>();
 			for (String affinity : affinities) {
@@ -56,8 +57,12 @@ public class IndexController {
 	@RequestMapping(value = "/series", method = RequestMethod.GET)
 	public String Search(ModelMap model, 
 			@RequestParam(value = "search", required = false) String search,
-			@RequestParam(value = "genre", required = false) String genre) {
-		
+			@RequestParam(value = "genre", required = false) String genre
+	) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);}
+
 		// render the filter values
 		model.put("genres", Genre.getGenres());
 	    model.put("search", search);
@@ -103,6 +108,9 @@ public class IndexController {
 	
 	@RequestMapping("/serie/{id}")
     public String serie(@PathVariable("id") String id, ModelMap model) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);}
         Serie serie = Data.getById(Integer.parseInt(id));
         if (serie == null) {
             throw new ResourceNotFoundException();
@@ -124,6 +132,7 @@ public class IndexController {
 	@RequestMapping("/serie/{id}/addFav")
 	public String addFavoriteSerie (@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		model.addAttribute("user", user);
 		UserService.addToFavorites(user, id);
 		return "redirect:/serie/" + id;
 	}
@@ -131,6 +140,7 @@ public class IndexController {
 	@RequestMapping("/serie/{id}/removeFav")
 	public String removeFavoriteSerie(@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+		model.addAttribute("user", user);
 		UserService.removeFromFavorites(user, id);
 		return "redirect:/serie/" + id;
 	}
@@ -144,6 +154,7 @@ public class IndexController {
         } else {
         	if (UserService.currentUserLogin() != null) {
             	Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+            	model.addAttribute("user", user);
             	model.put("isFavorite", user.getFavorites().contains(serie.getId()));
         	}
             model.put("serie", serie);
@@ -152,7 +163,10 @@ public class IndexController {
     }
 	
 	@RequestMapping("/contact")
-	public String showContact() {
+	public String showContact(ModelMap model) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);}
 		return "views/contact";
 	}
 }
