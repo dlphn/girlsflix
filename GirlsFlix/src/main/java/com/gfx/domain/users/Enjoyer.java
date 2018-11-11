@@ -10,39 +10,16 @@ public class Enjoyer extends User{
 
 	private Gender gender;
 	private boolean enabled;
-	private List<String> affinities = new ArrayList<String>();
-	private List<Integer> favorites = new ArrayList<Integer>();
-	private List<String> notifications = new ArrayList<String>(0);
+	private List<String> affinities;
+	private List<Integer> favorites;
+	private List<String> notifications;
 	
 	public Enjoyer() {
 		super();
-		this.affinities=null;
-		this.notifications=null;
-		this.favorites=null;
+		this.affinities = new ArrayList<String>();
+		this.favorites = new ArrayList<Integer>();
+		this.notifications = new ArrayList<String>(0);
 		this.enabled = true;
-	}
-	
-	public Enjoyer(String login) {
-		super(login);
-	}
-
-	public Enjoyer (String login, String pseudo, String password) {
-		super(login, pseudo, password);
-	}
-	
-	public Enjoyer (String login, String pseudo, String password, String firstName) {
-		super(login, pseudo, password, firstName);
-	}
-	
-	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender) {
-		super(login, pseudo, password, firstName,lastName);
-		this.gender = gender;
-	}
-	
-	public Enjoyer (String login, String pseudo, String password, String firstName, String lastName, Gender gender, List<String> affinities) {
-		super(login, pseudo, password, firstName, lastName);
-		this.gender = gender;
-		this.affinities = affinities;
 	}
 	
 	public Enjoyer (
@@ -106,30 +83,6 @@ public class Enjoyer extends User{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
-	public String displayDetails() {
-		String result = "";
-		result += super.display();
-		result += "Gender : " + this.gender.toString() + "\n";
-		result += "Affinities : " + this.affinities.toString() + "\n";
-		result += "Favorites : " + this.favorites + "\n";
-		result += "Notifications : " + this.notifications + "\n";
-		return result;
-	}
-	
-	
-	/**
-	 * Display the notifications
-	 */
-	public void displayAllNotificationsUnread() {
-		System.out.println("Notifications non lues de " + this.getPseudo() + " : \n") ;
-		for (String notif : notifications) {
-			System.out.println("- " + notif);
-		}
-		System.out.println("*****************");
-	}
-	
-
 	
 	public void addToFavorites(Integer id) {
 		if(favorites.contains(id)== false && enabled) favorites.add(id);
