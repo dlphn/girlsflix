@@ -33,8 +33,9 @@ public class SerieFactory {
 	}
 	
 	/**
-	 * Fetch data from MongoDB, create the Series/Seasons/Episodes objects and 
-	 * save in Data's seriesList or update the object's attribute if it already exists in Data
+	 * Fetch data from MongoDB, 
+	 * create the Series/Seasons/Episodes objects and save in Data's seriesList 
+	 * or update the object's attribute if it already exists in Data
 	 */
 	public void updateData() {
 		SerieDB.connect();
