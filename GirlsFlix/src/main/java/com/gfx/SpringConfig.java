@@ -15,7 +15,9 @@ public class SpringConfig {
 	public DriverManagerDataSource dataSource() {
 	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 	    driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	    driverManagerDataSource.setUrl("jdbc:mysql://" + Keys.mysqlHost + "/" + Keys.mysqlDb);
+	    String url = "jdbc:mysql://" + Keys.mysqlHost + "/" + Keys.mysqlDb;
+		url += "?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	    driverManagerDataSource.setUrl(url);
 	    driverManagerDataSource.setUsername(Keys.mysqlUser);
 	    driverManagerDataSource.setPassword(Keys.mysqlPwd);
 	    return driverManagerDataSource;

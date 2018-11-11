@@ -30,7 +30,8 @@ public class UserDB {
 		if (connect == null) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
-				String url = "jdbc:mysql://" + Keys.mysqlHost + "/" + Keys.mysqlDb + "?allowPublicKeyRetrieval=true&useSSL=false";
+				String url = "jdbc:mysql://" + Keys.mysqlHost + "/" + Keys.mysqlDb;
+				url += "?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 				connect = DriverManager.getConnection(url, Keys.mysqlUser, Keys.mysqlPwd);
 			} catch (ClassNotFoundException e1) {
 				System.out.println("Connexion non reconnue");
