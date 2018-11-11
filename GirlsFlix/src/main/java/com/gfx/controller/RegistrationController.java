@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.users.Enjoyer;
-import com.gfx.helper.LoginExistsException;
 import com.gfx.service.UserDB;
 
 @Controller
@@ -39,7 +38,7 @@ public class RegistrationController {
 	 * @throws LoginExistsException
 	 */
 	@RequestMapping("/register")
-	public String addUser(ModelMap model, @ModelAttribute("user") Enjoyer user) throws LoginExistsException {
+	public String addUser(ModelMap model, @ModelAttribute("user") Enjoyer user) {
 		model.addAttribute("login", user.getLogin());
 		model.addAttribute("pseudo", user.getPseudo());
 		model.addAttribute("firstName", user.getFirstName());

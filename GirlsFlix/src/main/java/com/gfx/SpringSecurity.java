@@ -38,8 +38,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	}
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception { //Configuration des requêtes http
-    	//Encoding UTF-8 pour ne pas avoir de problème d'accents (prénom, affinities..)
+    protected void configure(HttpSecurity http) throws Exception { //Configuration of http requests
+    	//Encoding UTF-8 to avoid accents issues (prénom, affinities..)
     	CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");	
         filter.setForceEncoding(true);

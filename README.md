@@ -90,7 +90,10 @@ Open the Servers view -> double click tomcat -> drop down the timeouts section -
 
 <p align="center"><img src="./images/tomcat.png" alt=""/></p>
 
-
+##### 2. Red messages in Console when starting the server.
+This is normal. 
+The text that is in red is being written to the System.err stream, the text in black is written to System.out. Nothing is inherently wrong, that's just how the system is differentiating the output streams. You can configure the display to your liking by :
+right-click in the console > "Preferences" > "Standard Error text" > Choose the color you want, for example black.
 ## Project structure
 Technology stack:
 
