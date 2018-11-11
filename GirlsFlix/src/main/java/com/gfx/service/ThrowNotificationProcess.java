@@ -16,9 +16,9 @@ public class ThrowNotificationProcess implements Runnable {
 	}
 	
 	/**
-	 * If a new episode of the serie will be on air soon (3 days or less currently) and has not been notified,
-	 * send a notification to all enjoyers following this serie. Browse the list of enjoyer to notify and
-	 * start one thread per enjoyer. Each thread will take care of processing the notification process for the enjoyer.
+	 * If a new episode of the serie will be on air soon (3 days or less currently, specified in Config file) and has not been notified,
+	 * sends a notification to all enjoyers following this serie. Browses the list of enjoyers to notify and
+	 * starts one thread per enjoyer. Each thread will take care of processing the notification process for the enjoyer.
 	 * 
 	 * @param serie 	Series to notify
 	 */

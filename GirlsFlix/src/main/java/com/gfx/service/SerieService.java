@@ -4,21 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.Document;
-
 import org.apache.http.client.ClientProtocolException;
-import org.json.simple.*;
+import org.bson.Document;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
-import com.gfx.domain.series.Data;
+import com.gfx.Config;
+import com.gfx.Keys;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.SeasonPair;
 import com.gfx.domain.series.SeasonResult;
-import com.gfx.domain.series.Serie;
-import com.gfx.Config;
-import com.gfx.Keys;
 
 /**
  * API calls to tmdb to get series information
@@ -99,10 +97,8 @@ public class SerieService {
 			add("episodes", episodes);
 			System.out.println("Episodes saved");
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			System.out.println("Database all set!");
@@ -141,7 +137,6 @@ public class SerieService {
                 }
             }
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return seriesIds;
@@ -166,10 +161,8 @@ public class SerieService {
 				seasons.addAll(res.getSeasonsDocs());
 				seasonsSeries.addAll(res.getSeasons());
 			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -231,7 +224,6 @@ public class SerieService {
                 }
             }
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		SeasonResult result = new SeasonResult(seriesDocs, seasonsDocs, seasonsIds);
@@ -253,10 +245,8 @@ public class SerieService {
 				List<Document> res = buildEpisodesList(response, season);
 				seasons.addAll(res);
 			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -293,7 +283,6 @@ public class SerieService {
                 }
             }
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return documents;

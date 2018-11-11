@@ -53,7 +53,7 @@ public class SerieDB {
 	}
 	
 	/**
-	 * Update the attribute enjoyersToNotify in the mongo database
+	 * Updates the attribute enjoyersToNotify in the mongo database
 	 * 
 	 * @param serie
 	 */

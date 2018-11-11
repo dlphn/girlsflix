@@ -1,10 +1,11 @@
 package com.gfx.service;
 
 /**
- * Handle update of series information and notifications process on a regular basis
+ * Handlesd update of series information and notifications process on a regular basis
  */
 public class Scheduler {
 	
+	//We use static values because they aren't modified during the different instanciations.
 	private static SerieService serieService = new SerieService();
 	private static int count = 0;
 	private static boolean firstTimerIteration = true;
@@ -23,7 +24,7 @@ public class Scheduler {
 			NotificationService.launchGlobalNotificationProcess();
 			firstTimerIteration = false;
 		} else {
-			//call to the API and update of the Database, take a lot of time
+			//call to the API and update of the Database, takes a lot of time
 			serieService.init();
 			//update of the series, seasons, and episodes objects
 			new SerieFactory("update");

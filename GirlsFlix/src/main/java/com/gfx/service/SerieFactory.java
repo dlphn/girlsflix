@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Retrieve data from MongoDB and build Serie objects stored in Data
+ * Retrieves data from MongoDB and builds Serie objects stored in Data
  */
 @Service
 public class SerieFactory {
@@ -36,9 +36,9 @@ public class SerieFactory {
 	}
 	
 	/**
-	 * Fetch data from MongoDB, 
-	 * create the Series/Seasons/Episodes objects and save in Data's seriesList 
-	 * or update the object's attribute if it already exists in Data
+	 * Fetches data from MongoDB, 
+	 * creates the Series/Seasons/Episodes objects and saves them in Data's seriesList 
+	 * or updates the object's attributes if it already exists in Data
 	 */
 	public void updateData() {
 		SerieDB.connect();
@@ -109,7 +109,6 @@ public class SerieFactory {
 					serie.updateAllAttributes(title, serieType, summary, creationDate, image, rating, seasons, enjoyersToNotify, newEpisode, newSeason, newDate);
 				}
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
@@ -145,7 +144,6 @@ public class SerieFactory {
 					episodes); //episodes
 				seasons.add(season);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -177,7 +175,6 @@ public class SerieFactory {
 						jsnObj.get("imageLink") != null ? jsnObj.get("imageLink").toString() : ""); //image
 				episodes.add(episode);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

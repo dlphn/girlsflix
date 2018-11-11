@@ -9,7 +9,7 @@ public class NotificationService {
 	
 		/**
 		 * Called by the Scheduler on a regular basis.
-		 * For each Serie, launch a Thread if a new episode will be on air soon
+		 * For each Serie, launches a Thread if a new episode will be on air soon.
 		 */
 		public synchronized static void launchGlobalNotificationProcess() {
 			List<Serie> listSerie = Data.getListSeries();
