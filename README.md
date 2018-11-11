@@ -49,9 +49,10 @@ public class Keys {
 ```
 
 ### Dependencies
-- Maven 3.5.4
-- Tomcat 9.0.12 - download [latest](https://tomcat.apache.org/download-90.cgi)
+
 - JDK 10.0.2 - download [latest](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+- Maven 3.5.4 - download [latest](https://maven.apache.org/download.cgi)
+- Tomcat 9.0.12 - download [latest](https://tomcat.apache.org/download-90.cgi)
 
 
 ### Start server on Eclipse
@@ -88,7 +89,7 @@ If you have a bad internet connection, fetching all the series from the database
 
 Open the Servers view -> double click tomcat -> drop down the timeouts section -> increase Start time
 
-<p align="center"><img src="./images/tomcat.png" alt=""/></p>
+<p align="center"><img src="./images/tomcat.png" alt="" width="400"/></p>
 
 ##### 2. Red messages in Console when starting the server.
 This is normal. 
@@ -111,20 +112,19 @@ Technology stack:
 ```
 src
 └─ main
-   ├─ java								// nos classes java
+   ├─ java					// nos classes java
    |  └─ com
-   |     └─ gfx							// com.gfx notre package de base
-   |        ├─ controller				// nos controllers
+   |     └─ gfx					// com.gfx notre package de base
+   |        ├─ controller					// nos contrôleurs
    |        ├─ domain					// classes qui définissent notre domaine
-   |        |  ├─ series				// classes qui définissent les séries
-   |        |  └─ users					// classes qui définissent les utilisateurs
-   |        ├─ helper					// classes utilitaires
+   |        |  ├─ series					// classes qui définissent les séries
+   |        |  └─ users						// classes qui définissent les utilisateurs
    |        ├─ service					// les services
-   |        ├─ Config.java				// configation générale
-   |        ├─ Keys.java				// clés et mots de passe
-   |        ├─ SpringConfig.java		// la configation de spring
-   |        └─ SpringSecurity.java	// les profils d'éxécution
-   └─ webapp								// les fichiers qui vont à la racine de l'application web
+   |        ├─ Config.java					// configation générale
+   |        ├─ Keys.java					// clés et mots de passe
+   |        ├─ SpringConfig.java					// la configation de spring
+   |        └─ SpringSecurity.java					// les profils d'éxécution
+   └─ webapp					// les fichiers qui vont à la racine de l'application web
       ├─ css
       ├─ js
       ├─ lib
