@@ -98,17 +98,9 @@ public class UserDB {
 		}
 	}
 	
-	public static Boolean update(Enjoyer updatedUser) {
+	public static Boolean executeQuery(String query) {
 		connect();
 		try {
-			String query = "UPDATE users SET";
-			//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
-			query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
-			if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
-			if (updatedUser.getLastName() != null) query += ", lastname=\"" + updatedUser.getLastName() + "\"";
-			if (updatedUser.getGender() != null) query += ", gender=\"" + updatedUser.getGender().toString() + "\"";
-			if (updatedUser.getAffinities() != null) query += ", affinities=\"" + updatedUser.getAffinities() + "\"";
-			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
 			preparedStatement = connect
 			        .prepareStatement(query);
             preparedStatement.executeUpdate();
@@ -120,46 +112,34 @@ public class UserDB {
 		} finally {
 			close();
 		}
+	}
+	
+	public static Boolean update(Enjoyer updatedUser) {
+		String query = "UPDATE users SET";
+		//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
+		query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
+		if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
+		if (updatedUser.getLastName() != null) query += ", lastname=\"" + updatedUser.getLastName() + "\"";
+		if (updatedUser.getGender() != null) query += ", gender=\"" + updatedUser.getGender().toString() + "\"";
+		if (updatedUser.getAffinities() != null) query += ", affinities=\"" + updatedUser.getAffinities() + "\"";
+		query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
+		return executeQuery(query);
 	}
 	
 	public static Boolean updateFavorites(Enjoyer updatedUser) {
-		connect();
-		try {
-			String query = "UPDATE users SET ";
-			//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
-			if (updatedUser.getFavorites() != null) query += "favorites=\"" + updatedUser.getFavorites().toString() + "\"";
-			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
-			preparedStatement = connect
-			        .prepareStatement(query);
-            preparedStatement.executeUpdate();
-            return true;
-		} catch (SQLException e) {
-			System.out.println("La requête n'a pas marché.");
-			e.printStackTrace();
-			return false;
-		} finally {
-			close();
-		}
+		String query = "UPDATE users SET ";
+		//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
+		if (updatedUser.getFavorites() != null) query += "favorites=\"" + updatedUser.getFavorites().toString() + "\"";
+		query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
+		return executeQuery(query);
 	}
 	
 	public static Boolean updateNotifications(Enjoyer updatedUser) {
-		connect();
-		try {
-			String query = "UPDATE users SET ";
-			//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
-			if (updatedUser.getNotifications() != null) query += "notifications=\"" + updatedUser.getNotifications() + "\"";
-			query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
-			preparedStatement = connect
-			        .prepareStatement(query);
-            preparedStatement.executeUpdate();
-            return true;
-		} catch (SQLException e) {
-			System.out.println("La requête n'a pas marché.");
-			e.printStackTrace();
-			return false;
-		} finally {
-			close();
-		}
+		String query = "UPDATE users SET ";
+		//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
+		if (updatedUser.getNotifications() != null) query += "notifications=\"" + updatedUser.getNotifications() + "\"";
+		query += " WHERE login=\"" + updatedUser.getLogin() + "\"";
+		return executeQuery(query);
 	}
 	
 	/**
