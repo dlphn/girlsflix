@@ -7,14 +7,13 @@ public class Scheduler {
 	private static boolean firstTimerIteration = true;
 	
 	public void taskToExecute() {
-		count++;
-		System.out.println("itération du scheduler : " + count);
-		if(firstTimerIteration) {
+		count ++;
+		System.out.println("Itération du scheduler : " + count);
+		if (firstTimerIteration) {
 			//execution of the notification process
 			SerieService.launchGlobalNotificationProcess();
 			firstTimerIteration = false;
-		}
-		else {
+		} else {
 			//call to the API and update of the Database, take a lot of time
 			serieService.init();
 			//update of the series, seasons, and episodes objects
@@ -22,6 +21,6 @@ public class Scheduler {
 			//execution of the notification process
 			SerieService.launchGlobalNotificationProcess();
 		}
-		System.out.println("fin de l'itération " + count);
+		System.out.println("Fin de l'itération " + count);
 	}
 }
