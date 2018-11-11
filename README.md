@@ -74,14 +74,20 @@ Eclipse IDE for `Java EE` Web Developers (`Photon v4.9.0`) - download [link](htt
 
 In the Project Explorer panel, Right Click on the project `GirlsFlix -> Maven -> Update Maven Project -> Force Update of Snapshots/Releases`
 
+<p align="center"><img src="./images/updateMaven.png" alt="" width="400"/></p>
+
+
 #### Build project
 In the Project Explorer panel, Right Click on the project `GirlsFlix -> Run As -> Maven Build...`
 
-`Add Goals`: `clean install`. Click `Apply` and `Run`.
+Add `Goals`: `clean install`. Click `Apply` and `Run`.
+
+<p align="center"><img src="./images/mavenBuild.png" alt="" width="400"/></p>
 
 #### Run on server
 In the Project Explorer panel, Right Click on the project `GirlsFlix -> Run As -> Run on Server`
 
+<p align="center"><img src="./images/run.png" alt="" width="400"/></p>
 
 You can then go to [localhost:8080/GirlsFlix](http://localhost:8080/GirlsFlix) and voilà! :tada:
 
