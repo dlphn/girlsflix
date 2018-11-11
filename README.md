@@ -22,9 +22,11 @@ The GirlsFlix web app allows you to:
 - :page_facing_up: Get details about a series
 - :bust_in_silhouette: Log in to your profile and customize it
 - :star2: Add your favorites
-- :mailbox_with_mail: Get a notification when a new episode of one of your favorites series will be aired soon
+- :mailbox_with_mail: Get a notification when a new episode of one of your favorite series will be aired soon
 - :gift: Be surprised with a random popular series suggestion
 - :speech_balloon: Get recommendations based on your preferred genres
+
+> If you want to test notifications quickly, try adding a series with a "Prochainement" badge. :wink:
 
 ## Installation
 ### Settings
