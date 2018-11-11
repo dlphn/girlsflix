@@ -115,7 +115,7 @@ src
    ├─ java					// nos classes java
    |  └─ com
    |     └─ gfx					// com.gfx notre package de base
-   |        ├─ controller			// nos contrôleurs
+   |        ├─ controller			// nos controllers qui reçoivent les requêtes, utilisent les services et préparent les données renvoyées avec les vues jsp
    |        ├─ domain				// classes qui définissent notre domaine
    |        |  ├─ series			// classes qui définissent les séries
    |        |  └─ users				// classes qui définissent les utilisateurs
@@ -129,7 +129,7 @@ src
       ├─ js
       ├─ lib
       └─ WEB-INF
-         ├─ jsp					// les templates jsp
+         ├─ jsp					// les templates jsp qui produisent le html
          ├─ tags				// les tag files (morceaux de template)
          ├─ dispatcher-servlet.xml		// configuration web de spring
          └─ web.xml				// configuration web d'une application
