@@ -26,6 +26,7 @@ import com.gfx.domain.users.User;
 import com.gfx.service.*;
 
 
+@SuppressWarnings("unused")
 public class MainTest {
 
 	public static void main(String[] args) {

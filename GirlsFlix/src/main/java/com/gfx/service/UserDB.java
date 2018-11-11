@@ -1,10 +1,5 @@
 package com.gfx.service;
 
-import com.gfx.domain.users.Enjoyer;
-
-import com.gfx.domain.users.Gender;
-import com.gfx.Keys;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,10 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.gfx.Keys;
+import com.gfx.domain.users.Enjoyer;
+import com.gfx.domain.users.Gender;
 
 /**
  * Methods to interact with the MySQL database that stores users
