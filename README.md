@@ -137,10 +137,19 @@ src
          └─ web.xml				// configuration web d'une application
 pom.xml						// fichier de configuration de maven
 ```
+<p align="center"><img src="./images/ProjectDiagram.jpg" alt="GirlsFlix"/></p>
 
 ### Spring MVC
 
 Spring Framework for web apps.
+
+The starting point is the `web.xml` file in `src/main/webapp/WEB-INF`. This file defines the different app configurations and uses the `dispatcher-servlet.xml` for dispatching incoming requests towards the right controllers and views.
+
+`dispatcher-servlet.xml` also initiates the scheduled task `com.gfx.service.Scheduler` in the background, which will:
+
+1. Update data in Mongo from the TMDB API;
+2. Update the Java objects from Mongo;
+3. Launch the notification process for episodes airing soon.
 
 ### Spring Security
 
