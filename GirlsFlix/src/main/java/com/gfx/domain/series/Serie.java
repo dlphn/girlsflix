@@ -82,7 +82,6 @@ public class Serie {
 		}
 		return false;
 		}catch(NullPointerException e) {
-			e.printStackTrace();
 			return false;}
 	}
 	
