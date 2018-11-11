@@ -23,7 +23,7 @@ import com.gfx.service.UserService;
 class ResourceNotFoundException extends RuntimeException {
 
 	/**
-	 * 
+	 * setting serialVersionUID to default value. Enables to deserialize properly Exceptions.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +34,13 @@ public class IndexController {
 	@Inject
 	SerieFactory serieFactory = new SerieFactory();
 	
+	
+	/**
+	 * Controller to set the different elements of the Home Page
+	 * When a user is connected, we display recommendations in addition to popular series
+	 * @param model
+	 * @return Home Page
+	 */
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
 		if (UserService.currentUserLogin() != null) {
@@ -54,6 +61,14 @@ public class IndexController {
         return "index";
     }
 	
+	
+	/**
+	 * Controller to construct the Search/Filter of all series
+	 * @param model
+	 * @param search
+	 * @param genre
+	 * @return All series or filtered series
+	 */
 	@RequestMapping(value = "/series", method = RequestMethod.GET)
 	public String Search(ModelMap model, 
 			@RequestParam(value = "search", required = false) String search,
@@ -106,6 +121,13 @@ public class IndexController {
 	    return "views/series";
 	}
 	
+	
+	/**
+	 * Contruct page for a single serie view
+	 * @param id of the serie
+	 * @param model
+	 * @return Serie information : image, title, seasons, episodes..
+	 */
 	@RequestMapping("/serie/{id}")
     public String serie(@PathVariable("id") String id, ModelMap model) {
 		if (UserService.currentUserLogin() != null) {
@@ -114,21 +136,26 @@ public class IndexController {
         Serie serie = Data.getById(Integer.parseInt(id));
         if (serie == null) {
             throw new ResourceNotFoundException();
-        }
-        else {
+        } else {
+        	// Add/Remove from favorites only available when the user is connected
         	if (UserService.currentUserLogin() != null) {
         		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
             	model.put("isFavorite", user.getFavorites().contains(Integer.parseInt(id)));
-            	
         	}
             model.put("serie", serie);
-            System.out.println("Next episode on air "+serie.getDateNextEpisodeOnAir());
+            //Badge to know whether there is an episode coming soon 
             model.put("isSoon", serie.isSoon());
-            System.out.println("isSoon" + serie.isSoon());
             return "views/serie";
         }
     }
 	
+	
+	/**
+	 * Processing step, to add a serie to the List of Favorites of the connected user
+	 * @param id of serie
+	 * @param model
+	 * @return redirects to Serie page
+	 */
 	@RequestMapping("/serie/{id}/addFav")
 	public String addFavoriteSerie (@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
@@ -137,6 +164,12 @@ public class IndexController {
 		return "redirect:/serie/" + id;
 	}
 	
+	/**
+	 *Processing step, to remove a serie from the List of Favorites of the connected user
+	 * @param id of serie
+	 * @param model
+	 * @return redirects to Serie page
+	 */
 	@RequestMapping("/serie/{id}/removeFav")
 	public String removeFavoriteSerie(@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
@@ -145,6 +178,11 @@ public class IndexController {
 		return "redirect:/serie/" + id;
 	}
 	
+	/**
+	 * Construct a Random Serie page. If the user is connected, display whether it's a favorite serie.
+	 * @param model
+	 * @return Page of a Random serie
+	 */
 	@RequestMapping("/serie-surprise")
 	public String serieSurprise(ModelMap model) {
 		model.put("series", Data.pickNRandom(1));
@@ -162,6 +200,11 @@ public class IndexController {
         }
     }
 	
+	/**
+	 * Page of contact with our names and emails 
+	 * @param model
+	 * @return Contact Page
+	 */
 	@RequestMapping("/contact")
 	public String showContact(ModelMap model) {
 		if (UserService.currentUserLogin() != null) {
