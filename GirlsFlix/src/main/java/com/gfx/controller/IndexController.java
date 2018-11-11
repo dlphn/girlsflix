@@ -61,7 +61,16 @@ public class IndexController {
         return "index";
     }
 	
-	
+	 @RequestMapping("/404")
+	 public String quatre_cent_quatre() {
+		 return "404";
+	 }
+
+	 @RequestMapping("/500")
+	 public String cinq_cent() {
+		 return "500";
+	 }
+	 
 	/**
 	 * Controller to construct the page to Search/Filter on all series
 	 * 
