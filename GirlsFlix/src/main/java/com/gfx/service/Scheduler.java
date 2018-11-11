@@ -11,7 +11,7 @@ public class Scheduler {
 		System.out.println("Itération du scheduler : " + count);
 		if (firstTimerIteration) {
 			//execution of the notification process
-			SerieService.launchGlobalNotificationProcess();
+			NotificationService.launchGlobalNotificationProcess();
 			firstTimerIteration = false;
 		} else {
 			//call to the API and update of the Database, take a lot of time
@@ -19,7 +19,7 @@ public class Scheduler {
 			//update of the series, seasons, and episodes objects
 			serieFactory = new SerieFactory("update");
 			//execution of the notification process
-			SerieService.launchGlobalNotificationProcess();
+			NotificationService.launchGlobalNotificationProcess();
 		}
 		System.out.println("Fin de l'itération " + count);
 	}

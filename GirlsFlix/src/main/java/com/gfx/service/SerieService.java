@@ -298,23 +298,4 @@ public class SerieService {
 		}
 		return documents;
 	}
-	
-	
-	//TODO Move to another file
-	/**
-	 * this method is called by the Scheduler on a regular basis.
-	 * for each Serie, launch a Thread if it has a date for the next episode on air not null
-	 */
-	
-	public synchronized static void launchGlobalNotificationProcess() {
-		List<Serie> listSerie = Data.getListSeries();
-		for (Serie s : listSerie) {
-			if (s.getDateNextEpisodeOnAir() != null) {
-				Thread thread = new Thread(new ThrowNotificationProcess(s));
-				thread.start();
-			}
-		}
-	}
-	
-	
 }
