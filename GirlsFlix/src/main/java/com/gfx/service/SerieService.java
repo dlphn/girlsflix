@@ -310,7 +310,7 @@ public class SerieService {
 		List<Serie> listSerie = Data.getListSeries();
 		for (Serie s : listSerie) {
 			if (s.getDateNextEpisodeOnAir() != null) {
-				Thread thread = new Thread(new ThrowNotificationProcess (s));
+				Thread thread = new Thread(new ThrowNotificationProcess(s));
 				thread.start();
 			}
 		}

@@ -14,6 +14,9 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Filters;
 
+/**
+ * Methods to interact with the MongoDB that stores series
+ */
 public class SerieDB {
 	private static MongoClient mongoClient;
 	private static MongoDatabase database;

@@ -7,14 +7,13 @@ import java.util.Map.Entry;
 import com.gfx.Config;
 import com.gfx.domain.series.Serie;
 
-public class ThrowNotificationProcess implements Runnable{
+public class ThrowNotificationProcess implements Runnable {
 	
 	private Serie serie;
 	
 	public ThrowNotificationProcess(Serie s) {
 		this.serie = s;
 	}
-	
 	
 	/**
 	 * If a new episode of the serie will be on air soon (3 days or less currently) and has not been notified,
@@ -24,13 +23,16 @@ public class ThrowNotificationProcess implements Runnable{
 	 * @param serie 	Series to notify
 	 */
 	public void run() {
-		Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
-		if(period.getDays() <= Config.nbDaysNotifBeforeDiff && period.getDays() >= 0) {
-			System.out.println("episode incoming for the serie : " + serie.getTitle());
-			for(Entry<String, Boolean> loginEnjoyer: serie.getEnjoyersToNotify().entrySet()){
-				if(!loginEnjoyer.getValue()) {
-					Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(loginEnjoyer.getKey(), serie));
-					throwNotif.start();
+		if (serie.getDateNextEpisodeOnAir() != null) {
+			Period period = Period.between(LocalDate.now(), serie.getDateNextEpisodeOnAir());
+			if (period.getDays() <= Config.nbDaysNotifBeforeDiff && period.getDays() >= 0) {
+				if (serie.getEnjoyersToNotify() != null) {
+					for (Entry<String, Boolean> enjoyerToNotify : serie.getEnjoyersToNotify().entrySet()){
+						if (enjoyerToNotify.getValue() == false) {
+							Thread throwNotif = new Thread(new ThrowNotificationToEnjoyer(enjoyerToNotify.getKey(), serie));
+							throwNotif.start();
+						}
+					}
 				}
 			}
 		}

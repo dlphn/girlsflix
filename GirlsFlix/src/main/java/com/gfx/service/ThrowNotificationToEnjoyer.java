@@ -8,7 +8,7 @@ public class ThrowNotificationToEnjoyer implements Runnable {
 	private	String enjoyerToNotify;
 	private Serie serieNotified;
 	
-	public ThrowNotificationToEnjoyer (String enjoyerToNotify, Serie serieNotified) {
+	public ThrowNotificationToEnjoyer(String enjoyerToNotify, Serie serieNotified) {
 		this.enjoyerToNotify = enjoyerToNotify;
 		this.serieNotified = serieNotified;
 	}
