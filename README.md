@@ -137,6 +137,8 @@ src
          └─ web.xml				// configuration web d'une application
 pom.xml						// fichier de configuration de maven
 ```
+
+UML diagram (can be found in the `images` folder) :
 <p align="center"><img src="./images/ProjectDiagram.jpg" alt="GirlsFlix"/></p>
 
 ### Spring MVC
@@ -151,9 +153,15 @@ The starting point is the `web.xml` file in `src/main/webapp/WEB-INF`. This file
 2. Update the Java objects from Mongo;
 3. Launch the notification process for episodes airing soon.
 
+For now, the scheduler is set to be repeated every 5min :
+
+```xml
+<property name="period" value = "300000"/>
+```
+
 ### Spring Security
 
-Handles authentication and sessions.
+Handles authentication and sessions. It is configured in `com.gfx.SpringSecurity.java`.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

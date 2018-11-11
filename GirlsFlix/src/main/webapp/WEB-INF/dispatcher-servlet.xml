@@ -44,7 +44,7 @@
 	
 	<bean id="updateSeriesScheduledTask" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">
 		<property name="delay" value="10000"/>
-		<property name="period" value = "30000"/>
+		<property name="period" value = "300000"/>
 		<property name="runnable" ref="updateSeriesTask"/>
 	</bean>
 	
