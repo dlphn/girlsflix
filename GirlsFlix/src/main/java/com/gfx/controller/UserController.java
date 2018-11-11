@@ -53,11 +53,16 @@ public class UserController {
 			System.out.println("size " + notifications.size());
 			System.out.println(notifications);
 			System.out.println("premiere notif longueur : "+notifications.get(0).length());
+			System.out.println("is empty ? " + (user.getNotifications().get(0).length()>0));
 			model.addAttribute("user", user);
 			if (notifications.size() > 0 && notifications.get(notifications.size()-1).length() > 0) {
 				model.put("notifications", notifications);	
+				model.put("sizeNotif", notifications.size());
+				System.out.println("first Loop, sizeNotif = " +  notifications.size());
 			} else {
 				model.put("message", "Vous n'avez aucune notification non lue.");
+				model.put("sizeNotif", "");
+				System.out.println("second Loop, empty ? " +  ("").isEmpty());
 			}
 		} else {
 			return "user/login";
