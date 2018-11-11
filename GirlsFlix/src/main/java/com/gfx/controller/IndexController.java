@@ -57,7 +57,6 @@ public class IndexController {
 			}
 		}
 		model.put("columns", Data.pickNRandom(9));
-		System.out.println(UserService.currentUserLogin());
         return "index";
     }
 	
