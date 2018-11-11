@@ -57,7 +57,7 @@ public class Season {
 		this.episodes.add(episode);
 	}
 	
-	public String toString() {
+	public String display() {
 		return "Season "+ this.seasonNb + " " + this.seasonName + " from Serie " + this.serieId + "\n";
 	}
 	

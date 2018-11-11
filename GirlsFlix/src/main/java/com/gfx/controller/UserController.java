@@ -52,7 +52,7 @@ public class UserController {
 			List<String> notifications = user.getNotifications();
 			System.out.println("size " + notifications.size());
 			System.out.println(notifications);
-			System.out.println("premiere notif"+notifications.get(0).length());
+			System.out.println("premiere notif longueur : "+notifications.get(0).length());
 			model.addAttribute("user", user);
 			if (notifications.size() > 0 && notifications.get(notifications.size()-1).length() > 0) {
 				model.put("notifications", notifications);	
@@ -92,8 +92,6 @@ public class UserController {
 		}
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			// TODO Les préférences ne sont pas rendues correctement à cause d'espaces avant les valeurs
-			System.out.println(user.toString());
 		    model.put("user", user);
 		} else {
 		    model.put("user", new Enjoyer());

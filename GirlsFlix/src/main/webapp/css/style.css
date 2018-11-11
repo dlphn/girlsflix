@@ -70,6 +70,11 @@ a:hover, a.nav-link:hover {
 	border-color: #3e3e3e !important;
 }
 
+.btn-primary:focus {
+    border-color: rgba(0,0,0,0.6) !important;
+    box-shadow: 0 0 !important;
+}
+
 
 .input-btn, .input-btn-txt {
 	margin-top: 0;

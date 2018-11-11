@@ -20,10 +20,10 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/GirlsFlix/notifications">	
-             <c:if test="${user.getNotifications().size()>1}">
+             <c:if test="${user.getNotifications().size()>0}">
             <span class="badge badge-danger">
            
-            ${user.getNotifications().size()-1}</c:if></span>
+            ${user.getNotifications().size()}</c:if></span>
           </i>Notifications</a>
 				</li>
 				<li class="nav-item">

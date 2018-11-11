@@ -30,25 +30,22 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	
     @Inject
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { //config globale
-        /*auth
-            .inMemoryAuthentication() //La base des utilisateurs est en mémoire. En production, nous aurions très certainement une base de données afin de stocker les utilisateurs.
-            .withUser("user").password("password").roles("USER"); //On ajoute un utilisateur avec le role ROLE_USER.*/
-    	auth
-	        .jdbcAuthentication() //base de données afin de stocker les utilisateurs.
+        auth
+	        .jdbcAuthentication() //base de données afin de stocker les utilisateurs
 	        .dataSource(dataSource)
-	        .usersByUsernameQuery("select login, password, enabled from users where login=?")
-	        .authoritiesByUsernameQuery("select login, role from user_roles where login=?");
+	        .usersByUsernameQuery("SELECT login, password, enabled FROM users WHERE login=?")
+	        .authoritiesByUsernameQuery("SELECT login, role FROM user_roles WHERE login=?");
 	}
 
     @Override
     protected void configure(HttpSecurity http) throws Exception { //Configuration des requêtes http
     	//Encoding UTF-8 pour ne pas avoir de problème d'accents (prénom, affinities..)
-    	CharacterEncodingFilter filter = new CharacterEncodingFilter();	
+    	CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");	
         filter.setForceEncoding(true);	
         //Configuration des requêtes http	
         http
-        	.addFilterBefore(filter,CsrfFilter.class)
+        	.addFilterBefore(filter, CsrfFilter.class)
             .authorizeRequests()
             	.antMatchers("/GirlsFlix/favoris", "/GirlsFlix/notifications").authenticated()
             	.anyRequest().permitAll()
@@ -59,9 +56,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
             	.permitAll()
                 .and()
             .logout()
-            .logoutSuccessUrl("/")
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .and()
+	            .logoutSuccessUrl("/")
+	            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+	            .and()
   		  	.csrf();
     }
 }

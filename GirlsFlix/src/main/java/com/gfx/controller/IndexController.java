@@ -33,9 +33,6 @@ class ResourceNotFoundException extends RuntimeException {
 public class IndexController {
 	@Inject
 	SerieFactory serieFactory = new SerieFactory();
-	String message = "Welcome!";
-	
-	
 	
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
@@ -65,6 +62,7 @@ public class IndexController {
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 			model.put("user", user);}
+
 		// render the filter values
 		model.put("genres", Genre.getGenres());
 	    model.put("search", search);

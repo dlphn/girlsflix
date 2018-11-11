@@ -20,7 +20,6 @@ import com.gfx.Config;
 import com.gfx.domain.series.Data;
 import com.gfx.domain.series.Genre;
 import com.gfx.domain.series.Serie;
-import com.gfx.domain.series.TypeSerie;
 import com.gfx.domain.users.Enjoyer;
 import com.gfx.domain.users.Gender;
 import com.gfx.domain.users.User;
@@ -150,11 +149,11 @@ public class MainTest {
 		/**
 		 * Test for recommendations
 		 */
-		new SerieFactory();
+		/*new SerieFactory();
 		List<Serie> result = Data.pickNRandomSameGenre(2, "Documentary");
 		for (Serie s : result) {
 			System.out.println(s.toString());
-		}
+		}*/
     
 		/*
 		 * Test mongo update

@@ -9,5 +9,5 @@ public class Config {
 	public static final String lang = "fr-FR";
 	public static final int nbDaysNotifBeforeDiff = 3;
 	public static final LocalDateTime initDateScheduler = LocalDateTime.now();
-	public static final long intervalForScheduler = 1 * 30 * 10000; // #min * #sec/min * #ms/sec
+	public static final long intervalForScheduler = 15 * 30 * 10000; // #min * #sec/min * #ms/sec
 }

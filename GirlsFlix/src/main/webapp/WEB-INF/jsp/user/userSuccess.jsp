@@ -7,12 +7,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             
-            <title>Récapitulatif d'inscription</title>
+        <title>GirlsFlix - Récapitulatif d'inscription</title>
             
+		<link rel="icon" type="image/png" href="/GirlsFlix/lib/favicon.png">
+		
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="/GirlsFlix/css/style.css" />
 </head>
 
 <body>
@@ -73,12 +75,11 @@
                         name="${_csrf.parameterName}"
                         value="${_csrf.token}"/>
                     <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-user"></i>Connexion</button>
-                    
-                </form>
-</div>
+                    <i class="fas fa-user"></i>Connexion</button>       
+        	</form>
+		</div>
 
-<fragments:footer />
+		<fragments:footer />
         
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
