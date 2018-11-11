@@ -162,7 +162,7 @@ The starting point is the `web.xml` file in `src/main/webapp/WEB-INF`. This file
 2. Update the Java objects from Mongo;
 3. Launch the notification process for episodes airing soon.
 
-For now, the scheduler is set to be repeated every 5min :
+For now, the scheduler is set to be repeated every 5 min for testing purposes, but it is meant to be run every day early in the morning:
 
 ```xml
 <property name="period" value = "300000"/>
