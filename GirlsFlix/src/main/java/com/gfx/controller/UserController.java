@@ -51,14 +51,15 @@ public class UserController {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 			List<String> notifications = user.getNotifications();
 			model.addAttribute("user", user);
-			if (notifications.size() > 0 && notifications.get(notifications.size()-1).length() > 0) {
+			if (notifications.size() > 0) {
+		if(notifications.get(notifications.size()-1).length() > 0) {
 				model.put("notifications", notifications);	
-				model.put("sizeNotif", notifications.size());
-			} else {
+			} 
+	else {
 				model.put("message", "Vous n'avez aucune notification non lue.");
-				model.put("sizeNotif", "");
 			}
-		} else {
+		}
+		}else {
 			return "user/login";
 		}
 		return "user/notifications";

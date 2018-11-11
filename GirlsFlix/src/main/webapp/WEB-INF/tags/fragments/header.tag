@@ -1,9 +1,6 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib
-    prefix="c"
-    uri="http://java.sun.com/jsp/jstl/core" 
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm" id="menu">
 	<a class="navbar-brand" href="/GirlsFlix"><img src="/GirlsFlix/lib/GirlsFlix.png" alt="GirlsFlix" height="50px"/></a>
@@ -24,8 +21,8 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/GirlsFlix/notifications">	
-<%--              <c:if test="${user.getNotifications().get(0).length()>0}"> --%>
-            <c:if test="${!empty sizeNotif}">
+          <c:if test="${(user.getNotifications().size() > 0) and (user.getNotifications().get(user.getNotifications().size()-1).length() > 0)}"> 
+<%--             <c:if test="${!empty sizeNotif}"> --%>
             <span class="badge badge-danger">
             ${user.getNotifications().size()}</span>
             </c:if>
