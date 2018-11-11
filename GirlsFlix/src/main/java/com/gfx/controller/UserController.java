@@ -146,7 +146,7 @@ public class UserController {
 	 * @return Profile Page with success or failure message.
 	 */
 	@RequestMapping(value = "/profil", method = RequestMethod.POST)
-	public String addUser(ModelMap model, @ModelAttribute("user") Enjoyer user) {
+	public String updateUser(ModelMap model, @ModelAttribute("user") Enjoyer user) {
 		model.addAttribute("user", user);
 		if (UserDB.update(user)) {
 			return "redirect:/profil?success";

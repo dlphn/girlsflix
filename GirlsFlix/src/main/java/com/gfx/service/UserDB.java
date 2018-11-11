@@ -104,7 +104,6 @@ public class UserDB {
 			String query = "UPDATE users SET";
 			//We use \ instead of ' to avoid errors in cases like: Grey's Anatomy
 			query += " pseudo=\"" + updatedUser.getPseudo() + "\"";
-			if (updatedUser.getPassword() != null) query += ", password=\"" + updatedUser.getPassword() + "\"";
 			if (updatedUser.getFirstName() != null) query += ", firstname=\"" + updatedUser.getFirstName() + "\"";
 			if (updatedUser.getLastName() != null) query += ", lastname=\"" + updatedUser.getLastName() + "\"";
 			if (updatedUser.getGender() != null) query += ", gender=\"" + updatedUser.getGender().toString() + "\"";
