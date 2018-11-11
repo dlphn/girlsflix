@@ -42,10 +42,8 @@ public class SerieService {
 			List<JSONObject> genres = buildGenresList(response);
 			Genre.setGenres(genres);
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			System.out.println("Genres all set!");
@@ -65,7 +63,6 @@ public class SerieService {
                 }
             }
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return documents;
