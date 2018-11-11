@@ -15,6 +15,10 @@ import com.gfx.service.UserDB;
 @Controller
 public class RegistrationController {
 	
+	/**
+	 * Load of Registration page with the instanciation of a new Enjoyer
+	 * @return Register Page with an Enjoyer created
+	 */
 	@GetMapping("/register")
 		public ModelAndView loadRegisterPage() {
 	    ModelAndView mav = new ModelAndView("user/register", "command", new Enjoyer());
@@ -23,6 +27,15 @@ public class RegistrationController {
 	    return mav;
 	}
 	
+	/**
+	 * 
+	 * Controller enables to update the attributes of the Enjoyer created during the loadRegisterPage step.
+	 * Checks if the new user attributes are compatible: Mandatory fields, no duplicate login compared to the users DataBase.
+	 * @param model
+	 * @param user
+	 * @return Register page if there are errors (login already exists, Mandatory field not filled). Sum-up of the given information otherwise.
+	 * @throws LoginExistsException
+	 */
 	@RequestMapping("/register")
 		public String addUser(ModelMap model, @ModelAttribute("user") Enjoyer user) throws LoginExistsException {
 		model.addAttribute("login", user.getLogin());
@@ -34,9 +47,11 @@ public class RegistrationController {
 		model.addAttribute("password", user.getPassword());
 		Boolean notUsed = UserDB.checkLoginNotUsed(user.getLogin());
 		if (notUsed) {
+			// If the login is not taken, add the user to the database and redirect to Success Page (sum-up of the form information).
 			if (UserDB.insertOne(user)) {
 				return "user/userSuccess";
-			} else {
+			} //In case we have problems (connexion to the database for instance..)
+			else {
 				model.put("user", new Enjoyer());
 				model.put("genres", Genre.getGenres());
 				model.put("message" , "La création de compte a été interrompue. Pourriez-vous vous réinscrire ?");
