@@ -276,6 +276,11 @@ public class MainTest {
 		//Scheduler scheduler = new Scheduler(new SerieFactory());
 		//scheduler.start();
 		
+		//Enjoyer userToInsert = new Enjoyer("a", "pseudo", "pwd", "prénom");
+		//UserDB.insertOne(userToInsert);
+		//Enjoyer user = UserDB.getUser("a");
+		//user.displayAllNotificationsUnread();
+		
 		
 	}
 	

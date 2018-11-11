@@ -29,7 +29,7 @@ public class UserDB {
 	public static void connect() {
 		if (connect == null) {
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
+				Class.forName("com.mysql.cj.jdbc.Driver");
 				String url = "jdbc:mysql://" + Keys.mysqlHost + "/" + Keys.mysqlDb;
 				url += "?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 				connect = DriverManager.getConnection(url, Keys.mysqlUser, Keys.mysqlPwd);
@@ -43,6 +43,7 @@ public class UserDB {
 		}
 	}
 	
+	//TODO not used
 	private static void writeResultSet(ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
         	String[] favorites = new String[0];
@@ -79,7 +80,8 @@ public class UserDB {
         	e.printStackTrace();
         }
     }
-	
+
+	//TODO not used
 	public static void readDatabase() {
 		connect();
 		String query = "SELECT * FROM users";
@@ -95,8 +97,13 @@ public class UserDB {
 		}
 	}
 	
+	/**
+	 * Insert user into database after registration
+	 * 
+	 * @param 	newUser
+	 * @return	true if the insert was successful, false if there was an issue
+	 */
 	public static boolean insertOne(Enjoyer newUser){
-		// Fonction pour insérer un utilisateur dans la BDD après son inscription
 		connect();
 		try {
 			// login, pseudo, password, enabled, firstname, lastname, gender, favorites, notifications, affinities
@@ -186,7 +193,7 @@ public class UserDB {
 	            String notificationsDB = resultSet.getString("notifications");
 	            String notifications_modif = notificationsDB.replace("[", "");
 	            String notificationsStr = notifications_modif.replace("]", "");
-	            if (notificationsStr != null) {
+	            if (notificationsStr != null && notificationsStr.length() > 0) {
 	            	notifStrList = notificationsStr.split(",");
 	            	for(String notif : notifStrList) {
 	            		notifications.add(notif.trim());
@@ -196,7 +203,7 @@ public class UserDB {
 	            String affinitiesDB = resultSet.getString("affinities");
 	            String affinities_modif = affinitiesDB.replace("[", "");
 	            String affinitiesStr = affinities_modif.replace("]", "");
-	            if (affinitiesStr != null) {
+	            if (affinitiesStr != null && affinitiesStr.length() > 0) {
 	            	affStrList = affinitiesStr.split(",");
 	            	for(String aff : affStrList) {
 	            		affinities.add(aff.trim());

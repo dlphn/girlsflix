@@ -124,7 +124,7 @@ public class Enjoyer extends User{
 	public void displayAllNotificationsUnread() {
 		System.out.println("Notifications non lues de " + this.getPseudo() + " : \n") ;
 		for (String notif : notifications) {
-			System.out.println(notif);
+			System.out.println("- " + notif);
 		}
 		System.out.println("*****************");
 	}
