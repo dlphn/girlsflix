@@ -23,7 +23,7 @@ import com.gfx.service.UserService;
 class ResourceNotFoundException extends RuntimeException {
 
 	/**
-	 * setting serialVersionUID to default value. Enables to deserialize properly Exceptions.
+	 * setting serialVersionUID to default value. Enables to deserialize Exceptions properly.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -38,12 +38,13 @@ public class IndexController {
 	/**
 	 * Controller to set the different elements of the Home Page
 	 * When a user is connected, we display recommendations in addition to popular series
+	 * 
 	 * @param model
 	 * @return Home Page
 	 */
 	@RequestMapping({"/index", "/"})
     public String index(ModelMap model) {
-		if (UserService.currentUserLogin() != null) {
+		if (UserService.currentUserLogin() != null) { //the user is authenticated
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 			model.put("user", user);
 			List<String> affinities = user.getAffinities();
@@ -62,10 +63,11 @@ public class IndexController {
 	
 	
 	/**
-	 * Controller to construct the Search/Filter of all series
+	 * Controller to construct the page to Search/Filter on all series
+	 * 
 	 * @param model
-	 * @param search
-	 * @param genre
+	 * @param search	the user query
+	 * @param genre		the user selected genre
 	 * @return All series or filtered series
 	 */
 	@RequestMapping(value = "/series", method = RequestMethod.GET)
@@ -75,7 +77,8 @@ public class IndexController {
 	) {
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			model.put("user", user);}
+			model.put("user", user);
+		}
 
 		// render the filter values
 		model.put("genres", Genre.getGenres());
@@ -99,7 +102,7 @@ public class IndexController {
 		}
 		
 		if (search == null && genre == null) {
-			// no filter
+			// no filter => return all series
 			model.put("series", Data.getListSeries());
 		} else {
 			if (search.length() > 0 && genre.length() == 0) {
@@ -123,6 +126,7 @@ public class IndexController {
 	
 	/**
 	 * Contruct page for a single serie view
+	 * 
 	 * @param id of the serie
 	 * @param model
 	 * @return Serie information : image, title, seasons, episodes..
@@ -131,7 +135,8 @@ public class IndexController {
     public String serie(@PathVariable("id") String id, ModelMap model) {
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			model.put("user", user);}
+			model.put("user", user);
+		}
         Serie serie = Data.getById(Integer.parseInt(id));
         if (serie == null) {
             throw new ResourceNotFoundException();
@@ -151,6 +156,7 @@ public class IndexController {
 	
 	/**
 	 * Processing step, to add a serie to the List of Favorites of the connected user
+	 * 
 	 * @param id of serie
 	 * @param model
 	 * @return redirects to Serie page
@@ -165,6 +171,7 @@ public class IndexController {
 	
 	/**
 	 *Processing step, to remove a serie from the List of Favorites of the connected user
+	 *
 	 * @param id of serie
 	 * @param model
 	 * @return redirects to Serie page
@@ -179,11 +186,16 @@ public class IndexController {
 	
 	/**
 	 * Construct a Random Serie page. If the user is connected, display whether it's a favorite serie.
+	 * 
 	 * @param model
-	 * @return Page of a Random serie
+	 * @return Page of a serie randomly chosen
 	 */
 	@RequestMapping("/serie-surprise")
 	public String serieSurprise(ModelMap model) {
+		if (UserService.currentUserLogin() != null) {
+			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
+			model.put("user", user);
+		}
 		model.put("series", Data.pickNRandom(1));
 		Serie serie = Data.pickNRandom(1).get(0);
         if (serie == null) {
@@ -201,6 +213,7 @@ public class IndexController {
 	
 	/**
 	 * Page of contact with our names and emails 
+	 * 
 	 * @param model
 	 * @return Contact Page
 	 */
@@ -208,7 +221,8 @@ public class IndexController {
 	public String showContact(ModelMap model) {
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
-			model.put("user", user);}
+			model.put("user", user);
+		}
 		return "views/contact";
 	}
 }
