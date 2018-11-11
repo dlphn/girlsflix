@@ -20,8 +20,13 @@ import com.gfx.domain.series.Serie;
 import com.gfx.Config;
 import com.gfx.Keys;
 
+/**
+ * API calls to tmdb to get series information
+ * Save information in MongoDB
+ */
 @Service
 public class SerieService {
+	
 	public SerieService() {
 		if (Genre.getGenres() == null) {
 			initGenres();
@@ -29,7 +34,7 @@ public class SerieService {
 	}
 	
 	/**
-	 * Initiates/updates the series genres.
+	 * Initiate/update the series genres.
 	 */
 	public void initGenres() {
 		ConnectionWS connection = new ConnectionWS();
@@ -69,7 +74,7 @@ public class SerieService {
 	}
 
 	/**
-	 * Initiates/updates the database collections series, seasons and episodes.
+	 * Initiate/update the database collections: series, seasons and episodes.
 	 */
 	public void init() {
 		ConnectionWS connection = new ConnectionWS();
@@ -105,7 +110,7 @@ public class SerieService {
 	}
 	
 	/**
-	 * Adds the documents to the MongoDB collection.
+	 * Add the documents to the MongoDB collection.
 	 * 
 	 * @param collection	MongoDB collection where the documents are to be added
 	 * @param documents
@@ -118,10 +123,10 @@ public class SerieService {
 	}
 	
 	/**
-	 * Builds the list of Series Ids from the response received from the API.
+	 * Build the list of Series Ids from the response received from the API.
 	 * 
 	 * @param series	the String result from the API
-	 * @return the ids of the series retrieved
+	 * @return 			the ids of the series retrieved
 	 */
 	private List<Integer> buildSeriesIdsList(String series) {
 		JSONParser parser = new JSONParser();
@@ -143,10 +148,10 @@ public class SerieService {
 	}
 	
 	/**
-	 * Fetches the series' details to get infos and seasons of the series retrieved.
+	 * Fetch the series' details to get info and seasons of the series retrieved.
 	 * 
 	 * @param seriesList	Series ids
-	 * @return the Serie and Season Documents to be added and the seasons/series ids
+	 * @return 				the Serie and Season Documents to be added and the seasons/series ids
 	 */
 	private SeasonResult getSeriesSeasonsDetails(List<Integer> seriesList) {
 		ConnectionWS connection = new ConnectionWS();
@@ -173,7 +178,7 @@ public class SerieService {
 	}
 	
 	/**
-	 * Builds the list of Series & Seasons Documents from the response received from the API.
+	 * Build the list of Series & Seasons Documents from the response received from the API.
 	 * 
 	 * @param seasons
 	 * @param serieId
@@ -220,7 +225,6 @@ public class SerieService {
                     		.append("nb", jsnObj.get("season_number"))
                     		.append("episodeCount", jsnObj.get("episode_count"))
                     		.append("imageLink", jsnObj.get("poster_path"))
-                    		//.append("rating", jsnObj.get("vote_average")) //info pas dans l'api courrante
                     		.append("date", jsnObj.get("air_date"))
                     		.append("serieId", serieId);
                     seasonsDocs.add(seasonDoc);
@@ -235,10 +239,10 @@ public class SerieService {
 	}
 	
 	/**
-	 * Fetches the seasons' details to get each added seasons' episodes.
+	 * Fetch the seasons' details to get each added seasons' episodes.
 	 * 
 	 * @param seasonsList	Seasons ids
-	 * @return the Documents to be added
+	 * @return 				the Documents to be added
 	 */
 	private List<Document> getSeasonsDetails(List<SeasonPair> seasonsList) {
 		ConnectionWS connection = new ConnectionWS();
@@ -260,7 +264,7 @@ public class SerieService {
 	}
 	
 	/**
-	 * Builds the list of Episodes Documents from the response received from the API.
+	 * Build the list of Episodes Documents from the response received from the API.
 	 * 
 	 * @param episodes
 	 * @param season
@@ -296,6 +300,7 @@ public class SerieService {
 	}
 	
 	
+	//TODO Move to another file
 	/**
 	 * this method is called by the Scheduler on a regular basis.
 	 * for each Serie, launch a Thread if it has a date for the next episode on air not null
@@ -303,8 +308,8 @@ public class SerieService {
 	
 	public synchronized static void launchGlobalNotificationProcess() {
 		List<Serie> listSerie = Data.getListSeries();
-		for (Serie s: listSerie) {
-			if(s.getDateNextEpisodeOnAir() != null) {
+		for (Serie s : listSerie) {
+			if (s.getDateNextEpisodeOnAir() != null) {
 				Thread thread = new Thread(new ThrowNotificationProcess (s));
 				thread.start();
 			}

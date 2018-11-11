@@ -17,6 +17,9 @@ import org.json.simple.JSONObject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Retrieve data from MongoDB and build Serie objects stored in Data
+ */
 @Service
 public class SerieFactory {
 	
@@ -58,7 +61,7 @@ public class SerieFactory {
 				JSONObject jsnObj = (JSONObject) parser.parse(doc.toJson());
 				Serie serie = null;
 				
-				int serieId = jsnObj.get("id") != null ? Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()) : null;
+				Integer serieId = jsnObj.get("id") != null ? Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()) : null;
 				
 				String title = jsnObj.get("title") != null ? jsnObj.get("title").toString() : "";
 	
@@ -83,8 +86,7 @@ public class SerieFactory {
 				LocalDate newDate = jsnObj.get("newDate") != null ? LocalDate.parse((CharSequence) jsnObj.get("newDate"), formatter) : null;
 				
 				if (Data.getById(serieId) == null) {
-					System.out.println("la série n'était pas déjà créée");
-					// the object was not created so we create it
+					// the object was not in Data so we create it
 	    			serie = new Serie(
 	    					serieId,
 	    					title,
@@ -99,17 +101,13 @@ public class SerieFactory {
 					serie.setNextEpisodeOnAir(newEpisode);
     				serie.setNbSeasonNEOA(newSeason);
     				serie.setDateNextEpisodeOnAir(newDate);
-    				System.out.println(serie.info());
+    				
     				serieList.add(serie);
-				}
-				else { 
-					// the object was already created so we take back the object in Data thanks to the Id and we update its attributes
+				} else { 
+					// the object was already created so we get the object in Data with the id and we update its attributes
 					serie = Data.getById(serieId);
-					System.out.println("id de la série : " + serieId);
 					serie.updateAllAttributes(title, serieType, summary, creationDate, image, rating, seasons, enjoyersToNotify, newEpisode, newSeason, newDate);
-					//serieList.add(serie);
 				}
-
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -136,15 +134,15 @@ public class SerieFactory {
 				List<Episode> episodes = getEpisodes(serieId, seasonNb);
 				
 				Season season = new Season(
-						Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()), //seasonId
-						seasonNb,  //seasonNb
-						jsnObj.get("name") != null ? jsnObj.get("name").toString() : "", //seasonName
-						jsnObj.get("summary") != null ? jsnObj.get("summary").toString() : "", //summary
-						jsnObj.get("date") != null ? LocalDate.parse((CharSequence) jsnObj.get("date"), formatter) : null, //relaseDate
-						serieId, //serieId
-						Integer.parseInt(((JSONObject) jsnObj.get("episodeCount")).get("$numberLong").toString()), //episodeCount
-						jsnObj.get("imageLink") != null ? jsnObj.get("imageLink").toString() : "", //image
-						episodes); //episodes
+					Integer.parseInt(((JSONObject) jsnObj.get("id")).get("$numberLong").toString()), //seasonId
+					seasonNb,  //seasonNb
+					jsnObj.get("name") != null ? jsnObj.get("name").toString() : "", //seasonName
+					jsnObj.get("summary") != null ? jsnObj.get("summary").toString() : "", //summary
+					jsnObj.get("date") != null ? LocalDate.parse((CharSequence) jsnObj.get("date"), formatter) : null, //relaseDate
+					serieId, //serieId
+					Integer.parseInt(((JSONObject) jsnObj.get("episodeCount")).get("$numberLong").toString()), //episodeCount
+					jsnObj.get("imageLink") != null ? jsnObj.get("imageLink").toString() : "", //image
+					episodes); //episodes
 				seasons.add(season);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
