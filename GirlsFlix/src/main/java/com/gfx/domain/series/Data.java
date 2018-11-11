@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 /**
- * Store Serie instances.
+ * Stores Serie instances.
  * Methods to interact with the list of series.
  */
 @Component
@@ -24,33 +24,33 @@ public class Data {
 		seriesList = series;
 	}
 	
-	public static Serie getById(int id) {
+	public static Serie getById(int searchedId) {
 		Serie searched = null;
-		for (Serie s : seriesList) {
-			if(s.getId() == id) {
-				 searched = s;
+		for (Serie serie : seriesList) {
+			if(serie.getId() == searchedId) {
+				 searched = serie;
 			}
 		}
 		return searched;
 	}
 	
-	public static List<Serie> pickNRandom(int n) {
-	    List<Serie> copy = new ArrayList<Serie>(seriesList);
-	    Collections.shuffle(copy);
-	    if (copy.size() < n) {
-	    	n = copy.size();
+	public static List<Serie> pickNRandom(int numberOfSeries) {
+	    List<Serie> copyOfSeries = new ArrayList<Serie>(seriesList);
+	    Collections.shuffle(copyOfSeries);
+	    if (copyOfSeries.size() < numberOfSeries) {
+	    	numberOfSeries = copyOfSeries.size();
 	    }
-	    return copy.subList(0, n);
+	    return copyOfSeries.subList(0, numberOfSeries);
 	}
 	
 	/**
 	 * Send a number of random series with a specific genre
 	 * 
-	 * @param n		the number of random series to return
+	 * @param numberOfSeries		the number of random series to return
 	 * @param genre	the genre to filter on
 	 * @return		the list of random series
 	 */
-	public static List<Serie> pickNRandomSameGenre(int n, String genre) {
+	public static List<Serie> pickNRandomSameGenre(int numberOfSeries, String genre) {
 		List<Serie> groupByGenre = new ArrayList<Serie>();
 		for (Serie serie : seriesList) {
 			if (serie.getSerieGenres().contains(genre)) {
@@ -58,10 +58,10 @@ public class Data {
 			}
 		}
 	    Collections.shuffle(groupByGenre);
-	    if (n > groupByGenre.size()) {
-	    	n = groupByGenre.size();
+	    if (numberOfSeries > groupByGenre.size()) {
+	    	numberOfSeries = groupByGenre.size();
 	    }
-	    return groupByGenre.subList(0, n);
+	    return groupByGenre.subList(0, numberOfSeries);
 	}
 	
 	/**

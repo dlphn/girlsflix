@@ -2,6 +2,10 @@ package com.gfx.domain.series;
 
 import java.time.LocalDate;
 
+/**
+ * Episode Object with its Getters and Setters
+ *The attributes are Private. We can only manipulate them through the getters and setters.
+ */
 public class Episode {
 	
 	private int episodeId;
