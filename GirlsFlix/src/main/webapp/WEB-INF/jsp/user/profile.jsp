@@ -25,10 +25,10 @@
 				<h2>Mon profil</h2>
 				<p> ${message} </p>
 				<form:form method="POST" modelAttribute="user">
-					<div class="row">
+					<div class="row" style="visibility: hidden">
 					    <form:label path="login" for="inputLogin" class="col-sm-3 col-form-label">Login</form:label>
 					    <div class="col-sm-9">
-					      	<form:input class="form-control form-control-plaintext" id="inputLogin" path="login" required="required"/>
+					      	<form:input class="form-control form-control-plaintext" id="inputLogin" path="login" value="${user.getLogin()}" required="required"/>
 					    </div>
 				    </div>
 				    <div class="row">
