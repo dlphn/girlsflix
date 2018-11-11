@@ -28,24 +28,10 @@ public class Episode {
 		this.serieId = serieId;
 		this.image = image;
 	}
-
-	public Episode(int episodeId, int episodeNb, String name, String summary, LocalDate releaseDate, int rating) {
-		super();
-		this.episodeId = episodeId;
-		this.episodeNb = episodeNb;
-		this.name = name;
-		this.summary = summary;
-		this.releaseDate = releaseDate;
-		this.rating = rating;
-	}
-
-	public String display() {
-		return "Episode "+ this.episodeNb + " " + this.name + " from Serie " + this.serieId + " Season " + this.seasonNb + "\n";
-	}
-
-	/*******************/
-	/*Getters & Setters*/
-	/*******************/
+	
+	/**
+	 * Getters & Setters
+	 */
 
 	public int getEpisodeId() {
 		return episodeId;
