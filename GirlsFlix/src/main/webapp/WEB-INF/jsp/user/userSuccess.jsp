@@ -20,45 +20,62 @@
 <body>
     <fragments:header />
     <div class="main">
-        <div class="container">
-			<h2>Récapitulatif d'inscription</h2>
-			<div class="row" align="center">
-			    <li> Login: ${login} </li>
-			</div>
-			<div class="row" align="center">
-			    <li> Pseudo : ${pseudo} </li> </div>
-			<div class="row" align="center">
-			    <li> Prénom : ${firstName} </li> </div>
-			<div class="row" align="center">
-			    <li> Nom: ${lastName} </li></div>
-			<div class="row" align="center">
-			    <li> Vos Préférences : </li></div>
-			    <c:if test="${not empty affinities}">
-			        <c:forEach items="${affinities}" var="affinity">
-			            <div class="row" align="center">
-			                 <li>${affinity}</li></div>
-			         </c:forEach>
-			    </c:if>
-			    <c:if test="${empty affinities}">
-			        <p> Pas de préférences pour le moment. </p>
-			    </c:if>
-			</div>
-			
-			<c:url value="/login" var="loginUrl"/>
-            <form action="${loginUrl}" method="post" class="form-signin">
-             	<div class="form-group row">
-                     <input type="hidden" class="form-control" id="username" name="username" placeholder="Login" value="${login}"
-                         required autofocus > 
-                    
-                     <input type="hidden" class="form-control" id="password" name="password" value= "${password}" placeholder="Mot de passe" required>
-            		</div>
-                 <input type="hidden"
-                     name="${_csrf.parameterName}"
-                     value="${_csrf.token}"/>
-                 <button type="submit" class="btn btn-primary">
-                 	<i class="fas fa-user"></i>Connexion
-                 </button>
-                 
+       <form>
+       <h3>Récapitulatif d'inscription</h3>
+        <div class="form-group row">
+    <label for="login" class="col-sm-2 col-form-label">Login</label>
+       <div class="col-sm-10" > 
+        <input type="text" readonly class="form-control-plaintext" id="login" value="${login} ">
+      </div>
+  </div>
+  <div class="form-group row">
+    <label for="pseudo" class="col-sm-2 col-form-label">Pseudo</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="pseudo" placeholder="${pseudo}">
+    </div>
+  </div>
+<div class="form-group row">
+    <label for="firstName" class="col-sm-2 col-form-label">Prénom</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="firstName" placeholder="${firstName}">
+    </div>
+  </div>
+ <div class="form-group row">
+    <label for="lastName" class="col-sm-2 col-form-label">Nom</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="lastName" placeholder="${lastName}">
+    </div>
+  </div>
+
+<div class="form-group row">
+  <label for="affinities" class="col-sm-2 col-form-label">Vos préférences</label>
+  <div class="col-sm-10">
+    <c:if test="${not empty affinities}">
+    <ul class="list-group">
+        <c:forEach items="${affinities}" var="affinity">
+         
+                 <li class="list-group-item">${affinity}</li>
+         </c:forEach>
+    </ul>
+    </c:if>
+    <c:if test="${empty affinities}">
+        <p> Pas de préférences pour le moment. </p>
+    </c:if>
+</div></form>
+<c:url value="/login" var="loginUrl"/>
+                <form action="${loginUrl}" method="post" class="form-signin">
+                <div class="form-group row">
+                       
+                        <input type="hidden" class="form-control" id="username" name="username" placeholder="Login" value="${login}"
+                            required autofocus > 
+                       
+                        <input type="hidden" class="form-control" id="password" name="password" value= "${password}" placeholder="Mot de passe" required>
+                    </div>
+                    <input type="hidden"
+                        name="${_csrf.parameterName}"
+                        value="${_csrf.token}"/>
+                    <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user"></i>Connexion</button>       
         	</form>
 		</div>
 

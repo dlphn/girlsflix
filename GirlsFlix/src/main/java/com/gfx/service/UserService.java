@@ -94,6 +94,8 @@ public class UserService {
 		Enjoyer enjoyer = UserDB.getUser(loginEnjoyer);
 		enjoyer.getNotifications().add(notification);
 		UserDB.update(enjoyer);
+		System.out.println("New notification saved");
+		serie.setEnjoyerAsNotified(loginEnjoyer);
 	}
 	
 	

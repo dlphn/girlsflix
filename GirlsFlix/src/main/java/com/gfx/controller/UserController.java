@@ -18,6 +18,7 @@ import com.gfx.service.UserService;
 @Controller
 public class UserController {
 	
+	
 	@RequestMapping("/favoris")
 	public String showFavorites(ModelMap model) {
 		if (UserService.currentUserLogin() == null) {
@@ -32,6 +33,7 @@ public class UserController {
 		if (favoritesSeries.size() == 0) {
 			model.put("message", "Vous n'avez pas encore de favoris.");
 		}
+		model.addAttribute("user", user);
 		return "user/favorites";
 	}
 	
@@ -39,6 +41,7 @@ public class UserController {
 	public String removeFavorite(@PathVariable("id") int id, ModelMap model) {
 		Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 		UserService.removeFromFavorites(user, id);
+		model.addAttribute("user", user);
 		return "redirect:/favoris";
 	}
 
@@ -47,14 +50,16 @@ public class UserController {
 		if (UserService.currentUserLogin() != null) {
 			Enjoyer user = UserDB.getUser(UserService.currentUserLogin());
 			List<String> notifications = user.getNotifications();
-			System.out.println(notifications.size());
-			System.out.println(notifications);
-			if (notifications.size() > 0 && notifications.get(0).length() > 0) {
+			model.addAttribute("user", user);
+			if (notifications.size() > 0) {
+		if(notifications.get(notifications.size()-1).length() > 0) {
 				model.put("notifications", notifications);	
-			} else {
+			} 
+	else {
 				model.put("message", "Vous n'avez aucune notification non lue.");
 			}
-		} else {
+		}
+		}else {
 			return "user/login";
 		}
 		return "user/notifications";
@@ -70,6 +75,7 @@ public class UserController {
 			if (removeId != null) {
 				UserService.deleteNotification(user, Integer.parseInt(removeId));
 			}
+			model.addAttribute("user", user);
 		}
 		return "redirect:/notifications";
 	}
@@ -97,6 +103,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/profil", method = RequestMethod.POST)
 	public String addUser(ModelMap model, @ModelAttribute("user") Enjoyer user) {
+		model.addAttribute("user", user);
 		if (UserDB.update(user)) {
 			return "redirect:/profil?success";
 		} else {
